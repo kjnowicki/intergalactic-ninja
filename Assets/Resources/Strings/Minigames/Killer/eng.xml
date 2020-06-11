@@ -1,3 +1,4 @@
 <root>
-  <Example>Example</Example>
+  <BestScore>Top score: {0}</BestScore>
+  <CurrentScore>Score: {0}</CurrentScore>
 </root>
