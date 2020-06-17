@@ -6,33 +6,41 @@ public class Matrix : MonoBehaviour
 {
     public int width;
     public int height;
-    public GameObject tilePrefab;
-    public GameObject[] dots;
-    public GameObject[,] allDots; 
-    private BackgroundTile[,] _allTiles;
+    public GameObject backgroundTilePrefab;
 
+    private BackgroundTile[,] _matrixBackgroundTiles;
+
+    private GameObject[] _bubblesPool; // it contains pool of unique bubbles (matrix is filled with those bubbles)
+    public GameObject[,] _matrixBubbles; 
+
+    //dot => bubble
     void Start()
     {
-        _allTiles = new BackgroundTile[width, height];
-        allDots = new GameObject[width, height];
+        _matrixBackgroundTiles = new BackgroundTile[width, height];
+        _matrixBubbles = new GameObject[width, height];
+        _bubblesPool = Resources.LoadAll<GameObject>("Minigames/Hacking/Prefabs/Bubbles");
         SetUp();
     }
 
     private void SetUp()
     {
-        string backgroundTileName = "( {0},{1} )";
+        string backgroundTileName = "Tile ( {0},{1} )";
+        string bubbleName = "Bubble ( {0},{1} )";
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
-                string dotName = string.Format(backgroundTileName, i, j);
+                 
                 Vector2 backgroundTilePosition = new Vector2(i, j);
-                GameObject backgroundTile = Instantiate(tilePrefab, backgroundTilePosition, Quaternion.identity, this.transform) as GameObject;
-                backgroundTile.name = dotName;
-                int dotToUseIndex = Random.Range(0, dots.Length);
-                GameObject dot = Instantiate(dots[dotToUseIndex], backgroundTilePosition, Quaternion.identity, this.transform) as GameObject;
-                dot.name = dotName;
-                allDots[i, j]= dot;
+                GameObject backgroundTile = Instantiate(backgroundTilePrefab, backgroundTilePosition, Quaternion.identity, this.transform) as GameObject;
+                backgroundTile.name = string.Format(backgroundTileName, i, j);
+                _matrixBubbles[i, j] = backgroundTile;
+
+                int bubbleToUseIndex = Random.Range(0, _bubblesPool.Length);
+                GameObject bubble = Instantiate(_bubblesPool[bubbleToUseIndex], backgroundTilePosition, Quaternion.identity, this.transform) as GameObject;
+                bubble.name = string.Format(bubbleName, i, j); ;
+                _matrixBubbles[i, j]= bubble;
             }
         }
 

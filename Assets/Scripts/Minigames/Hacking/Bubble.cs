@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dot : MonoBehaviour
+public class Bubble : MonoBehaviour
 {
     public int column;
     public int row;
     public int targetX;
     public int targetY;
     private Matrix _matrix;
-    private GameObject _otherDot;
+    private GameObject _otherBubble;
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
     private Vector2 tempPosition;
@@ -39,7 +39,7 @@ public class Dot : MonoBehaviour
         {
             tempPosition = new Vector2(targetX, transform.position.y);
             transform.position = tempPosition;
-            _matrix.allDots[column, row] = this.gameObject;
+            _matrix._matrixBubbles[column, row] = this.gameObject;
         }
         if (Mathf.Abs(targetY - transform.position.y) > .1)
         {
@@ -50,7 +50,7 @@ public class Dot : MonoBehaviour
         {
             tempPosition = new Vector2(transform.position.x, targetY);
             transform.position = tempPosition;
-            _matrix.allDots[column, row] = this.gameObject;
+            _matrix._matrixBubbles[column, row] = this.gameObject;
         }
 
     }
@@ -79,29 +79,29 @@ public class Dot : MonoBehaviour
         if (swipeAngle > -45 && swipeAngle <= 45 && column < _matrix.width - 1)
         {
             //Right swipe
-            _otherDot = _matrix.allDots[column + 1, row];
-            _otherDot.GetComponent<Dot>().column -= 1;
+            _otherBubble = _matrix._matrixBubbles[column + 1, row];
+            _otherBubble.GetComponent<Bubble>().column -= 1;
             column += 1;
         }
         else if (swipeAngle > 45 && swipeAngle <= 135 && row < _matrix.height - 1)
         {
             //Up swipe
-            _otherDot = _matrix.allDots[column, row + 1];
-            _otherDot.GetComponent<Dot>().row -= 1;
+            _otherBubble = _matrix._matrixBubbles[column, row + 1];
+            _otherBubble.GetComponent<Bubble>().row -= 1;
             row += 1;
         }
         else if ((swipeAngle > 135 || swipeAngle <= -135) && column > 0)
         {
             //Left swipe
-            _otherDot = _matrix.allDots[column - 1, row];
-            _otherDot.GetComponent<Dot>().column += 1;
+            _otherBubble = _matrix._matrixBubbles[column - 1, row];
+            _otherBubble.GetComponent<Bubble>().column += 1;
             column -= 1;
         }
         else if (swipeAngle < -45 && swipeAngle >= -135 && row > 0)
         {
             //Down swipe
-            _otherDot = _matrix.allDots[column, row - 1];
-            _otherDot.GetComponent<Dot>().row += 1;
+            _otherBubble = _matrix._matrixBubbles[column, row - 1];
+            _otherBubble.GetComponent<Bubble>().row += 1;
             row -= 1;
         }
     }
