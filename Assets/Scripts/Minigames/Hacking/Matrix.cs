@@ -17,8 +17,10 @@ public class Matrix : MonoBehaviour
     public Bubble secondFocusedBubble;
     public Vector2? firstTouch;
     public Vector2? secondTouch;
-    public float swipeAngle = 0;
-    private float time = 0.1f;
+    private float _swipeAngle = 0;
+    private readonly float _moveTime = 0.1f;
+
+    public HackingMethod hackingMethod = HackingMethod.Sweep;
 
     //dot => bubble
     void Start()
@@ -30,7 +32,9 @@ public class Matrix : MonoBehaviour
         secondFocusedBubble = null;
         SetUp();
     }
-
+    /// <summary>
+    /// Method is setting all Matrix with BackgroundTiles (unmovable) and bubbles (movable)
+    /// </summary>
     private void SetUp()
     {
         string backgroundTileName = "BackgroundTile ( {0},{1} )";
@@ -40,7 +44,6 @@ public class Matrix : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-
                 Vector2 backgroundTilePosition = new Vector2(i, j);
                 GameObject backgroundTile = Instantiate(backgroundTilePrefab, backgroundTilePosition, Quaternion.identity, this.transform) as GameObject;
                 backgroundTile.name = string.Format(backgroundTileName, i, j);
@@ -58,22 +61,24 @@ public class Matrix : MonoBehaviour
     {
         ChangePosition();
     }
-
+    /// <summary>
+    /// Method after Bubble swap is changing position by interpolation. Array is already changed.
+    /// </summary>
     private void ChangePosition()
     {
         if (firstFocusedBubble != null && secondFocusedBubble != null && firstTouch != null && secondTouch != null)
         {
 
-            if (Mathf.Abs(firstFocusedBubble.transform.position.x - firstFocusedBubble.column) > time ||
-                Mathf.Abs(firstFocusedBubble.transform.position.y - firstFocusedBubble.row) > time ||
-                Mathf.Abs(secondFocusedBubble.transform.position.x - secondFocusedBubble.column) > time ||
-                Mathf.Abs(secondFocusedBubble.transform.position.y - secondFocusedBubble.row) > time)
+            if (Mathf.Abs(firstFocusedBubble.transform.position.x - firstFocusedBubble.column) > _moveTime ||
+                Mathf.Abs(firstFocusedBubble.transform.position.y - firstFocusedBubble.row) > _moveTime ||
+                Mathf.Abs(secondFocusedBubble.transform.position.x - secondFocusedBubble.column) > _moveTime ||
+                Mathf.Abs(secondFocusedBubble.transform.position.y - secondFocusedBubble.row) > _moveTime)
             {
                 Vector2 tempPosition1 = new Vector2(firstFocusedBubble.column, firstFocusedBubble.row);
-                firstFocusedBubble.transform.position = Vector2.MoveTowards(firstFocusedBubble.transform.position, tempPosition1, time);
+                firstFocusedBubble.transform.position = Vector2.MoveTowards(firstFocusedBubble.transform.position, tempPosition1, _moveTime);
 
                 Vector2 tempPosition2 = new Vector2(secondFocusedBubble.column, secondFocusedBubble.row);
-                secondFocusedBubble.transform.position = Vector2.MoveTowards(secondFocusedBubble.transform.position, tempPosition2, time);
+                secondFocusedBubble.transform.position = Vector2.MoveTowards(secondFocusedBubble.transform.position, tempPosition2, _moveTime);
             }
             else
             {
@@ -89,15 +94,21 @@ public class Matrix : MonoBehaviour
 
         }
     }
+    /// <summary>
+    /// This method calculate angle between touch on and "touch off" 
+    /// </summary>
     public void CalculateAngle()
     {
-        swipeAngle = Mathf.Atan2(secondTouch.GetValueOrDefault().y - firstTouch.GetValueOrDefault().y, secondTouch.GetValueOrDefault().x - firstTouch.GetValueOrDefault().x) * 180 / Mathf.PI;
-        MovePieces();
+        _swipeAngle = Mathf.Atan2(secondTouch.GetValueOrDefault().y - firstTouch.GetValueOrDefault().y, secondTouch.GetValueOrDefault().x - firstTouch.GetValueOrDefault().x) * 180 / Mathf.PI;
+        MovePiecesSweep();
     }
 
-    private void MovePieces()
+    /// <summary>
+    /// This method change position by sweep only in Array
+    /// </summary>
+    private void MovePiecesSweep()
     {
-        if (swipeAngle > -45 && swipeAngle <= 45 && swipeAngle != 0)
+        if (_swipeAngle > -45 && _swipeAngle <= 45 && _swipeAngle != 0)
         {
             //Right swipe
             if (firstFocusedBubble.column < width - 1)
@@ -110,7 +121,7 @@ public class Matrix : MonoBehaviour
                 ClearData();
 
         }
-        else if (swipeAngle > 45 && swipeAngle <= 135 && swipeAngle != 0)
+        else if (_swipeAngle > 45 && _swipeAngle <= 135 && _swipeAngle != 0)
         {
             //Up swipe
             if (firstFocusedBubble.row < height - 1)
@@ -123,7 +134,7 @@ public class Matrix : MonoBehaviour
                 ClearData();
 
         }
-        else if ((swipeAngle > 135 || swipeAngle <= -135) && swipeAngle != 0)
+        else if ((_swipeAngle > 135 || _swipeAngle <= -135) && _swipeAngle != 0)
         {
             //Left swipe
             if (firstFocusedBubble.column > 0)
@@ -135,7 +146,7 @@ public class Matrix : MonoBehaviour
             else
                 ClearData();
         }
-        else if (swipeAngle < -45 && swipeAngle >= -135 && swipeAngle != 0)
+        else if (_swipeAngle < -45 && _swipeAngle >= -135 && _swipeAngle != 0)
         {
             //Down swipe
             if (firstFocusedBubble.row > 0)
@@ -147,15 +158,33 @@ public class Matrix : MonoBehaviour
             else
                 ClearData();
         }
-        else if (swipeAngle == 0)
+        else if (_swipeAngle == 0)
             ClearData();
-
-
-
-
 
     }
 
+    public void MovePiecesClick()
+    {
+        if ((Mathf.Abs(firstFocusedBubble.row - secondFocusedBubble.row) == 1 && Mathf.Abs(firstFocusedBubble.column - secondFocusedBubble.column) == 0) ||
+            (Mathf.Abs(firstFocusedBubble.row - secondFocusedBubble.row) == 0 && Mathf.Abs(firstFocusedBubble.column - secondFocusedBubble.column) == 1))
+        {
+            int tmpRow = secondFocusedBubble.row;
+            int tmpColumn = secondFocusedBubble.column;
+
+            secondFocusedBubble.row = firstFocusedBubble.row;
+            firstFocusedBubble.row = tmpRow;
+
+            secondFocusedBubble.column = firstFocusedBubble.column;
+            firstFocusedBubble.column = tmpColumn;
+        }
+        else 
+        {
+            ClearData();
+        }
+    }
+    /// <summary>
+    ///  Method which clear data. Depending on this data, the next move is captured.
+    /// </summary>
     private void ClearData()
     {
         firstFocusedBubble = null;
@@ -163,5 +192,13 @@ public class Matrix : MonoBehaviour
         firstTouch = null;
         secondTouch = null;
     }
+
+
+}
+
+public enum HackingMethod
+{
+    Sweep,
+    Click
 
 }
