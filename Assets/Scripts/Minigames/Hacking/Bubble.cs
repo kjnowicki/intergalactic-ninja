@@ -22,22 +22,37 @@ public class Bubble : MonoBehaviour
     private void OnMouseDown()
     {
 
-        if (_matrix.firstTouch == null && _matrix.secondTouch == null)
+        if (_matrix.firstTouch == null && _matrix.secondTouch == null && _matrix.hackingMethod == HackingMethod.Sweep)
         {
             _matrix.firstFocusedBubble = this;
             _matrix.firstTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            
+
+        }
+        else if (_matrix.hackingMethod == HackingMethod.Click)
+        {
+            if (_matrix.firstFocusedBubble == null)
+            {
+                _matrix.firstFocusedBubble = this;
+                _matrix.firstTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+            else if (_matrix.secondFocusedBubble == null)
+            {
+                _matrix.secondFocusedBubble = this;
+                _matrix.secondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                _matrix.MovePiecesClick();
+            }
         }
     }
 
     private void OnMouseUp()
     {
-        if (_matrix.secondTouch == null && _matrix.firstTouch != null)
+        if (_matrix.secondTouch == null && _matrix.firstTouch != null && _matrix.hackingMethod == HackingMethod.Sweep)
         {
             _matrix.secondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             _matrix.CalculateAngle();
+
         }
-  
+
     }
 
 
