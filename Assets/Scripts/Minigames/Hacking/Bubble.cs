@@ -22,23 +22,23 @@ public class Bubble : MonoBehaviour
     private void OnMouseDown()
     {
 
-        if (_matrix.firstTouch == null && _matrix.secondTouch == null && _matrix.hackingMethod == HackingMethod.Sweep)
+        if (_matrix.FirstTouch == null && _matrix.SecondTouch == null && _matrix.HackingMethod == HackingMethod.Sweep)
         {
-            _matrix.firstFocusedBubble = this;
-            _matrix.firstTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _matrix.FirstFocusedBubble = this;
+            _matrix.FirstTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         }
-        else if (_matrix.hackingMethod == HackingMethod.Click)
+        else if (_matrix.HackingMethod == HackingMethod.Click)
         {
-            if (_matrix.firstFocusedBubble == null)
+            if (_matrix.FirstFocusedBubble == null)
             {
-                _matrix.firstFocusedBubble = this;
-                _matrix.firstTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                _matrix.FirstFocusedBubble = this;
+                _matrix.FirstTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
-            else if (_matrix.secondFocusedBubble == null)
+            else if (_matrix.SecondFocusedBubble == null)
             {
-                _matrix.secondFocusedBubble = this;
-                _matrix.secondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                _matrix.SecondFocusedBubble = this;
+                _matrix.SecondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 _matrix.MovePiecesClick();
             }
         }
@@ -46,9 +46,9 @@ public class Bubble : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (_matrix.secondTouch == null && _matrix.firstTouch != null && _matrix.hackingMethod == HackingMethod.Sweep)
+        if (_matrix.SecondTouch == null && _matrix.FirstTouch != null && _matrix.HackingMethod == HackingMethod.Sweep)
         {
-            _matrix.secondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _matrix.SecondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             _matrix.CalculateAngle();
 
         }

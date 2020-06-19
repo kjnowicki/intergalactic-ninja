@@ -4,32 +4,33 @@ using UnityEngine;
 
 public class Matrix : MonoBehaviour
 {
+    [Header("Matrix parameters") ]
     public int width;
     public int height;
     public GameObject backgroundTilePrefab;
+    public float _moveTime = 0.1f;
 
     private BackgroundTile[,] _matrixBackgroundTiles;
 
     private GameObject[] _bubblesPool; // it contains pool of unique bubbles (matrix is filled with those bubbles)
-    public GameObject[,] _matrixBubbles;
 
-    public Bubble firstFocusedBubble;
-    public Bubble secondFocusedBubble;
-    public Vector2? firstTouch;
-    public Vector2? secondTouch;
     private float _swipeAngle = 0;
-    private readonly float _moveTime = 0.1f;
 
-    public HackingMethod hackingMethod = HackingMethod.Sweep;
+    public Bubble FirstFocusedBubble { get ; set ; }
+    public Bubble SecondFocusedBubble { get ; set ; }
+    public Vector2? FirstTouch { get ; set ; }
+    public Vector2? SecondTouch { get; set; }
+    public GameObject[,] MatrixBubbles { get ; set ; }
+    public HackingMethod HackingMethod { get ; set ; } = HackingMethod.Sweep;
 
     //dot => bubble
     void Start()
     {
         _matrixBackgroundTiles = new BackgroundTile[width, height];
-        _matrixBubbles = new GameObject[width, height];
+        MatrixBubbles = new GameObject[width, height];
         _bubblesPool = Resources.LoadAll<GameObject>("Minigames/Hacking/Prefabs/Bubbles");
-        firstFocusedBubble = null;
-        secondFocusedBubble = null;
+        FirstFocusedBubble = null;
+        SecondFocusedBubble = null;
         SetUp();
     }
     /// <summary>
@@ -47,12 +48,12 @@ public class Matrix : MonoBehaviour
                 Vector2 backgroundTilePosition = new Vector2(i, j);
                 GameObject backgroundTile = Instantiate(backgroundTilePrefab, backgroundTilePosition, Quaternion.identity, this.transform) as GameObject;
                 backgroundTile.name = string.Format(backgroundTileName, i, j);
-                _matrixBubbles[i, j] = backgroundTile;
+                MatrixBubbles[i, j] = backgroundTile;
 
                 int bubbleToUseIndex = Random.Range(0, _bubblesPool.Length);
                 GameObject bubble = Instantiate(_bubblesPool[bubbleToUseIndex], backgroundTilePosition, Quaternion.identity, this.transform) as GameObject;
                 bubble.name = string.Format(bubbleName, i, j); ;
-                _matrixBubbles[i, j] = bubble;
+                MatrixBubbles[i, j] = bubble;
             }
         }
     }
@@ -66,27 +67,27 @@ public class Matrix : MonoBehaviour
     /// </summary>
     private void ChangePosition()
     {
-        if (firstFocusedBubble != null && secondFocusedBubble != null && firstTouch != null && secondTouch != null)
+        if (FirstFocusedBubble != null && SecondFocusedBubble != null && FirstTouch != null && SecondTouch != null)
         {
 
-            if (Mathf.Abs(firstFocusedBubble.transform.position.x - firstFocusedBubble.column) > _moveTime ||
-                Mathf.Abs(firstFocusedBubble.transform.position.y - firstFocusedBubble.row) > _moveTime ||
-                Mathf.Abs(secondFocusedBubble.transform.position.x - secondFocusedBubble.column) > _moveTime ||
-                Mathf.Abs(secondFocusedBubble.transform.position.y - secondFocusedBubble.row) > _moveTime)
+            if (Mathf.Abs(FirstFocusedBubble.transform.position.x - FirstFocusedBubble.column) > _moveTime ||
+                Mathf.Abs(FirstFocusedBubble.transform.position.y - FirstFocusedBubble.row) > _moveTime ||
+                Mathf.Abs(SecondFocusedBubble.transform.position.x - SecondFocusedBubble.column) > _moveTime ||
+                Mathf.Abs(SecondFocusedBubble.transform.position.y - SecondFocusedBubble.row) > _moveTime)
             {
-                Vector2 tempPosition1 = new Vector2(firstFocusedBubble.column, firstFocusedBubble.row);
-                firstFocusedBubble.transform.position = Vector2.MoveTowards(firstFocusedBubble.transform.position, tempPosition1, _moveTime);
+                Vector2 tempPosition1 = new Vector2(FirstFocusedBubble.column, FirstFocusedBubble.row);
+                FirstFocusedBubble.transform.position = Vector2.MoveTowards(FirstFocusedBubble.transform.position, tempPosition1, _moveTime);
 
-                Vector2 tempPosition2 = new Vector2(secondFocusedBubble.column, secondFocusedBubble.row);
-                secondFocusedBubble.transform.position = Vector2.MoveTowards(secondFocusedBubble.transform.position, tempPosition2, _moveTime);
+                Vector2 tempPosition2 = new Vector2(SecondFocusedBubble.column, SecondFocusedBubble.row);
+                SecondFocusedBubble.transform.position = Vector2.MoveTowards(SecondFocusedBubble.transform.position, tempPosition2, _moveTime);
             }
             else
             {
-                firstFocusedBubble.transform.position = new Vector2(firstFocusedBubble.column, firstFocusedBubble.row);
-                secondFocusedBubble.transform.position = new Vector2(secondFocusedBubble.column, secondFocusedBubble.row);
+                FirstFocusedBubble.transform.position = new Vector2(FirstFocusedBubble.column, FirstFocusedBubble.row);
+                SecondFocusedBubble.transform.position = new Vector2(SecondFocusedBubble.column, SecondFocusedBubble.row);
 
-                _matrixBubbles[firstFocusedBubble.column, firstFocusedBubble.row] = firstFocusedBubble.gameObject;
-                _matrixBubbles[secondFocusedBubble.column, secondFocusedBubble.row] = secondFocusedBubble.gameObject;
+                MatrixBubbles[FirstFocusedBubble.column, FirstFocusedBubble.row] = FirstFocusedBubble.gameObject;
+                MatrixBubbles[SecondFocusedBubble.column, SecondFocusedBubble.row] = SecondFocusedBubble.gameObject;
 
                 ClearData();
             }
@@ -99,7 +100,7 @@ public class Matrix : MonoBehaviour
     /// </summary>
     public void CalculateAngle()
     {
-        _swipeAngle = Mathf.Atan2(secondTouch.GetValueOrDefault().y - firstTouch.GetValueOrDefault().y, secondTouch.GetValueOrDefault().x - firstTouch.GetValueOrDefault().x) * 180 / Mathf.PI;
+        _swipeAngle = Mathf.Atan2(SecondTouch.GetValueOrDefault().y - FirstTouch.GetValueOrDefault().y, SecondTouch.GetValueOrDefault().x - FirstTouch.GetValueOrDefault().x) * 180 / Mathf.PI;
         MovePiecesSweep();
     }
 
@@ -111,11 +112,11 @@ public class Matrix : MonoBehaviour
         if (_swipeAngle > -45 && _swipeAngle <= 45 && _swipeAngle != 0)
         {
             //Right swipe
-            if (firstFocusedBubble.column < width - 1)
+            if (FirstFocusedBubble.column < width - 1)
             {
-                secondFocusedBubble = _matrixBubbles[firstFocusedBubble.column + 1, firstFocusedBubble.row].GetComponent<Bubble>();
-                secondFocusedBubble.column -= 1;
-                firstFocusedBubble.column += 1;
+                SecondFocusedBubble = MatrixBubbles[FirstFocusedBubble.column + 1, FirstFocusedBubble.row].GetComponent<Bubble>();
+                SecondFocusedBubble.column -= 1;
+                FirstFocusedBubble.column += 1;
             }
             else
                 ClearData();
@@ -124,11 +125,11 @@ public class Matrix : MonoBehaviour
         else if (_swipeAngle > 45 && _swipeAngle <= 135 && _swipeAngle != 0)
         {
             //Up swipe
-            if (firstFocusedBubble.row < height - 1)
+            if (FirstFocusedBubble.row < height - 1)
             {
-                secondFocusedBubble = _matrixBubbles[firstFocusedBubble.column, firstFocusedBubble.row + 1].GetComponent<Bubble>();
-                secondFocusedBubble.row -= 1;
-                firstFocusedBubble.row += 1;
+                SecondFocusedBubble = MatrixBubbles[FirstFocusedBubble.column, FirstFocusedBubble.row + 1].GetComponent<Bubble>();
+                SecondFocusedBubble.row -= 1;
+                FirstFocusedBubble.row += 1;
             }
             else
                 ClearData();
@@ -137,11 +138,11 @@ public class Matrix : MonoBehaviour
         else if ((_swipeAngle > 135 || _swipeAngle <= -135) && _swipeAngle != 0)
         {
             //Left swipe
-            if (firstFocusedBubble.column > 0)
+            if (FirstFocusedBubble.column > 0)
             {
-                secondFocusedBubble = _matrixBubbles[firstFocusedBubble.column - 1, firstFocusedBubble.row].GetComponent<Bubble>();
-                secondFocusedBubble.column += 1;
-                firstFocusedBubble.column -= 1;
+                SecondFocusedBubble = MatrixBubbles[FirstFocusedBubble.column - 1, FirstFocusedBubble.row].GetComponent<Bubble>();
+                SecondFocusedBubble.column += 1;
+                FirstFocusedBubble.column -= 1;
             }
             else
                 ClearData();
@@ -149,11 +150,11 @@ public class Matrix : MonoBehaviour
         else if (_swipeAngle < -45 && _swipeAngle >= -135 && _swipeAngle != 0)
         {
             //Down swipe
-            if (firstFocusedBubble.row > 0)
+            if (FirstFocusedBubble.row > 0)
             {
-                secondFocusedBubble = _matrixBubbles[firstFocusedBubble.column, firstFocusedBubble.row - 1].GetComponent<Bubble>();
-                secondFocusedBubble.row += 1;
-                firstFocusedBubble.row -= 1;
+                SecondFocusedBubble = MatrixBubbles[FirstFocusedBubble.column, FirstFocusedBubble.row - 1].GetComponent<Bubble>();
+                SecondFocusedBubble.row += 1;
+                FirstFocusedBubble.row -= 1;
             }
             else
                 ClearData();
@@ -165,17 +166,17 @@ public class Matrix : MonoBehaviour
 
     public void MovePiecesClick()
     {
-        if ((Mathf.Abs(firstFocusedBubble.row - secondFocusedBubble.row) == 1 && Mathf.Abs(firstFocusedBubble.column - secondFocusedBubble.column) == 0) ||
-            (Mathf.Abs(firstFocusedBubble.row - secondFocusedBubble.row) == 0 && Mathf.Abs(firstFocusedBubble.column - secondFocusedBubble.column) == 1))
+        if ((Mathf.Abs(FirstFocusedBubble.row - SecondFocusedBubble.row) == 1 && Mathf.Abs(FirstFocusedBubble.column - SecondFocusedBubble.column) == 0) ||
+            (Mathf.Abs(FirstFocusedBubble.row - SecondFocusedBubble.row) == 0 && Mathf.Abs(FirstFocusedBubble.column - SecondFocusedBubble.column) == 1))
         {
-            int tmpRow = secondFocusedBubble.row;
-            int tmpColumn = secondFocusedBubble.column;
+            int tmpRow = SecondFocusedBubble.row;
+            int tmpColumn = SecondFocusedBubble.column;
 
-            secondFocusedBubble.row = firstFocusedBubble.row;
-            firstFocusedBubble.row = tmpRow;
+            SecondFocusedBubble.row = FirstFocusedBubble.row;
+            FirstFocusedBubble.row = tmpRow;
 
-            secondFocusedBubble.column = firstFocusedBubble.column;
-            firstFocusedBubble.column = tmpColumn;
+            SecondFocusedBubble.column = FirstFocusedBubble.column;
+            FirstFocusedBubble.column = tmpColumn;
         }
         else 
         {
@@ -187,10 +188,10 @@ public class Matrix : MonoBehaviour
     /// </summary>
     private void ClearData()
     {
-        firstFocusedBubble = null;
-        secondFocusedBubble = null;
-        firstTouch = null;
-        secondTouch = null;
+        FirstFocusedBubble = null;
+        SecondFocusedBubble = null;
+        FirstTouch = null;
+        SecondTouch = null;
     }
 
 
