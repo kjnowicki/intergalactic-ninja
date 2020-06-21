@@ -48,7 +48,7 @@ public class PlayerPrefsWrapper
         return (ControlMethod)PlayerPrefs.GetInt(_HACKING_CONTROL_METHOD);
     }
 
-    public static void SetHackingControlMethod(ControlMethod value) 
+    public static void SetHackingControlMethod(ControlMethod value)
     {
         PlayerPrefs.SetInt(_HACKING_CONTROL_METHOD, (int)value);
         PlayerPrefs.Save();

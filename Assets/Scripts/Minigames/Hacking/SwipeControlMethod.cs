@@ -11,7 +11,8 @@ public class SwipeControlMethod : BaseControlMethod
     /// </summary>
     public override void MovePieces()
     {
-        if (_swipeAngle != 0 && _swipeAngle > -45 && _swipeAngle <= 45 && _swipeAngle != 0 && FirstFocusedBubble.column < matrix.width - 1)
+
+        if (_swipeAngle != 0 && _swipeAngle > -45 && _swipeAngle <= 45 && FirstFocusedBubble.column < matrix.width - 1)
         {
             //Right swipe
             SecondFocusedBubble = matrix.MatrixBubbles[FirstFocusedBubble.column + 1, FirstFocusedBubble.row].GetComponent<Bubble>();
@@ -19,21 +20,21 @@ public class SwipeControlMethod : BaseControlMethod
             FirstFocusedBubble.column += 1;
 
         }
-        else if (_swipeAngle != 0 && _swipeAngle > 45 && _swipeAngle <= 135 && _swipeAngle != 0 && FirstFocusedBubble.row < matrix.height - 1)
+        else if (_swipeAngle != 0 && _swipeAngle > 45 && _swipeAngle <= 135 && FirstFocusedBubble.row < matrix.height - 1)
         {
             //Up swipe
             SecondFocusedBubble = matrix.MatrixBubbles[FirstFocusedBubble.column, FirstFocusedBubble.row + 1].GetComponent<Bubble>();
             SecondFocusedBubble.row -= 1;
             FirstFocusedBubble.row += 1;
         }
-        else if (_swipeAngle != 0 && (_swipeAngle > 135 || _swipeAngle <= -135) && _swipeAngle != 0 && FirstFocusedBubble.column > 0)
+        else if (_swipeAngle != 0 && (_swipeAngle > 135 || _swipeAngle <= -135) && FirstFocusedBubble.column > 0)
         {
             //Left swipe
             SecondFocusedBubble = matrix.MatrixBubbles[FirstFocusedBubble.column - 1, FirstFocusedBubble.row].GetComponent<Bubble>();
             SecondFocusedBubble.column += 1;
             FirstFocusedBubble.column -= 1;
         }
-        else if (_swipeAngle != 0 && _swipeAngle < -45 && _swipeAngle >= -135 && _swipeAngle != 0 && FirstFocusedBubble.row > 0)
+        else if (_swipeAngle != 0 && _swipeAngle < -45 && _swipeAngle >= -135 && FirstFocusedBubble.row > 0)
         {
             //Down swipe
             SecondFocusedBubble = matrix.MatrixBubbles[FirstFocusedBubble.column, FirstFocusedBubble.row - 1].GetComponent<Bubble>();

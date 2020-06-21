@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class BaseControlMethod 
+public abstract class BaseControlMethod
 {
     public Bubble FirstFocusedBubble { get; set; }
     public Bubble SecondFocusedBubble { get; set; }
@@ -11,7 +11,7 @@ public abstract class BaseControlMethod
 
     protected Matrix matrix;
 
-    protected BaseControlMethod(Matrix matrix) 
+    protected BaseControlMethod(Matrix matrix)
     {
         this.matrix = matrix;
         FirstFocusedBubble = null;
@@ -49,7 +49,7 @@ public abstract class BaseControlMethod
             }
         }
     }
-   
+
     /// <summary>
     ///  Method which clears data. Depending on this data, the next move is captured.
     /// </summary>
@@ -60,7 +60,7 @@ public abstract class BaseControlMethod
         FirstTouch = null;
         SecondTouch = null;
     }
-    
+
     /// <summary>
     /// This method changes position only in Array
     /// </summary>
@@ -70,14 +70,14 @@ public abstract class BaseControlMethod
 
 }
 
-public static class  ControlMethodFactory
+public static class ControlMethodFactory
 {
     /// <summary>
     /// This Method gets control method from PlayerPrefs and return it 
     /// </summary>
     /// <param name="matrix"></param>
     /// <returns></returns>
-    public static BaseControlMethod GetControlMethod( Matrix matrix) 
+    public static BaseControlMethod GetControlMethod(Matrix matrix)
     {
         ControlMethod controlMethod = PlayerPrefsWrapper.GetHackingControlMethod();
         BaseControlMethod result;
@@ -90,16 +90,16 @@ public static class  ControlMethodFactory
                 result = new ClickControlMethod(matrix);
                 break;
             default:
-               result = new SwipeControlMethod(matrix);
+                result = new SwipeControlMethod(matrix);
                 break;
         }
-            return result;
+        return result;
     }
 
 }
 public enum ControlMethod
 {
-   Swipe,
-   Click
+    Swipe,
+    Click
 }
 

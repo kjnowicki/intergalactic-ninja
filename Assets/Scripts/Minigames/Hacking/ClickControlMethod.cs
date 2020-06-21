@@ -2,7 +2,7 @@
 
 public class ClickControlMethod : BaseControlMethod
 {
-    public ClickControlMethod(Matrix matrix) : base(matrix) {  }
+    public ClickControlMethod(Matrix matrix) : base(matrix) { }
 
     /// <summary>
     /// This method changes position only in Array
