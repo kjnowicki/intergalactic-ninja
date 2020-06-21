@@ -68,6 +68,10 @@ public abstract class BaseControlMethod
     public abstract void OnMouseDownAction(Bubble bubble);
     public abstract void OnMouseUpAction();
 
+}
+
+public static class  ControlMethodFactory
+{
     /// <summary>
     /// This Method gets control method from PlayerPrefs and return it 
     /// </summary>
@@ -91,8 +95,8 @@ public abstract class BaseControlMethod
         }
             return result;
     }
-}
 
+}
 public enum ControlMethod
 {
    Swipe,

@@ -24,7 +24,7 @@ public class Matrix : MonoBehaviour
         _matrixBackgroundTiles = new GameObject[width, height];
         MatrixBubbles = new GameObject[width, height];
         _bubblesPool = Resources.LoadAll<GameObject>(_bubblesAssetPath);
-        controlMethod = BaseControlMethod.GetControlMethod(this);
+        controlMethod = ControlMethodFactory.GetControlMethod(this);
 
         SetUp();
     }
