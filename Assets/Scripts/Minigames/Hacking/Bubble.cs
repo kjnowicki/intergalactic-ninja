@@ -17,42 +17,14 @@ public class Bubble : MonoBehaviour
         row = (int)transform.position.y;
     }
 
-    // Update is called once per frame
-
     private void OnMouseDown()
     {
-
-        if (_matrix.FirstTouch == null && _matrix.SecondTouch == null && _matrix.HackingMethod == HackingMethod.Sweep)
-        {
-            _matrix.FirstFocusedBubble = this;
-            _matrix.FirstTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        }
-        else if (_matrix.HackingMethod == HackingMethod.Click)
-        {
-            if (_matrix.FirstFocusedBubble == null)
-            {
-                _matrix.FirstFocusedBubble = this;
-                _matrix.FirstTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            }
-            else if (_matrix.SecondFocusedBubble == null)
-            {
-                _matrix.SecondFocusedBubble = this;
-                _matrix.SecondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                _matrix.MovePiecesClick();
-            }
-        }
+        _matrix.moveMethod.OnMouseDownAction(this);
     }
 
     private void OnMouseUp()
     {
-        if (_matrix.SecondTouch == null && _matrix.FirstTouch != null && _matrix.HackingMethod == HackingMethod.Sweep)
-        {
-            _matrix.SecondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            _matrix.CalculateAngle();
-
-        }
-
+        _matrix.moveMethod.OnMouseUpAction();
     }
 
 

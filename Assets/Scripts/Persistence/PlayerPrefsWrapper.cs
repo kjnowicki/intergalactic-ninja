@@ -35,4 +35,9 @@ public class PlayerPrefsWrapper
         PlayerPrefs.SetInt(_KILLER_BEST_SCORE, value);
         PlayerPrefs.Save();
     }
+
+    public static void GetHackingMoveMethod(string moveMethod) 
+    {
+    
+    }
 }
