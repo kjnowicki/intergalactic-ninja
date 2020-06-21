@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public abstract class BaseMoveMethod : MonoBehaviour
+public abstract class BaseControlMethod 
 {
     public Bubble FirstFocusedBubble { get; set; }
     public Bubble SecondFocusedBubble { get; set; }
@@ -13,7 +11,7 @@ public abstract class BaseMoveMethod : MonoBehaviour
 
     protected Matrix matrix;
 
-    public virtual void Constructor(Matrix matrix) // MonoBehaviour should't have typical constructor  
+    protected BaseControlMethod(Matrix matrix) 
     {
         this.matrix = matrix;
         FirstFocusedBubble = null;
@@ -21,7 +19,7 @@ public abstract class BaseMoveMethod : MonoBehaviour
     }
 
     /// <summary>
-    /// Method after Bubble swap is changing position by interpolation. Array is already changed.
+    /// Method which is after MovePieces().It is changing position by interpolation. Array is already changed.
     /// </summary>
     public virtual void ChangePosition()
     {
@@ -53,7 +51,7 @@ public abstract class BaseMoveMethod : MonoBehaviour
     }
    
     /// <summary>
-    ///  Method which clear data. Depending on this data, the next move is captured.
+    ///  Method which clears data. Depending on this data, the next move is captured.
     /// </summary>
     protected void ClearData()
     {
@@ -69,4 +67,35 @@ public abstract class BaseMoveMethod : MonoBehaviour
     public abstract void MovePieces();
     public abstract void OnMouseDownAction(Bubble bubble);
     public abstract void OnMouseUpAction();
+
+    /// <summary>
+    /// This Method gets control method from PlayerPrefs and return it 
+    /// </summary>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
+    public static BaseControlMethod GetControlMethod( Matrix matrix) 
+    {
+        ControlMethod controlMethod = PlayerPrefsWrapper.GetHackingControlMethod();
+        BaseControlMethod result;
+        switch (controlMethod)
+        {
+            case ControlMethod.Swipe:
+                result = new SwipeControlMethod(matrix);
+                break;
+            case ControlMethod.Click:
+                result = new ClickControlMethod(matrix);
+                break;
+            default:
+               result = new SwipeControlMethod(matrix);
+                break;
+        }
+            return result;
+    }
 }
+
+public enum ControlMethod
+{
+   Swipe,
+   Click
+}
+

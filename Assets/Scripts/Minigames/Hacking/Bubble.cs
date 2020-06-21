@@ -19,12 +19,12 @@ public class Bubble : MonoBehaviour
 
     private void OnMouseDown()
     {
-        _matrix.moveMethod.OnMouseDownAction(this);
+        _matrix.controlMethod.OnMouseDownAction(this);
     }
 
     private void OnMouseUp()
     {
-        _matrix.moveMethod.OnMouseUpAction();
+        _matrix.controlMethod.OnMouseUpAction();
     }
 
 

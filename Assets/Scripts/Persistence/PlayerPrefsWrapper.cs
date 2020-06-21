@@ -3,6 +3,7 @@ public class PlayerPrefsWrapper
 {
     private const string _LANGUAGE_KEY = "lang";
     private const string _KILLER_BEST_SCORE = "killerBestScore";
+    private const string _HACKING_CONTROL_METHOD = "hackingControlMethod";
 
     public static Language GetLanguage(Language defaultLanguage = Language.English)
     {
@@ -36,8 +37,20 @@ public class PlayerPrefsWrapper
         PlayerPrefs.Save();
     }
 
-    public static void GetHackingMoveMethod(string moveMethod) 
+    public static ControlMethod GetHackingControlMethod()
     {
-    
+        ControlMethod defaultValue = ControlMethod.Swipe;
+        if (!PlayerPrefs.HasKey(_HACKING_CONTROL_METHOD))
+        {
+            SetHackingControlMethod(defaultValue);
+        }
+
+        return (ControlMethod)PlayerPrefs.GetInt(_HACKING_CONTROL_METHOD);
+    }
+
+    public static void SetHackingControlMethod(ControlMethod value) 
+    {
+        PlayerPrefs.SetInt(_HACKING_CONTROL_METHOD, (int)value);
+        PlayerPrefs.Save();
     }
 }

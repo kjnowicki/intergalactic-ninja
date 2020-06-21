@@ -1,9 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ClickMoveMethod : BaseMoveMethod
+public class ClickControlMethod : BaseControlMethod
 {
+    public ClickControlMethod(Matrix matrix) : base(matrix) {  }
+
+    /// <summary>
+    /// This method changes position only in Array
+    /// </summary>
     public override void MovePieces()
     {
         if ((Mathf.Abs(FirstFocusedBubble.row - SecondFocusedBubble.row) == 1 && Mathf.Abs(FirstFocusedBubble.column - SecondFocusedBubble.column) == 0) ||
@@ -40,5 +43,5 @@ public class ClickMoveMethod : BaseMoveMethod
 
     }
 
-    public override void OnMouseUpAction(){}
+    public override void OnMouseUpAction() { }
 }

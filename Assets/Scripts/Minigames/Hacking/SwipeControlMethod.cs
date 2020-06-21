@@ -1,11 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SweepMoveMethod : BaseMoveMethod
+public class SwipeControlMethod : BaseControlMethod
 {
     private float _swipeAngle = 0;
 
+    public SwipeControlMethod(Matrix matrix) : base(matrix) { }
+
+    /// <summary>
+    /// This method changes position only in Array
+    /// </summary>
     public override void MovePieces()
     {
         if (_swipeAngle != 0 && _swipeAngle > -45 && _swipeAngle <= 45 && _swipeAngle != 0 && FirstFocusedBubble.column < matrix.width - 1)
@@ -67,4 +70,5 @@ public class SweepMoveMethod : BaseMoveMethod
     {
         _swipeAngle = Mathf.Atan2(SecondTouch.GetValueOrDefault().y - FirstTouch.GetValueOrDefault().y, SecondTouch.GetValueOrDefault().x - FirstTouch.GetValueOrDefault().x) * 180 / Mathf.PI;
     }
+
 }

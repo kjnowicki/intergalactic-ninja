@@ -15,7 +15,7 @@ public class Matrix : MonoBehaviour
 
     public GameObject[,] MatrixBubbles { get; set; }
 
-    public BaseMoveMethod moveMethod;
+    public BaseControlMethod controlMethod;
 
 
     //dot => bubble
@@ -24,8 +24,7 @@ public class Matrix : MonoBehaviour
         _matrixBackgroundTiles = new GameObject[width, height];
         MatrixBubbles = new GameObject[width, height];
         _bubblesPool = Resources.LoadAll<GameObject>(_bubblesAssetPath);
-        moveMethod = gameObject.AddComponent<SweepMoveMethod>();
-        moveMethod.Constructor(this);
+        controlMethod = BaseControlMethod.GetControlMethod(this);
 
         SetUp();
     }
@@ -55,15 +54,10 @@ public class Matrix : MonoBehaviour
         }
     }
 
-    private void SetMoveMethod() 
-    {
-    // after rebase it will be chabe to PlayerPrefsWraper
-    }
     private void FixedUpdate()
     {
-        moveMethod.ChangePosition();
+        controlMethod.ChangePosition();
     }
-
 
 }
 
