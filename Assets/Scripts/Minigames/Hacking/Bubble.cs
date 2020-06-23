@@ -35,8 +35,7 @@ public class Bubble : MonoBehaviour
 
     public bool IsNeighbourOfBubble(Bubble secondBubble) 
     {
-        return (Mathf.Abs(row - secondBubble.row) == 1 && Mathf.Abs(column - secondBubble.column) == 0) ||
-                (Mathf.Abs(row - secondBubble.row) == 0 && Mathf.Abs(column - secondBubble.column) == 1);
+        return (Abs(row - secondBubble.row) + Abs(column - secondBubble.column) == 1);
     }
 
 }
