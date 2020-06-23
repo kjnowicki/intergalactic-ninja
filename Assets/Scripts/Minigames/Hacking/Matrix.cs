@@ -40,12 +40,11 @@ public class Matrix : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                Vector3 backgroundTilePosition = new Vector3(i, j, 0.01f);
+                Vector3 backgroundTilePosition = new Vector2(i, j);
                 GameObject backgroundTile = Instantiate(backgroundTilePrefab, backgroundTilePosition, Quaternion.identity, this.transform) as GameObject;
                 backgroundTile.name = string.Format(backgroundTileName, i, j);
                 _matrixBackgroundTiles[i, j] = backgroundTile;
 
-                backgroundTilePosition.z = 0f;
                 int bubbleToUseIndex = Random.Range(0, _bubblesPool.Length);
                 GameObject bubble = Instantiate(_bubblesPool[bubbleToUseIndex], backgroundTilePosition, Quaternion.identity, this.transform) as GameObject;
                 bubble.name = string.Format(bubbleName, i, j); ;

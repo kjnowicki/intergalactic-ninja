@@ -9,8 +9,7 @@ public class ClickControlMethod : BaseControlMethod
     /// </summary>
     public override void MovePieces()
     {
-        if ((Mathf.Abs(FirstFocusedBubble.row - SecondFocusedBubble.row) == 1 && Mathf.Abs(FirstFocusedBubble.column - SecondFocusedBubble.column) == 0) ||
-            (Mathf.Abs(FirstFocusedBubble.row - SecondFocusedBubble.row) == 0 && Mathf.Abs(FirstFocusedBubble.column - SecondFocusedBubble.column) == 1))
+        if (FirstFocusedBubble.IsNeighbourOfBubble(SecondFocusedBubble))
         {
             int tmpRow = SecondFocusedBubble.row;
             int tmpColumn = SecondFocusedBubble.column;

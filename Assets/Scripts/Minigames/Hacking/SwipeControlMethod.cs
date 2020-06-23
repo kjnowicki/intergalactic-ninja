@@ -2,7 +2,6 @@
 
 public class SwipeControlMethod : BaseControlMethod
 {
-    private float _swipeAngle = 0;
 
     public SwipeControlMethod(Matrix matrix) : base(matrix) { }
 
@@ -11,38 +10,39 @@ public class SwipeControlMethod : BaseControlMethod
     /// </summary>
     public override void MovePieces()
     {
+        float xDif = SecondTouch.GetValueOrDefault().x - FirstTouch.GetValueOrDefault().x;
+        float yDif = SecondTouch.GetValueOrDefault().y - FirstTouch.GetValueOrDefault().y;
+        if (xDif == 0 && yDif == 0)
+        {
+            ClearData();
+            return;
+        }
 
-        if (_swipeAngle != 0 && _swipeAngle > -45 && _swipeAngle <= 45 && FirstFocusedBubble.column < matrix.width - 1)
-        {
-            //Right swipe
-            SecondFocusedBubble = matrix.MatrixBubbles[FirstFocusedBubble.column + 1, FirstFocusedBubble.row].GetComponent<Bubble>();
-            SecondFocusedBubble.column -= 1;
-            FirstFocusedBubble.column += 1;
+        int colDif = 0;
+        int rowDif = 0;
 
-        }
-        else if (_swipeAngle != 0 && _swipeAngle > 45 && _swipeAngle <= 135 && FirstFocusedBubble.row < matrix.height - 1)
+        if (Mathf.Abs(xDif) > Mathf.Abs(yDif)) //Check for axis
         {
-            //Up swipe
-            SecondFocusedBubble = matrix.MatrixBubbles[FirstFocusedBubble.column, FirstFocusedBubble.row + 1].GetComponent<Bubble>();
-            SecondFocusedBubble.row -= 1;
-            FirstFocusedBubble.row += 1;
+            if (xDif > 0) colDif = 1;
+            else colDif = -1;
         }
-        else if (_swipeAngle != 0 && (_swipeAngle > 135 || _swipeAngle <= -135) && FirstFocusedBubble.column > 0)
+        else
         {
-            //Left swipe
-            SecondFocusedBubble = matrix.MatrixBubbles[FirstFocusedBubble.column - 1, FirstFocusedBubble.row].GetComponent<Bubble>();
-            SecondFocusedBubble.column += 1;
-            FirstFocusedBubble.column -= 1;
+            if (yDif > 0) rowDif = 1;
+            else rowDif = -1;
         }
-        else if (_swipeAngle != 0 && _swipeAngle < -45 && _swipeAngle >= -135 && FirstFocusedBubble.row > 0)
+
+        int newColumn = FirstFocusedBubble.column + colDif;
+        int newRow = FirstFocusedBubble.row + rowDif;
+
+        if (newColumn >= 0 && newColumn < matrix.width && newRow >= 0 && newRow < matrix.height)
         {
-            //Down swipe
-            SecondFocusedBubble = matrix.MatrixBubbles[FirstFocusedBubble.column, FirstFocusedBubble.row - 1].GetComponent<Bubble>();
-            SecondFocusedBubble.row += 1;
-            FirstFocusedBubble.row -= 1;
+            SecondFocusedBubble = matrix.MatrixBubbles[newColumn, newRow].GetComponent<Bubble>();
+            SwapCoords(FirstFocusedBubble, SecondFocusedBubble); //method exchanging row and column field between the bubbles
         }
         else
             ClearData();
+
     }
 
     public override void OnMouseDownAction(Bubble bubble)
@@ -59,17 +59,20 @@ public class SwipeControlMethod : BaseControlMethod
         if (SecondTouch == null && FirstTouch != null)
         {
             SecondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            CalculateAngle();
             MovePieces();
         }
     }
 
-    /// <summary>
-    /// This method calculate angle between touch on and "touch off" 
-    /// </summary>
-    private void CalculateAngle()
+    private void SwapCoords(Bubble firstFocusedBubble, Bubble secondFocusedBubble)
     {
-        _swipeAngle = Mathf.Atan2(SecondTouch.GetValueOrDefault().y - FirstTouch.GetValueOrDefault().y, SecondTouch.GetValueOrDefault().x - FirstTouch.GetValueOrDefault().x) * 180 / Mathf.PI;
+        int row = firstFocusedBubble.row;
+        int column = firstFocusedBubble.column;
+
+        firstFocusedBubble.row = secondFocusedBubble.row;
+        firstFocusedBubble.column = secondFocusedBubble.column;
+
+        secondFocusedBubble.row = row;
+        secondFocusedBubble.column = column;
     }
 
 }

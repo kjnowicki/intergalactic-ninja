@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using static UnityEngine.Mathf;
 using UnityEngine;
 
 public class Bubble : MonoBehaviour
@@ -27,7 +28,15 @@ public class Bubble : MonoBehaviour
         _matrix.controlMethod.OnMouseUpAction();
     }
 
+    public bool IsMoving(float moveTime) 
+    {
+        return Abs(transform.position.x - column) > moveTime || Abs(transform.position.y - row) > moveTime;
+    }
 
-
+    public bool IsNeighbourOfBubble(Bubble secondBubble) 
+    {
+        return (Mathf.Abs(row - secondBubble.row) == 1 && Mathf.Abs(column - secondBubble.column) == 0) ||
+                (Mathf.Abs(row - secondBubble.row) == 0 && Mathf.Abs(column - secondBubble.column) == 1);
+    }
 
 }
