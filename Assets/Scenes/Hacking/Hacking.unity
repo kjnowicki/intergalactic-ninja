@@ -152,8 +152,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 7
   height: 10
-  tilePrefab: {fileID: 8728938249073935393, guid: d46ada0a0ff7fab45aa2f4dee61ce2af,
+  backgroundTilePrefab: {fileID: 8728938249073935393, guid: d46ada0a0ff7fab45aa2f4dee61ce2af,
     type: 3}
+  firstFocusedBubble: {fileID: 0}
+  secondFocusedBubble: {fileID: 0}
+  hackingMethod: 0
 --- !u!4 &699795115
 Transform:
   m_ObjectHideFlags: 0
