@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 0
+    path: Assets/Scenes/Killer/Killer.unity
+    guid: 43467f6c37dc0404f8a835ed05fbf673
+  - enabled: 1
+    path: Assets/Scenes/NinjaTiles/NinjaTiles.unity
+    guid: 58b6dbf5dd6201e4cbc25da61ec12a8b
   m_configObjects: {}
