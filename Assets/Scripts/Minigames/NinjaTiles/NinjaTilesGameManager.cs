@@ -30,8 +30,14 @@ public class NinjaTilesGameManager : MonoBehaviour
     #endregion
 
     [Header("Main objects")]
-    public GameObject GameObjectsContainer;
+    public GameObject gameObjectsContainerPrefab;
+    public GameObject ninjaPrefab;
 
+    [Header("Ninja")]
+    public float ninja_position_y = 1;
+    
+    private GameObject _gameObjectsContainer;
+    private GameObject _ninja;
     private Vector2 _scale;
 
     private const float _GAMEOBJECTS_SCALE_WIDTH = 8f / 5f;
@@ -47,15 +53,33 @@ public class NinjaTilesGameManager : MonoBehaviour
     /// </summary>
     private void InitializeData()
     {
+        SetData();
         SetGameObjectsContainerScale();
     }
 
+    private void SetData() 
+    {
+        _gameObjectsContainer = Instantiate(gameObjectsContainerPrefab);
+
+        Transform ninjaPosition = this.gameObject.transform;
+        ninjaPosition.position = new Vector2(ninjaPosition.position.x, ninja_position_y);
+        _ninja = Instantiate(ninjaPrefab, ninjaPosition);
+    }
     /// <summary>
     /// Set objects' width on the scene based on the device resolution
     /// </summary>
     private void SetGameObjectsContainerScale()
     {
         _scale = new Vector2(_GAMEOBJECTS_SCALE_WIDTH * Screen.width / Screen.height, _GAMEOBJECTS_SCALE_HEIGHT);
-        GameObjectsContainer.transform.localScale *= _scale;
+        _gameObjectsContainer.transform.localScale *= _scale;
+    }
+
+    /// <summary>
+    /// Move ninja object among tiles
+    /// </summary>
+    /// <param name="columnTile"></param>
+    public void MoveNinjaToTile(GameObject columnTile) 
+    {
+        _ninja.transform.position = new Vector2 (columnTile.transform.position.x , ninja_position_y);
     }
 }
