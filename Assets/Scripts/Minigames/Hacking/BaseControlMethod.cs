@@ -42,6 +42,7 @@ public abstract class BaseControlMethod
                 matrix.MatrixBubbles[FirstFocusedBubble.column, FirstFocusedBubble.row] = FirstFocusedBubble.gameObject;
                 matrix.MatrixBubbles[SecondFocusedBubble.column, SecondFocusedBubble.row] = SecondFocusedBubble.gameObject;
 
+                matrix.CheckMatrixDeadlock();
                 ClearData();
             }
         }
