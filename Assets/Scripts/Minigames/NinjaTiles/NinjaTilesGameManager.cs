@@ -33,8 +33,6 @@ public class NinjaTilesGameManager : MonoBehaviour
     public GameObject gameObjectsContainerPrefab;
     public GameObject ninjaPrefab;
 
-    [Header("Ninja")]
-    public float ninja_position_y = 1;
     
     private GameObject _gameObjectsContainer;
     private GameObject _ninja;
@@ -60,10 +58,7 @@ public class NinjaTilesGameManager : MonoBehaviour
     private void SetData() 
     {
         _gameObjectsContainer = Instantiate(gameObjectsContainerPrefab);
-
-        Transform ninjaPosition = this.gameObject.transform;
-        ninjaPosition.position = new Vector2(ninjaPosition.position.x, ninja_position_y);
-        _ninja = Instantiate(ninjaPrefab, ninjaPosition);
+        _ninja = Instantiate(ninjaPrefab);
     }
     /// <summary>
     /// Set objects' width on the scene based on the device resolution
@@ -73,13 +68,13 @@ public class NinjaTilesGameManager : MonoBehaviour
         _scale = new Vector2(_GAMEOBJECTS_SCALE_WIDTH * Screen.width / Screen.height, _GAMEOBJECTS_SCALE_HEIGHT);
         _gameObjectsContainer.transform.localScale *= _scale;
     }
-
     /// <summary>
-    /// Move ninja object among tiles
+    /// Move ninja to column
     /// </summary>
     /// <param name="columnTile"></param>
-    public void MoveNinjaToTile(GameObject columnTile) 
+    public void MoveNinjaToTile(GameObject columnTile)
     {
-        _ninja.transform.position = new Vector2 (columnTile.transform.position.x , ninja_position_y);
+        _ninja.GetComponent<Ninja>().MoveNinja(columnTile.transform.position);
     }
+
 }

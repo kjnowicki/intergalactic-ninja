@@ -15,7 +15,7 @@ public class ColumnTile : MonoBehaviour
     /// On click event instructions for column tile
     /// </summary>
     /// <param name="columnTile"></param>
-    internal static void MoveToTouchedColumn(GameObject columnTile)
+    private void MoveToTouchedColumn(GameObject columnTile)
     {
         NinjaTilesGameManager.Instance.MoveNinjaToTile(columnTile);
         Debug.Log("Ninja will move to column Tile: " + columnTile.name);
