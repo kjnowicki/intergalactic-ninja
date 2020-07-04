@@ -30,8 +30,12 @@ public class NinjaTilesGameManager : MonoBehaviour
     #endregion
 
     [Header("Main objects")]
-    public GameObject GameObjectsContainer;
+    public GameObject gameObjectsContainerPrefab;
+    public GameObject ninjaPrefab;
 
+    
+    private GameObject _gameObjectsContainer;
+    private GameObject _ninja;
     private Vector2 _scale;
 
     private const float _GAMEOBJECTS_SCALE_WIDTH = 8f / 5f;
@@ -47,15 +51,30 @@ public class NinjaTilesGameManager : MonoBehaviour
     /// </summary>
     private void InitializeData()
     {
+        SetData();
         SetGameObjectsContainerScale();
     }
 
+    private void SetData() 
+    {
+        _gameObjectsContainer = Instantiate(gameObjectsContainerPrefab);
+        _ninja = Instantiate(ninjaPrefab);
+    }
     /// <summary>
     /// Set objects' width on the scene based on the device resolution
     /// </summary>
     private void SetGameObjectsContainerScale()
     {
         _scale = new Vector2(_GAMEOBJECTS_SCALE_WIDTH * Screen.width / Screen.height, _GAMEOBJECTS_SCALE_HEIGHT);
-        GameObjectsContainer.transform.localScale *= _scale;
+        _gameObjectsContainer.transform.localScale *= _scale;
     }
+    /// <summary>
+    /// Move ninja to column
+    /// </summary>
+    /// <param name="columnTile"></param>
+    public void MoveNinjaToTile(GameObject columnTile)
+    {
+        _ninja.GetComponent<Ninja>().MoveNinja(columnTile.transform.position);
+    }
+
 }
