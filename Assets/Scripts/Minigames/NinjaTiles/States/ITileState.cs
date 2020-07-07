@@ -4,5 +4,7 @@ using UnityEngine;
 
 public interface ITileState
 {
-
+    void SetToGoingToLightenUp();
+    void Darken();
+    void LightenUp();
 }

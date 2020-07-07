@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightedUpTileState : ITileState
+public class LightedUpTileState : BaseTileState, ITileState
 {
-    // Start is called before the first frame update
-    void Start()
+    public LightedUpTileState(ColumnTile columnTile) : base(columnTile) { }
+
+    public override void Darken()
+    {
+        columnTile.State = new DarkTileState(columnTile);
+    }
+
+    public override void LightenUp()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void SetToGoingToLightenUp()
     {
         
     }
