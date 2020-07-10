@@ -10,14 +10,7 @@ public class ColumnTile : MonoBehaviour
 
     // It does not have to be property, it can be for example CatchNinja() method or something,
     // that finishes the game if State is not NinjaSafe
-    public bool NinjaSafe
-    {
-        get
-        {
-            return State.NinjaSafe;
-        }
-    }
-
+    public bool NinjaSafe => State.NinjaSafe;
 
     void Start()
     {
