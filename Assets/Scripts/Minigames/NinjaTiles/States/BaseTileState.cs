@@ -2,10 +2,12 @@
 {
     protected ColumnTile columnTile;
 
+    public abstract bool NinjaSafe { get; }
+
     public BaseTileState(ColumnTile columnTile)
     {
         this.columnTile = columnTile;
-    }
+    }    
 
     public abstract void NextIteration();
 

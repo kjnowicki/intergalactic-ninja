@@ -2,6 +2,8 @@
 {
     public GoingToLightenUpTileState(ColumnTile columnTile) : base(columnTile) { }
 
+    public override bool NinjaSafe => true;
+
     public override void NextIteration()
     {
         columnTile.State = new LightedUpTileState(columnTile);
