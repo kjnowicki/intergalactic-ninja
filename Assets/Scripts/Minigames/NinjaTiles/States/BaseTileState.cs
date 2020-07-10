@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public abstract class BaseTileState : ITileState
+﻿public abstract class BaseTileState : ITileState
 {
     protected ColumnTile columnTile;
 
@@ -11,9 +7,7 @@ public abstract class BaseTileState : ITileState
         this.columnTile = columnTile;
     }
 
-    public abstract void Darken();
-
-    public abstract void LightenUp();
+    public abstract void NextIteration();
 
     public abstract void SetToGoingToLightenUp();
 }
