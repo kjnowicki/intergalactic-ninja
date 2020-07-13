@@ -4,6 +4,7 @@ public class PlayerPrefsWrapper
     private const string _LANGUAGE_KEY = "lang";
     private const string _KILLER_BEST_SCORE = "killerBestScore";
     private const string _HACKING_CONTROL_METHOD = "hackingControlMethod";
+    private const string WALL_JUMPING_BEST_SCORE = "wallJumpingBestScore";
 
     public static Language GetLanguage(Language defaultLanguage = Language.English)
     {
@@ -51,6 +52,22 @@ public class PlayerPrefsWrapper
     public static void SetHackingControlMethod(ControlMethod value)
     {
         PlayerPrefs.SetInt(_HACKING_CONTROL_METHOD, (int)value);
+        PlayerPrefs.Save();
+    }
+
+    public static int GetWallJumpingBestScore()
+    {
+        int defaultValue = 0;
+        if (!PlayerPrefs.HasKey(WALL_JUMPING_BEST_SCORE))
+        {
+            SetWallJupmingBestScoreAndSave(defaultValue);
+        }
+        return PlayerPrefs.GetInt(WALL_JUMPING_BEST_SCORE);
+    }
+
+    public static void SetWallJupmingBestScoreAndSave(int value)
+    {
+        PlayerPrefs.SetInt(WALL_JUMPING_BEST_SCORE, value);
         PlayerPrefs.Save();
     }
 }
