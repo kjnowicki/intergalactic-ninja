@@ -29,9 +29,10 @@ public class PlayerControls : MonoBehaviour
                 case TouchPhase.Began:
                     Time.timeScale = slowMotionValue;
                     swipeStartPosition = touch.position;
-
                     break;
+
                 case TouchPhase.Ended:
+                    Time.timeScale = 1f;
                     player.Jump(swipeStartPosition, touch.position);
                     break;
             }

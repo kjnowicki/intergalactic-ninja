@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
     /// </summary>
     public void Jump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
-        Time.timeScale = 1f;
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
     }
 }
