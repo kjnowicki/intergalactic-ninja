@@ -13,6 +13,9 @@ public class WallJumpingGameManager : MonoBehaviour
         SetUp();
     }
 
+    /// <summary>
+    /// Initializes game parameters.
+    /// </summary>
     private void SetUp()
     {
         currentScore = 0;
