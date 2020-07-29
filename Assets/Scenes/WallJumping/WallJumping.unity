@@ -800,6 +800,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2370053c0ec0f524ea461bb230838649, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  normalWallBlockPrefab: {fileID: 8082811595042219041, guid: 3b0b5f3f299bb4d46ac6c9b9925bd914,
+    type: 3}
+  camera: {fileID: 897800217}
 --- !u!4 &1825295196
 Transform:
   m_ObjectHideFlags: 0
