@@ -1,17 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class BaseWallBlock : MonoBehaviour
 {
-    protected const string WALL_BLOCKS_PREFAB_PATH_TEMPLATE = "Minigames/WallJumping/Prefabs/WallBlocks/{0}";
-
-    protected abstract string WallBlockPrefabName { get; }
-
-    public BaseWallBlock WallBlockPrefab
-    {
-        get
-        {
-            return Resources.Load<BaseWallBlock>(string.Format(WALL_BLOCKS_PREFAB_PATH_TEMPLATE, WallBlockPrefabName));
-        }
-    }
+    /// <summary>
+    /// Abstract method called when the player touches the block.
+    /// </summary>
+    public abstract void OnPlayerTouch();
 }

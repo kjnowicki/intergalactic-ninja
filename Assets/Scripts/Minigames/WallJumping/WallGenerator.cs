@@ -5,22 +5,25 @@ using UnityEngine;
 
 public class WallGenerator : MonoBehaviour
 {
-    public GameObject normalWallBlockPrefab;
+    [Header("References")]
+    public NormalWallBlock normalWallBlockPrefab;
     public Wall leftWall;
     public Wall rightWall;
     public Camera camera;
 
-    //public int rightBorder;
-    //public int leftBorder;
-    //public Vector2 screenBounds;
+    [Header("Game attributes")]
+    public int wallHeight;
+
     // Start is called before the first frame update
     void Start()
     {
         SetUp();
-        //GameObject block = Instantiate(normalWallBlockPrefab, new Vector2(rightWallPosition, 0), Quaternion.identity, transform);
-        //GameObject block2 = Instantiate(normalWallBlockPrefab, new Vector2(leftWallPosition, 0), Quaternion.identity, transform);
+        GenerateInitialWall();
     }
 
+    /// <summary>
+    /// Calculates the screen coordinates and initialize the walls.
+    /// </summary>
     private void SetUp()
     {
         float wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
@@ -28,22 +31,21 @@ public class WallGenerator : MonoBehaviour
         Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         float bottomWallYCoord = -screenBounds.y + wallBlockHeight / 2;
         Vector2 leftWallInitialPosition = new Vector2(-screenBounds.x + wallBlockWidth / 2, bottomWallYCoord);
-        Vector2 rightWallInitialPosition = new Vector2(screenBounds.x + wallBlockWidth / 2, bottomWallYCoord);
+        Vector2 rightWallInitialPosition = new Vector2(screenBounds.x - wallBlockWidth / 2, bottomWallYCoord);
 
-        leftWall.Initialize(leftWallInitialPosition);
-        rightWall.Initialize(rightWallInitialPosition);
-
-        GameObject block = Instantiate(normalWallBlockPrefab, leftWallInitialPosition, Quaternion.identity, transform);
+        leftWall.Initialize(leftWallInitialPosition, wallBlockHeight);
+        rightWall.Initialize(rightWallInitialPosition, wallBlockHeight);
     }
 
+    /// <summary>
+    /// Generates initial wall.
+    /// </summary>
     private void GenerateInitialWall()
     {
-        //leftWall
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        for (int _ = 0; _ < wallHeight; _++)
+        {
+            leftWall.AddWallBlockOnTop(normalWallBlockPrefab);
+            rightWall.AddWallBlockOnTop(normalWallBlockPrefab);
+        }
     }
 }

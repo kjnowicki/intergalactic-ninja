@@ -6,28 +6,29 @@ public class Wall : MonoBehaviour
 {
     private List<BaseWallBlock> wallBlocks = new List<BaseWallBlock>();
     private Vector2 newBlockPosition;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private float blockHeight;
 
-    
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void Initialize(Vector2 intialPosition)
+    /// <summary>
+    /// Initializes the Wall
+    /// </summary>
+    /// <param name="intialPosition"></param>
+    /// <param name="blockHeight"></param>
+    public void Initialize(Vector2 intialPosition, float blockHeight)
     {
         newBlockPosition = intialPosition;
+        this.blockHeight = blockHeight;
     }
 
-    public void AddWallBlockOnTop(BaseWallBlock wallBlock)
+    /// <summary>
+    /// Adds block on the top of current wall.
+    /// </summary>
+    /// <param name="wallBlockPrefab">
+    /// It is used to create new wall object. This must be a Prefab not existing GameObject.
+    /// </param>
+    public void AddWallBlockOnTop(BaseWallBlock wallBlockPrefab)
     {
-        BaseWallBlock gameObject = Instantiate(wallBlock, newBlockPosition, Quaternion.identity, transform);
-        wallBlocks.Add(wallBlock);
+        BaseWallBlock newWallBlock = Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, transform);
+        wallBlocks.Add(newWallBlock);
+        newBlockPosition.y += blockHeight;
     }
 }

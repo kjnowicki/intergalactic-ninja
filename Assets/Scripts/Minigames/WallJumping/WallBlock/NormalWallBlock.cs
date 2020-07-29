@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-
-public class NormalWallBlock : BaseWallBlock
+﻿public class NormalWallBlock : BaseWallBlock
 {
-    protected override string WallBlockPrefabName => "NormalWallBlock";
+    /// <summary>
+    /// When player touches a Normal Wall Block they are safe.
+    /// </summary>
+    public override void OnPlayerTouch() { }
 }
