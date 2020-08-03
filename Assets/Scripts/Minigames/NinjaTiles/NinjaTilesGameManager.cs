@@ -32,14 +32,12 @@ public class NinjaTilesGameManager : MonoBehaviour
     [Header("Main objects")]
     public GameObject gameObjectsContainerPrefab;
     public GameObject ninjaPrefab;
+    public GameObject mainCamera;
 
-    
-    private GameObject _gameObjectsContainer;
-    private GameObject _ninja;
-    private Vector2 _scale;
+    private GameObject gameObjectsContainer;
+    private GameObject ninja;
 
-    private const float _GAMEOBJECTS_SCALE_WIDTH = 8f / 5f;
-    private const float _GAMEOBJECTS_SCALE_HEIGHT = 1;
+    private const float GAMEOBJECTS_SCALE_HEIGHT = 1;
 
     void Start()
     {
@@ -57,16 +55,17 @@ public class NinjaTilesGameManager : MonoBehaviour
 
     private void SetData() 
     {
-        _gameObjectsContainer = Instantiate(gameObjectsContainerPrefab);
-        _ninja = Instantiate(ninjaPrefab);
+        gameObjectsContainer = Instantiate(gameObjectsContainerPrefab);
+        ninja = Instantiate(ninjaPrefab);
     }
     /// <summary>
     /// Set objects' width on the scene based on the device resolution
     /// </summary>
     private void SetGameObjectsContainerScale()
     {
-        _scale = new Vector2(_GAMEOBJECTS_SCALE_WIDTH * Screen.width / Screen.height, _GAMEOBJECTS_SCALE_HEIGHT);
-        _gameObjectsContainer.transform.localScale *= _scale;
+        float widthScaleForTilesContainer = mainCamera.GetComponent<Camera>().orthographicSize * 2 / gameObjectsContainer.GetComponentInChildren<SpriteRenderer>().size.x;
+        Vector2 _scale = new Vector2(widthScaleForTilesContainer * Screen.width / Screen.height, GAMEOBJECTS_SCALE_HEIGHT);
+        gameObjectsContainer.transform.localScale *= _scale;
     }
     /// <summary>
     /// Move ninja to column
@@ -74,7 +73,7 @@ public class NinjaTilesGameManager : MonoBehaviour
     /// <param name="columnTile"></param>
     public void MoveNinjaToTile(GameObject columnTile)
     {
-        _ninja.GetComponent<Ninja>().MoveNinja(columnTile.transform.position);
+        ninja.GetComponent<Ninja>().MoveNinja(columnTile.transform.position);
     }
 
 }

@@ -237,7 +237,7 @@ MonoBehaviour:
     type: 3}
   ninjaPrefab: {fileID: 1512473683455679778, guid: b8c215fcf65cfbd45aa9b0e1a9163ea7,
     type: 3}
-  ninja_position_y: -1.5
+  camera: {fileID: 1452460745}
 --- !u!4 &1684453963
 Transform:
   m_ObjectHideFlags: 0

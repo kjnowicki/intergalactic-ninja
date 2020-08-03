@@ -502,8 +502,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5858136461363982612}
   m_Layer: 0
-  m_Name: GameObjects
-  m_TagString: Untagged
+  m_Name: GameObjectsContaner
+  m_TagString: TilesContainer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
