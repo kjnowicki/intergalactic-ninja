@@ -30,14 +30,15 @@ public class NinjaTilesGameManager : MonoBehaviour
     #endregion
 
     [Header("Main objects")]
-    public GameObject gameObjectsContainerPrefab;
+    public GameObject tilesContainerPrefab;
     public GameObject ninjaPrefab;
     public GameObject mainCamera;
+    public GameObject gameObjectsContainer;
 
-    private GameObject gameObjectsContainer;
+    private GameObject tilesContainer;
     private GameObject ninja;
 
-    private const float GAMEOBJECTS_SCALE_HEIGHT = 1;
+    private const float UNCHANGED_SCALE_FACTOR = 1;
 
     void Start()
     {
@@ -53,19 +54,21 @@ public class NinjaTilesGameManager : MonoBehaviour
         SetGameObjectsContainerScale();
     }
 
-    private void SetData() 
+    private void SetData()
     {
-        gameObjectsContainer = Instantiate(gameObjectsContainerPrefab);
+        tilesContainer = Instantiate(tilesContainerPrefab);
+        tilesContainer.transform.SetParent(gameObjectsContainer.transform);
         ninja = Instantiate(ninjaPrefab);
+        ninja.transform.parent = gameObjectsContainer.transform;
     }
     /// <summary>
     /// Set objects' width on the scene based on the device resolution
     /// </summary>
     private void SetGameObjectsContainerScale()
     {
-        float widthScaleForTilesContainer = mainCamera.GetComponent<Camera>().orthographicSize * 2 / gameObjectsContainer.GetComponentInChildren<SpriteRenderer>().size.x;
-        Vector2 _scale = new Vector2(widthScaleForTilesContainer * Screen.width / Screen.height, GAMEOBJECTS_SCALE_HEIGHT);
-        gameObjectsContainer.transform.localScale *= _scale;
+        float widthScaleForTilesContainer = mainCamera.GetComponent<Camera>().orthographicSize * 2 / tilesContainer.GetComponentInChildren<SpriteRenderer>().size.x;
+        Vector2 scale = new Vector3(widthScaleForTilesContainer * Screen.width / Screen.height, UNCHANGED_SCALE_FACTOR);
+        gameObjectsContainer.transform.localScale = new Vector3(scale.x, scale.y, UNCHANGED_SCALE_FACTOR);
     }
     /// <summary>
     /// Move ninja to column
