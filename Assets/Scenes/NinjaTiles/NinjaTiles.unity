@@ -263,6 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a35ce96052774e4c803d6a6118a2a09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ninja_position_y: -2.3
+  ninja_position_z: -0.01
   tilesContainerPrefab: {fileID: 2957448776030059038, guid: 2222b69ac3598d04a9361500256a4b5a,
     type: 3}
   ninjaPrefab: {fileID: 1512473683455679778, guid: b8c215fcf65cfbd45aa9b0e1a9163ea7,
