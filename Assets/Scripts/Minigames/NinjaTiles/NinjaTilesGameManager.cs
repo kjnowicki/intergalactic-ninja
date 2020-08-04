@@ -61,15 +61,18 @@ public class NinjaTilesGameManager : MonoBehaviour
         ninja = Instantiate(ninjaPrefab);
         ninja.transform.parent = gameObjectsContainer.transform;
     }
+
     /// <summary>
     /// Set objects' width on the scene based on the device resolution
     /// </summary>
     private void SetGameObjectsContainerScale()
     {
         float widthScaleForTilesContainer = mainCamera.GetComponent<Camera>().orthographicSize * 2 / tilesContainer.GetComponentInChildren<SpriteRenderer>().size.x;
-        Vector2 scale = new Vector3(widthScaleForTilesContainer * Screen.width / Screen.height, UNCHANGED_SCALE_FACTOR);
+        Vector2 scale = new Vector2(widthScaleForTilesContainer * Screen.width / Screen.height, UNCHANGED_SCALE_FACTOR);
         gameObjectsContainer.transform.localScale = new Vector3(scale.x, scale.y, UNCHANGED_SCALE_FACTOR);
+        ninja.transform.localScale = new Vector3(UNCHANGED_SCALE_FACTOR, scale.x, UNCHANGED_SCALE_FACTOR);
     }
+
     /// <summary>
     /// Move ninja to column
     /// </summary>
@@ -78,5 +81,4 @@ public class NinjaTilesGameManager : MonoBehaviour
     {
         ninja.GetComponent<Ninja>().MoveNinja(columnTile.transform.position);
     }
-
 }
