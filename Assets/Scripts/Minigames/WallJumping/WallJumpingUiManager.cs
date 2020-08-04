@@ -10,8 +10,8 @@ public class WallJumpingUiManager : MonoBehaviour
     private string bestScoreTemplate;
 
     [Header("UI score display")]
-    public TextMeshPro currentScoreText;
-    public TextMeshPro bestScoreText;
+    public TextMeshProUGUI currentScoreText;
+    public TextMeshProUGUI bestScoreText;
 
     public float CurrentScore
     {
