@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class WallJumpingUiManager : MonoBehaviour
 {
-    private static WallJumpingStringsModel stringsModel = StringsModelsModel.WallJumpingStringsModel;
-    private int currentScore;
-    private int bestScore;
+    private static WallJumpingStringsModel stringsModel;
+    private float currentScore;
+    private float bestScore;
+    private string currentScoreTemplate;
+    private string bestScoreTemplate;
 
     [Header("UI score display")]
-    public TextMeshPro currentScoreText;
-    public TextMeshPro bestScoreText;
+    public TextMeshProUGUI currentScoreText;
+    public TextMeshProUGUI bestScoreText;
 
-    public int CurrentScore
+    public float CurrentScore
     {
         get
         {
@@ -20,11 +22,11 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             currentScore = value;
-            currentScoreText.SetText(string.Format(stringsModel.CurrentScore, value));
+            currentScoreText.SetText(string.Format(currentScoreTemplate, value));
         }
     }
 
-    public int BestScore
+    public float BestScore
     {
         get
         {
@@ -33,7 +35,16 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             bestScore = value;
-            bestScoreText.SetText(string.Format(stringsModel.BestScore, value));
+            bestScoreText.SetText(string.Format(bestScoreTemplate, value));
         }
+    }
+
+    public void Initialize(float currentScore, float bestScore)
+    {
+        stringsModel = StringsModelsModel.WallJumpingStringsModel;
+        currentScoreTemplate = stringsModel.CurrentScore;
+        bestScoreTemplate = stringsModel.BestScore;
+        CurrentScore = currentScore;
+        BestScore = bestScore;
     }
 }
