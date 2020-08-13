@@ -6,8 +6,6 @@ public class WallGenerator : MonoBehaviour
     public NormalWallBlock normalWallBlockPrefab;
     public Wall leftWall;
     public Wall rightWall;
-    //public RectTransform rectTransform;
-    //public RectTransform parentRectTransform;
 
     [Header("Game attributes")]
     public int wallHeight;
@@ -24,21 +22,26 @@ public class WallGenerator : MonoBehaviour
     /// </summary>
     private void SetUp()
     {
-        //rectTransform = GetComponent<RectTransform>();
-        ////parentRectTransform = transform.parent.GetComponent<RectTransform>();
-        //RectTransform UIRectTransform = parentRectTransform.Find("UI").GetComponent<RectTransform>();
-        //parentRectTransform.localScale = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        //screenBounds = rectTransform.sizeDelta;
-        RectTransform rectTransform = GetComponent<RectTransform>();
-        
+        RectTransform rt = GetComponent<RectTransform>();
         float wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
         float wallBlockHeight = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
         Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        rectTransform.sizeDelta = screenBounds * 2;
-        rectTransform.anchoredPosition = new Vector2(-screenBounds.x, -screenBounds.y);
-        float bottomWallYCoord = -screenBounds.y + wallBlockHeight / 2;
-        Vector2 leftWallInitialPosition = new Vector2(-screenBounds.x + wallBlockWidth / 2, bottomWallYCoord);
-        Vector2 rightWallInitialPosition = new Vector2(screenBounds.x - wallBlockWidth / 2, bottomWallYCoord);
+
+        rt.sizeDelta = screenBounds * 2;
+        rt.anchoredPosition = new Vector2(-screenBounds.x, -screenBounds.y);
+        //Rect rectContainer = rt.rect;
+        //rectContainer.height = screenBounds.y;
+        //rectContainer.width = screenBounds.x;
+        //rectContainer.position = new Vector2(-screenBounds.x, -screenBounds.y);
+        //rt.anchoredPosition = new Vector2(-screenBounds.x, -screenBounds.y);
+
+        float bottomWallYCoord = rt.anchoredPosition.y + wallBlockHeight / 2;
+        Vector2 leftWallInitialPosition = new Vector2(rt.anchoredPosition.x + wallBlockWidth / 2, bottomWallYCoord);
+        Vector2 rightWallInitialPosition = new Vector2(rt.anchoredPosition.x + rt.sizeDelta.x - wallBlockWidth / 2, bottomWallYCoord);
+
+        //float bottomWallYCoord = -rt.sizeDelta.y + wallBlockHeight / 2;
+        //Vector2 leftWallInitialPosition = new Vector2(-rt.sizeDelta.x + wallBlockWidth / 2, bottomWallYCoord);
+        //Vector2 rightWallInitialPosition = new Vector2(rt.sizeDelta.x - wallBlockWidth / 2, bottomWallYCoord);
 
         leftWall.Initialize(leftWallInitialPosition, wallBlockHeight);
         rightWall.Initialize(rightWallInitialPosition, wallBlockHeight);
