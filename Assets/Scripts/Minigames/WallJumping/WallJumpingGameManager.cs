@@ -6,6 +6,8 @@ public class WallJumpingGameManager : MonoBehaviour
     public int uiLayoutWeight;
     public int gameAreaLayoutWeight;
 
+    public float screenHeight;
+
     private WallJumpingUiManager wallJumpingUiManager;
     private float currentScore;
     private float bestScore;
@@ -16,9 +18,12 @@ public class WallJumpingGameManager : MonoBehaviour
         SetUp();
         GameObject uiLayout = wallJumpingUiManager.transform.Find("UILayout").gameObject;
         RectTransform uiLayoutTransform = uiLayout.GetComponent<RectTransform>();
-        uiLayoutTransform.sizeDelta = new Vector2(0, 200);
+        int sum = uiLayoutWeight + gameAreaLayoutWeight;
+        screenHeight = Screen.height;
+        float uiLayoutRatio = (uiLayoutWeight / (float)sum) * screenHeight;
+        uiLayoutTransform.sizeDelta = new Vector2(0, uiLayoutRatio);
         //uiLayoutTransform.localPosition = new Vector3(0, , 0);
-        uiLayoutTransform.anchoredPosition = new Vector3(0, -200, 0);
+        uiLayoutTransform.anchoredPosition = new Vector3(0, -uiLayoutRatio, 0);
         //Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         //int weightsSum = uiLayoutWeight + gameAreaLayoutWeight;
     }
