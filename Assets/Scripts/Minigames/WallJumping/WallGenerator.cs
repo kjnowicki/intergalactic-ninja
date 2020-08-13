@@ -29,9 +29,13 @@ public class WallGenerator : MonoBehaviour
         //RectTransform UIRectTransform = parentRectTransform.Find("UI").GetComponent<RectTransform>();
         //parentRectTransform.localScale = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         //screenBounds = rectTransform.sizeDelta;
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        
         float wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
         float wallBlockHeight = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
         Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        rectTransform.sizeDelta = screenBounds * 2;
+        rectTransform.anchoredPosition = new Vector2(-screenBounds.x, -screenBounds.y);
         float bottomWallYCoord = -screenBounds.y + wallBlockHeight / 2;
         Vector2 leftWallInitialPosition = new Vector2(-screenBounds.x + wallBlockWidth / 2, bottomWallYCoord);
         Vector2 rightWallInitialPosition = new Vector2(screenBounds.x - wallBlockWidth / 2, bottomWallYCoord);

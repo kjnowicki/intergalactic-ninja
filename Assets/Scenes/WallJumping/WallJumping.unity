@@ -289,8 +289,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c7a19c8db5f614bbae27d7bb770c15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiLayoutWeight: 1
-  GameAreaLayoutWeight: 1
+  uiLayoutWeight: 0
+  gameAreaLayoutWeight: 0
 --- !u!4 &1023769666
 Transform:
   m_ObjectHideFlags: 0
