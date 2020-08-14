@@ -98,7 +98,7 @@ MonoBehaviour:
     type: 3}
   leftWall: {fileID: 7338369698931568300}
   rightWall: {fileID: 7338369698265969858}
-  wallHeightAdditional: 0
+  wallHeightAdditional: 3
 --- !u!1 &7338369698931568291
 GameObject:
   m_ObjectHideFlags: 0
