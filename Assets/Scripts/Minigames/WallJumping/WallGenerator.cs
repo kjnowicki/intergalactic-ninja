@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WallGenerator : MonoBehaviour
 {
@@ -15,6 +14,10 @@ public class WallGenerator : MonoBehaviour
     private float wallBlockWidth;
     private int wallHeight; // in number of blocks
 
+    /// <summary>
+    /// Initializes WallGenerator.
+    /// </summary>
+    /// <param name="heightRatio"></param>
     public void Initialize(float heightRatio)
     {
         InitializePosition(heightRatio);
@@ -22,6 +25,10 @@ public class WallGenerator : MonoBehaviour
         InitializePlayer();
     }
 
+    /// <summary>
+    /// Initializes GameArea position.
+    /// </summary>
+    /// <param name="heightRatio"></param>
     private void InitializePosition(float heightRatio)
     {
         gameAreaRectTransform = GetComponent<RectTransform>();
@@ -35,6 +42,9 @@ public class WallGenerator : MonoBehaviour
         gameAreaRectTransform.anchoredPosition = new Vector2(-screenBounds.x, screenBottomPosition);
     }
 
+    /// <summary>
+    /// Initializes Walls.
+    /// </summary>
     private void InitializeWalls()
     {
         float bottomWallYCoord = gameAreaRectTransform.anchoredPosition.y + wallBlockWidth / 2;
@@ -48,6 +58,9 @@ public class WallGenerator : MonoBehaviour
         GenerateInitialWall(wallHeight);
     }
 
+    /// <summary>
+    /// Initializes Player.
+    /// </summary>
     private void InitializePlayer()
     {
         float playerInitialYCoord = 1;

@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class WallJumpingUiManager : MonoBehaviour
 {
@@ -40,12 +39,22 @@ public class WallJumpingUiManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initializes UI.
+    /// </summary>
+    /// <param name="initialCurrentScore"></param>
+    /// <param name="initialBestScore"></param>
+    /// <param name="uiLayoutRatio"></param>
     public void Initialize(float initialCurrentScore, float initialBestScore, float uiLayoutRatio)
     {
         InitializePosition(uiLayoutRatio);
         InitializeText(initialCurrentScore, initialBestScore);
     }
 
+    /// <summary>
+    /// Initializes UI position.
+    /// </summary>
+    /// <param name="uiLayoutRatio"></param>
     private void InitializePosition(float uiLayoutRatio)
     {
         GameObject uiLayout = transform.Find("UILayout").gameObject;
@@ -55,6 +64,11 @@ public class WallJumpingUiManager : MonoBehaviour
         uiLayoutTransform.anchoredPosition = new Vector3(0, -fixedUiLayoutHeight, 0);
     }
 
+    /// <summary>
+    /// Initializes text templates and values.
+    /// </summary>
+    /// <param name="initialCurrentScore"></param>
+    /// <param name="initialBestScore"></param>
     private void InitializeText(float initialCurrentScore, float initialBestScore)
     {
         stringsModel = StringsModelsModel.WallJumpingStringsModel;
