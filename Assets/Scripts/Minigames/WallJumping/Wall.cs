@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
-    private List<BaseWallBlock> wallBlocks = new List<BaseWallBlock>();
+    private Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
     private Vector2 newBlockPosition;
     private float blockHeight;
 
@@ -27,7 +27,7 @@ public class Wall : MonoBehaviour
     public void AddWallBlockOnTop(BaseWallBlock wallBlockPrefab)
     {
         BaseWallBlock newWallBlock = Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, transform);
-        wallBlocks.Add(newWallBlock);
+        wallBlocks.Enqueue(newWallBlock);
         newBlockPosition.y += blockHeight;
     }
 }

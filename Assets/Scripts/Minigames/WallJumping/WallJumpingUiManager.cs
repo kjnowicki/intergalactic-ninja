@@ -39,12 +39,21 @@ public class WallJumpingUiManager : MonoBehaviour
         }
     }
 
-    public void Initialize(float currentScore, float bestScore)
+    public void Initialize(float currentScore, float bestScore, float uiLayoutRatio)
     {
         stringsModel = StringsModelsModel.WallJumpingStringsModel;
         currentScoreTemplate = stringsModel.CurrentScore;
         bestScoreTemplate = stringsModel.BestScore;
         CurrentScore = currentScore;
         BestScore = bestScore;
+
+
+        GameObject uiLayout = transform.Find("UILayout").gameObject;
+        RectTransform uiLayoutTransform = uiLayout.GetComponent<RectTransform>();
+        //float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
+        //float uiLayoutRatio = uiLayoutWeight / weightSum;
+        float fixedUiLayoutHeight = uiLayoutRatio * Screen.height; ;
+        uiLayoutTransform.sizeDelta = new Vector2(0, fixedUiLayoutHeight);
+        uiLayoutTransform.anchoredPosition = new Vector3(0, -fixedUiLayoutHeight, 0);
     }
 }
