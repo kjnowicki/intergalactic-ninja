@@ -39,21 +39,27 @@ public class WallJumpingUiManager : MonoBehaviour
         }
     }
 
-    public void Initialize(float currentScore, float bestScore, float uiLayoutRatio)
+    public void Initialize(float initialCurrentScore, float initialBestScore, float uiLayoutRatio)
+    {
+        InitializePosition(uiLayoutRatio);
+        InitializeText(initialCurrentScore, initialBestScore);
+    }
+
+    private void InitializePosition(float uiLayoutRatio)
+    {
+        GameObject uiLayout = transform.Find("UILayout").gameObject;
+        RectTransform uiLayoutTransform = uiLayout.GetComponent<RectTransform>();
+        float fixedUiLayoutHeight = uiLayoutRatio * Screen.height; ;
+        uiLayoutTransform.sizeDelta = new Vector2(0, fixedUiLayoutHeight);
+        uiLayoutTransform.anchoredPosition = new Vector3(0, -fixedUiLayoutHeight, 0);
+    }
+
+    private void InitializeText(float initialCurrentScore, float initialBestScore)
     {
         stringsModel = StringsModelsModel.WallJumpingStringsModel;
         currentScoreTemplate = stringsModel.CurrentScore;
         bestScoreTemplate = stringsModel.BestScore;
-        CurrentScore = currentScore;
-        BestScore = bestScore;
-
-
-        GameObject uiLayout = transform.Find("UILayout").gameObject;
-        RectTransform uiLayoutTransform = uiLayout.GetComponent<RectTransform>();
-        //float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
-        //float uiLayoutRatio = uiLayoutWeight / weightSum;
-        float fixedUiLayoutHeight = uiLayoutRatio * Screen.height; ;
-        uiLayoutTransform.sizeDelta = new Vector2(0, fixedUiLayoutHeight);
-        uiLayoutTransform.anchoredPosition = new Vector3(0, -fixedUiLayoutHeight, 0);
+        CurrentScore = initialCurrentScore;
+        BestScore = initialBestScore;
     }
 }

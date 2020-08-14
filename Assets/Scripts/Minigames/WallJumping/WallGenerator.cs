@@ -10,63 +10,39 @@ public class WallGenerator : MonoBehaviour
     [Header("Game attributes")]
     public int wallHeightAdditional;
 
+    private RectTransform gameAreaRectTransform;
+    private float wallBlockWidth;
+    private int wallHeight; // in number of blocks
+
     public void Initialize(float heightRatio)
     {
-        RectTransform rt = GetComponent<RectTransform>();
-        float wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
-        float wallBlockHeight = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+        InitializePosition(heightRatio);
+        InitializeWalls();
+    }
+
+    private void InitializePosition(float heightRatio)
+    {
+        gameAreaRectTransform = GetComponent<RectTransform>();
+        wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
         Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
         float screenBottomPosition = -screenBounds.y;
 
-        screenBounds = new Vector2(screenBounds.x, screenBounds.y *  2);
-        rt.sizeDelta = screenBounds * 2;
-        rt.anchoredPosition = new Vector2(-screenBounds.x, screenBottomPosition);
-
-        float bottomWallYCoord = rt.anchoredPosition.y + wallBlockHeight / 2;
-        Vector2 leftWallInitialPosition = new Vector2(rt.anchoredPosition.x + wallBlockWidth / 2, bottomWallYCoord);
-        Vector2 rightWallInitialPosition = new Vector2(rt.anchoredPosition.x + rt.rect.width - wallBlockWidth / 2, bottomWallYCoord);
-
-        int wallHeight = (int)(rt.rect.height / wallBlockHeight) + wallHeightAdditional;
-
-        leftWall.Initialize(leftWallInitialPosition, wallBlockHeight);
-        rightWall.Initialize(rightWallInitialPosition, wallBlockHeight);
-
-        GenerateInitialWall(wallHeight);
+        screenBounds = new Vector2(screenBounds.x, screenBounds.y * heightRatio);
+        gameAreaRectTransform.sizeDelta = screenBounds * 2;
+        gameAreaRectTransform.anchoredPosition = new Vector2(-screenBounds.x, screenBottomPosition);        
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void InitializeWalls()
     {
-        SetUp();
-        //GenerateInitialWall();
-    }
+        float bottomWallYCoord = gameAreaRectTransform.anchoredPosition.y + wallBlockWidth / 2;
+        Vector2 leftWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + wallBlockWidth / 2, bottomWallYCoord);
+        Vector2 rightWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + gameAreaRectTransform.rect.width - wallBlockWidth / 2, bottomWallYCoord);
 
-    /// <summary>
-    /// Calculates the screen coordinates and initialize the walls.
-    /// </summary>
-    private void SetUp()
-    {
-        RectTransform rt = GetComponent<RectTransform>();
-        float wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
-        float wallBlockHeight = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
-        Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        leftWall.Initialize(leftWallInitialPosition, wallBlockWidth);
+        rightWall.Initialize(rightWallInitialPosition, wallBlockWidth);
 
-        float screenBottomPosition = -screenBounds.y;
-
-        screenBounds = new Vector2(screenBounds.x, screenBounds.y / 2);
-        rt.sizeDelta = screenBounds * 2;
-        rt.anchoredPosition = new Vector2(-screenBounds.x, screenBottomPosition);
-
-        float bottomWallYCoord = rt.anchoredPosition.y + wallBlockHeight / 2;
-        Vector2 leftWallInitialPosition = new Vector2(rt.anchoredPosition.x + wallBlockWidth / 2, bottomWallYCoord);
-        Vector2 rightWallInitialPosition = new Vector2(rt.anchoredPosition.x + rt.rect.width - wallBlockWidth / 2, bottomWallYCoord);
-
-        int wallHeight = (int)(rt.rect.height / wallBlockHeight) + wallHeightAdditional;
-
-        leftWall.Initialize(leftWallInitialPosition, wallBlockHeight);
-        rightWall.Initialize(rightWallInitialPosition, wallBlockHeight);
-
+        wallHeight = (int)(gameAreaRectTransform.rect.height / wallBlockWidth) + wallHeightAdditional;
         GenerateInitialWall(wallHeight);
     }
 
