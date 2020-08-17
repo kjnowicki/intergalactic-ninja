@@ -35,11 +35,9 @@ public class WallGenerator : MonoBehaviour
         wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
         Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
-        float screenBottomPosition = -screenBounds.y;
-
-        screenBounds = new Vector2(screenBounds.x, screenBounds.y * heightRatio);
-        gameAreaRectTransform.sizeDelta = screenBounds * 2;
-        gameAreaRectTransform.anchoredPosition = new Vector2(-screenBounds.x, screenBottomPosition);
+        Vector2 gameAreaBounds = new Vector2(screenBounds.x, screenBounds.y * heightRatio);
+        gameAreaRectTransform.sizeDelta = gameAreaBounds * 2;
+        gameAreaRectTransform.anchoredPosition = new Vector2(-gameAreaBounds.x, -screenBounds.y);
     }
 
     /// <summary>
