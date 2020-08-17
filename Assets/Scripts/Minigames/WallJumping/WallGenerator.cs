@@ -7,9 +7,6 @@ public class WallGenerator : MonoBehaviour
     public Wall leftWall;
     public Wall rightWall;
 
-    [Header("Game attributes")]
-    public int wallHeightAdditional;
-
     private RectTransform gameAreaRectTransform;
     private float wallBlockWidth;
     private int wallHeight; // in number of blocks
@@ -18,10 +15,10 @@ public class WallGenerator : MonoBehaviour
     /// Initializes WallGenerator.
     /// </summary>
     /// <param name="heightRatio"></param>
-    public void Initialize(float heightRatio)
+    public void Initialize(float heightRatio, int wallHeightAdditional)
     {
         InitializePosition(heightRatio);
-        InitializeWalls();
+        InitializeWalls(wallHeightAdditional);
         InitializePlayer();
     }
 
@@ -43,7 +40,7 @@ public class WallGenerator : MonoBehaviour
     /// <summary>
     /// Initializes Walls.
     /// </summary>
-    private void InitializeWalls()
+    private void InitializeWalls(int wallHeightAdditional)
     {
         float bottomWallYCoord = gameAreaRectTransform.anchoredPosition.y + wallBlockWidth / 2;
         Vector2 leftWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + wallBlockWidth / 2, bottomWallYCoord);

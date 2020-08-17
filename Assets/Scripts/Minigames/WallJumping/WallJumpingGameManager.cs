@@ -6,6 +6,9 @@ public class WallJumpingGameManager : MonoBehaviour
     public int uiLayoutWeight;
     public int gameAreaLayoutWeight;
 
+    [Header("Game attributes")]
+    public int wallHeightAdditional;
+
     private WallJumpingUiManager wallJumpingUiManager;
     private WallGenerator wallGenerator;
     private float currentScore;
@@ -24,7 +27,7 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
         InitializeUi(weightSum);
-        InitializeWalls(weightSum);
+        InitializeWalls(weightSum, wallHeightAdditional);
     }
 
     /// <summary>
@@ -44,10 +47,10 @@ public class WallJumpingGameManager : MonoBehaviour
     /// Initializes WallGenerator.
     /// </summary>
     /// <param name="weightSum"></param>
-    private void InitializeWalls(float weightSum)
+    private void InitializeWalls(float weightSum, int wallHeightAdditional)
     {
         wallGenerator = FindObjectOfType<WallGenerator>();
         float gameAreaHeightRatio = gameAreaLayoutWeight / weightSum;
-        wallGenerator.Initialize(gameAreaHeightRatio);
+        wallGenerator.Initialize(gameAreaHeightRatio, wallHeightAdditional);
     }
 }
