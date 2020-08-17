@@ -171,7 +171,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 1
   field of view: 60
   orthographic: 1
   orthographic size: 7.5
@@ -503,6 +503,16 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 897800217}
+    - target: {fileID: 2092010817999501423, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092010817999501423, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: m_PlaneDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2092010818226211037, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -553,6 +563,27 @@ PrefabInstance:
       propertyPath: m_ChildControlWidth
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3096115064817339313, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: m_Name
+      value: UIContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052571843457100718, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5d93ca6d29e6758408da04a99485d982,
+        type: 3}
+    - target: {fileID: 5052571843457100718, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700948344407932250, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 350.00003
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2092010817408308833, guid: d7a80942b13d24c4082d83b2b9fc0edc, type: 3}
     - {fileID: 2092010817408308834, guid: d7a80942b13d24c4082d83b2b9fc0edc, type: 3}
@@ -568,6 +599,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7338369698871833256, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+        type: 3}
+      propertyPath: wallHeightAdditional
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7338369698871833257, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}

@@ -9,9 +9,10 @@ public class WallJumpingUiManager : MonoBehaviour
     private string currentScoreTemplate;
     private string bestScoreTemplate;
 
-    [Header("UI score display")]
+    [Header("References")]
     public TextMeshProUGUI currentScoreText;
     public TextMeshProUGUI bestScoreText;
+    public GameObject uiContainer;
 
     public float CurrentScore
     {
@@ -57,11 +58,9 @@ public class WallJumpingUiManager : MonoBehaviour
     /// <param name="uiLayoutRatio"></param>
     private void InitializePosition(float uiLayoutRatio)
     {
-        GameObject uiLayout = transform.Find("UILayout").gameObject;
-        RectTransform uiLayoutTransform = uiLayout.GetComponent<RectTransform>();
-        float fixedUiLayoutHeight = uiLayoutRatio * Screen.height; ;
+        RectTransform uiLayoutTransform = uiContainer.GetComponent<RectTransform>();
+        float fixedUiLayoutHeight = uiLayoutRatio * Screen.height;
         uiLayoutTransform.sizeDelta = new Vector2(0, fixedUiLayoutHeight);
-        uiLayoutTransform.anchoredPosition = new Vector3(0, -fixedUiLayoutHeight, 0);
     }
 
     /// <summary>
