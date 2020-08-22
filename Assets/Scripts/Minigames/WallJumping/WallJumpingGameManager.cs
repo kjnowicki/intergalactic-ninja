@@ -2,8 +2,15 @@
 
 public class WallJumpingGameManager : MonoBehaviour
 {
-    public WallJumpingUiManager wallJumpingUiManager;
+    [Header("Layout weights")]
+    public int uiLayoutWeight;
+    public int gameAreaLayoutWeight;
 
+    [Header("Game attributes")]
+    public int wallHeightAdditional;
+
+    private WallJumpingUiManager wallJumpingUiManager;
+    private WallGenerator wallGenerator;
     private float currentScore;
     private float bestScore;
 
@@ -18,8 +25,32 @@ public class WallJumpingGameManager : MonoBehaviour
     /// </summary>
     private void SetUp()
     {
+        float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
+        InitializeUi(weightSum);
+        InitializeWalls(weightSum, wallHeightAdditional);
+    }
+
+    /// <summary>
+    /// Initializes UI.
+    /// </summary>
+    /// <param name="weightSum"></param>
+    private void InitializeUi(float weightSum)
+    {
+        wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
         currentScore = 0;
         bestScore = PlayerPrefsWrapper.GetWallJumpingBestScore();
-        wallJumpingUiManager.Initialize(currentScore, bestScore);
+        float uiLayoutRatio = uiLayoutWeight / weightSum;
+        wallJumpingUiManager.Initialize(currentScore, bestScore, uiLayoutRatio);
+    }
+
+    /// <summary>
+    /// Initializes WallGenerator.
+    /// </summary>
+    /// <param name="weightSum"></param>
+    private void InitializeWalls(float weightSum, int wallHeightAdditional)
+    {
+        wallGenerator = FindObjectOfType<WallGenerator>();
+        float gameAreaHeightRatio = gameAreaLayoutWeight / weightSum;
+        wallGenerator.Initialize(gameAreaHeightRatio, wallHeightAdditional);
     }
 }

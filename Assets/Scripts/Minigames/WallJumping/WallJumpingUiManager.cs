@@ -9,9 +9,10 @@ public class WallJumpingUiManager : MonoBehaviour
     private string currentScoreTemplate;
     private string bestScoreTemplate;
 
-    [Header("UI score display")]
+    [Header("References")]
     public TextMeshProUGUI currentScoreText;
     public TextMeshProUGUI bestScoreText;
+    public GameObject uiContainer;
 
     public float CurrentScore
     {
@@ -39,12 +40,40 @@ public class WallJumpingUiManager : MonoBehaviour
         }
     }
 
-    public void Initialize(float currentScore, float bestScore)
+    /// <summary>
+    /// Initializes UI.
+    /// </summary>
+    /// <param name="initialCurrentScore"></param>
+    /// <param name="initialBestScore"></param>
+    /// <param name="uiLayoutRatio"></param>
+    public void Initialize(float initialCurrentScore, float initialBestScore, float uiLayoutRatio)
+    {
+        InitializePosition(uiLayoutRatio);
+        InitializeText(initialCurrentScore, initialBestScore);
+    }
+
+    /// <summary>
+    /// Initializes UI position.
+    /// </summary>
+    /// <param name="uiLayoutRatio"></param>
+    private void InitializePosition(float uiLayoutRatio)
+    {
+        RectTransform uiLayoutTransform = uiContainer.GetComponent<RectTransform>();
+        float fixedUiLayoutHeight = uiLayoutRatio * Screen.height;
+        uiLayoutTransform.sizeDelta = new Vector2(0, fixedUiLayoutHeight);
+    }
+
+    /// <summary>
+    /// Initializes text templates and values.
+    /// </summary>
+    /// <param name="initialCurrentScore"></param>
+    /// <param name="initialBestScore"></param>
+    private void InitializeText(float initialCurrentScore, float initialBestScore)
     {
         stringsModel = StringsModelsModel.WallJumpingStringsModel;
         currentScoreTemplate = stringsModel.CurrentScore;
         bestScoreTemplate = stringsModel.BestScore;
-        CurrentScore = currentScore;
-        BestScore = bestScore;
+        CurrentScore = initialCurrentScore;
+        BestScore = initialBestScore;
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +9,12 @@ public class Player : MonoBehaviour
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    public void Initialize(Vector2 initialPosition)
+    {
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        transform.localPosition = initialPosition;
     }
 
     /// <summary>
