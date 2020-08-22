@@ -13,6 +13,6 @@ public class StartGame : MonoBehaviour
     public void GameStart()
     {
         Time.timeScale = STARTING_TIMESCALE;
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }
