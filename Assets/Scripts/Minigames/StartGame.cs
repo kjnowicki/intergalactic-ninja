@@ -10,6 +10,9 @@ public class StartGame : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    /// <summary>
+    /// Starting the game. Resume time and destroy starting pop-up.
+    /// </summary>
     public void GameStart()
     {
         Time.timeScale = STARTING_TIMESCALE;
