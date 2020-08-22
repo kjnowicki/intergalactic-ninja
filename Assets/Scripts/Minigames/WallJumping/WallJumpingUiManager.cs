@@ -3,15 +3,18 @@ using UnityEngine;
 
 public class WallJumpingUiManager : MonoBehaviour
 {
-    private static WallJumpingStringsModel stringsModel = StringsModelsModel.WallJumpingStringsModel;
-    private int currentScore;
-    private int bestScore;
+    private static WallJumpingStringsModel stringsModel;
+    private float currentScore;
+    private float bestScore;
+    private string currentScoreTemplate;
+    private string bestScoreTemplate;
 
-    [Header("UI score display")]
-    public TextMeshPro currentScoreText;
-    public TextMeshPro bestScoreText;
+    [Header("References")]
+    public TextMeshProUGUI currentScoreText;
+    public TextMeshProUGUI bestScoreText;
+    public GameObject uiContainer;
 
-    public int CurrentScore
+    public float CurrentScore
     {
         get
         {
@@ -20,11 +23,11 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             currentScore = value;
-            currentScoreText.SetText(string.Format(stringsModel.CurrentScore, value));
+            currentScoreText.SetText(string.Format(currentScoreTemplate, value));
         }
     }
 
-    public int BestScore
+    public float BestScore
     {
         get
         {
@@ -33,7 +36,44 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             bestScore = value;
-            bestScoreText.SetText(string.Format(stringsModel.BestScore, value));
+            bestScoreText.SetText(string.Format(bestScoreTemplate, value));
         }
+    }
+
+    /// <summary>
+    /// Initializes UI.
+    /// </summary>
+    /// <param name="initialCurrentScore"></param>
+    /// <param name="initialBestScore"></param>
+    /// <param name="uiLayoutRatio"></param>
+    public void Initialize(float initialCurrentScore, float initialBestScore, float uiLayoutRatio)
+    {
+        InitializePosition(uiLayoutRatio);
+        InitializeText(initialCurrentScore, initialBestScore);
+    }
+
+    /// <summary>
+    /// Initializes UI position.
+    /// </summary>
+    /// <param name="uiLayoutRatio"></param>
+    private void InitializePosition(float uiLayoutRatio)
+    {
+        RectTransform uiLayoutTransform = uiContainer.GetComponent<RectTransform>();
+        float fixedUiLayoutHeight = uiLayoutRatio * Screen.height;
+        uiLayoutTransform.sizeDelta = new Vector2(0, fixedUiLayoutHeight);
+    }
+
+    /// <summary>
+    /// Initializes text templates and values.
+    /// </summary>
+    /// <param name="initialCurrentScore"></param>
+    /// <param name="initialBestScore"></param>
+    private void InitializeText(float initialCurrentScore, float initialBestScore)
+    {
+        stringsModel = StringsModelsModel.WallJumpingStringsModel;
+        currentScoreTemplate = stringsModel.CurrentScore;
+        bestScoreTemplate = stringsModel.BestScore;
+        CurrentScore = initialCurrentScore;
+        BestScore = initialBestScore;
     }
 }
