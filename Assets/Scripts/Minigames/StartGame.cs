@@ -2,6 +2,8 @@
 
 public class StartGame : MonoBehaviour
 {
+    const float STARTING_TIMESCALE = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -10,7 +12,7 @@ public class StartGame : MonoBehaviour
 
     public void GameStart()
     {
-        Time.timeScale = 1f;
+        Time.timeScale = STARTING_TIMESCALE;
         Destroy(this.gameObject);
     }
 }
