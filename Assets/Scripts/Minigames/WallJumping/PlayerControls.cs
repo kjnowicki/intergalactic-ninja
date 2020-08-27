@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
 
     [Header("Time scale during swipe")]
     public float slowMotionValue;
+
+    [Header("Gravity value while being attached to the wall")]
+    public float gravityOnWall;
+    private float defaultGravity;
 
     private Player player;
 
@@ -15,6 +20,7 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         player = GetComponent<Player>();
+        defaultGravity = player.playerRigidbody.gravityScale;
     }
 
     void Update()
@@ -34,6 +40,18 @@ public class PlayerControls : MonoBehaviour
                     player.Jump(swipeStartPosition, touch.position);
                     break;
             }
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {            
+        if (transform.position.x < (Camera.main.pixelWidth / 2))
+        {
+            player.playerRigidbody.AddForce(Vector2.left*5);
+        }
+        else
+        {
+            player.playerRigidbody.AddForce(Vector2.right*5);
         }
     }
 }

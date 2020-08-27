@@ -4,11 +4,13 @@ public class Player : MonoBehaviour
 {
     public float forceScale;
 
-    private Rigidbody2D playerRigidbody;
+    public Rigidbody2D playerRigidbody;
+    public bool isTouchingWall { get; set; }
 
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
+        isTouchingWall = false;
     }
 
     public void Initialize(Vector2 initialPosition)
