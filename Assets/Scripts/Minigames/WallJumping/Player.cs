@@ -3,12 +3,16 @@
 public class Player : MonoBehaviour
 {
     public float forceScale;
+    public float playerHeightToDie;
 
     private Rigidbody2D playerRigidbody;
 
-    void Start()
+    private void Update()
     {
-        playerRigidbody = GetComponent<Rigidbody2D>();
+        if (transform.localPosition.y < playerHeightToDie)
+        {
+            Die();
+        }
     }
 
     public void Initialize(Vector2 playerInitialPosition)
@@ -23,5 +27,14 @@ public class Player : MonoBehaviour
     public void Jump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
+    }
+
+    /// <summary>
+    /// Obliterates the Player mercilessly.
+    /// </summary>
+    private void Die()
+    {
+        Destroy(gameObject);
+        // GameOver screen in future
     }
 }

@@ -46,7 +46,7 @@ public class GameArea : MonoBehaviour
     /// </summary>
     private void InitializePlayer()
     {
-        float playerInitialYCoord = 1;
+        float playerInitialYCoord = 3; // this will be removed when floor is added (it is only for testing)
         Player player = GetComponentInChildren<Player>();
         Vector2 playerInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, playerInitialYCoord);
         player.Initialize(playerInitialPosition);
