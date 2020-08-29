@@ -25,6 +25,7 @@ public class WallGenerator : MonoBehaviour
     /// <summary>
     /// Initializes Walls position.
     /// </summary>
+    /// <param name="gameAreaRectTransform"></param>
     private void InitializeWallsPosition(RectTransform gameAreaRectTransform)
     {
         var wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
@@ -47,6 +48,7 @@ public class WallGenerator : MonoBehaviour
     /// <summary>
     /// Generates initial wall.
     /// </summary>
+    /// <param name="wallHeight"></param>
     private void GenerateInitialWall(int wallHeight)
     {
         for (int _ = 0; _ < wallHeight; _++)

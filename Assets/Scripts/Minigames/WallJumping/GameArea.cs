@@ -35,10 +35,8 @@ public class GameArea : MonoBehaviour
     /// </summary>
     private void InitializePlayer()
     {
-        float playerInitialYCoord = 1;
         Player player = GetComponentInChildren<Player>();
-        Vector2 playerInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, playerInitialYCoord);
-        player.Initialize(playerInitialPosition);
+        player.Initialize();
     }
 
     private void InitializeWallGenerator(int wallHeightAdditional)
