@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
     public void Initialize(Vector2 initialPosition)
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
-        transform.localPosition = initialPosition;
+        transform.localPosition = new Vector2(0, 0);
+        //transform.localPosition = initialPosition;
     }
 
     /// <summary>

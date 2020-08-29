@@ -6,6 +6,7 @@ public class Wall : MonoBehaviour
     private Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
     private Vector2 newBlockPosition;
     private float blockHeight;
+    private Transform movableObjectsContainer;
 
     /// <summary>
     /// Initializes the Wall
@@ -16,6 +17,7 @@ public class Wall : MonoBehaviour
     {
         newBlockPosition = intialPosition;
         this.blockHeight = blockHeight;
+        movableObjectsContainer = transform.parent.gameObject.GetComponentInChildren<MovableObjectsContainer>().transform;
     }
 
     /// <summary>
@@ -26,7 +28,7 @@ public class Wall : MonoBehaviour
     /// </param>
     public void AddWallBlockOnTop(BaseWallBlock wallBlockPrefab)
     {
-        BaseWallBlock newWallBlock = Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, transform);
+        BaseWallBlock newWallBlock = Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, movableObjectsContainer);
         wallBlocks.Enqueue(newWallBlock);
         newBlockPosition.y += blockHeight;
     }

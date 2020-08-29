@@ -7,61 +7,41 @@ public class WallGenerator : MonoBehaviour
     public Wall leftWall;
     public Wall rightWall;
 
-    private RectTransform gameAreaRectTransform;
-    private float wallBlockWidth;
     private int wallHeight; // in number of blocks
 
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
-    /// <param name="heightRatio"></param>
-    public void Initialize(float heightRatio, int wallHeightAdditional)
+    /// <param name="wallHeight"></param>
+    /// <param name="gameAreaRectTransform"></param>
+    public void Initialize(int wallHeightAdditional, RectTransform gameAreaRectTransform)
     {
-        InitializePosition(heightRatio);
-        InitializeWalls(wallHeightAdditional);
-        InitializePlayer();
+        float wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
+        wallHeight = (int)(gameAreaRectTransform.rect.height / wallBlockWidth) + wallHeightAdditional;
+        InitializeWallsPosition(gameAreaRectTransform);
+        InitializeWalls();
     }
 
     /// <summary>
-    /// Initializes GameArea position.
+    /// Initializes Walls position.
     /// </summary>
-    /// <param name="heightRatio"></param>
-    private void InitializePosition(float heightRatio)
+    private void InitializeWallsPosition(RectTransform gameAreaRectTransform)
     {
-        gameAreaRectTransform = GetComponent<RectTransform>();
-        wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
-        Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-
-        Vector2 gameAreaBounds = new Vector2(screenBounds.x, screenBounds.y * heightRatio);
-        gameAreaRectTransform.sizeDelta = gameAreaBounds * 2;
-        gameAreaRectTransform.anchoredPosition = new Vector2(-gameAreaBounds.x, -screenBounds.y);
-    }
-
-    /// <summary>
-    /// Initializes Walls.
-    /// </summary>
-    private void InitializeWalls(int wallHeightAdditional)
-    {
+        var wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
         float bottomWallYCoord = gameAreaRectTransform.anchoredPosition.y + wallBlockWidth / 2;
         Vector2 leftWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + wallBlockWidth / 2, bottomWallYCoord);
         Vector2 rightWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + gameAreaRectTransform.rect.width - wallBlockWidth / 2, bottomWallYCoord);
 
         leftWall.Initialize(leftWallInitialPosition, wallBlockWidth);
         rightWall.Initialize(rightWallInitialPosition, wallBlockWidth);
-
-        wallHeight = (int)(gameAreaRectTransform.rect.height / wallBlockWidth) + wallHeightAdditional;
-        GenerateInitialWall(wallHeight);
     }
 
     /// <summary>
-    /// Initializes Player.
+    /// Initializes Walls.
     /// </summary>
-    private void InitializePlayer()
+    private void InitializeWalls()
     {
-        float playerInitialYCoord = 1;
-        Player player = GetComponentInChildren<Player>();
-        Vector2 playerInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, playerInitialYCoord);
-        player.Initialize(playerInitialPosition);
+        GenerateInitialWall(wallHeight);
     }
 
     /// <summary>
