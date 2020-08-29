@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovableObjectsContainer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    RectTransform movableObjectsContainerRectTransform;
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Initializes MovableObjectsContainer.
+    /// </summary>
+    /// <param name="gameAreaRectTransform"></param>
+    public void Initialize(RectTransform gameAreaRectTransform)
     {
-        
+        movableObjectsContainerRectTransform = GetComponent<RectTransform>();
+        movableObjectsContainerRectTransform.sizeDelta = gameAreaRectTransform.sizeDelta;
+        movableObjectsContainerRectTransform.position = gameAreaRectTransform.position;
     }
 }

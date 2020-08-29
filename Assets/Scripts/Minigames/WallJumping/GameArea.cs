@@ -4,6 +4,7 @@ public class GameArea : MonoBehaviour
 {
     private RectTransform gameAreaRectTransform;
     private WallGenerator wallGenerator;
+    private MovableObjectsContainer movableObjectsContainer;
 
     /// <summary>
     /// Initializes WallGenerator.
@@ -12,6 +13,7 @@ public class GameArea : MonoBehaviour
     public void Initialize(float heightRatio, int wallHeightAdditional)
     {
         InitializePosition(heightRatio);
+        InitializeMovableObjectsContainer();
         InitializePlayer();
         InitializeWallGenerator(wallHeightAdditional);
     }
@@ -31,14 +33,29 @@ public class GameArea : MonoBehaviour
     }
 
     /// <summary>
+    /// Initializes MovableObjectsContainer.
+    /// </summary>
+    private void InitializeMovableObjectsContainer()
+    {
+        movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
+        movableObjectsContainer.Initialize(gameAreaRectTransform);
+    }
+
+    /// <summary>
     /// Initializes Player.
     /// </summary>
     private void InitializePlayer()
     {
+        float playerInitialYCoord = 1;
         Player player = GetComponentInChildren<Player>();
-        player.Initialize();
+        Vector2 playerInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, playerInitialYCoord);
+        player.Initialize(playerInitialPosition);
     }
 
+    /// <summary>
+    /// Initializes WallGenerator.
+    /// </summary>
+    /// <param name="wallHeightAdditional"></param>
     private void InitializeWallGenerator(int wallHeightAdditional)
     {
         wallGenerator = GetComponent<WallGenerator>();

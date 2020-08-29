@@ -11,10 +11,10 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void Initialize()
+    public void Initialize(Vector2 playerInitialPosition)
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
-        transform.localPosition = new Vector2(0, 0);
+        transform.localPosition = playerInitialPosition;
     }
 
     /// <summary>
