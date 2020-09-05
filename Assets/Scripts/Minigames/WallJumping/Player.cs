@@ -26,4 +26,5 @@ public class Player : MonoBehaviour
     {
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
     }
+
 }

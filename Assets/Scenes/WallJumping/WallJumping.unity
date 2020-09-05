@@ -121,6 +121,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &360345783 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7338369698931568291, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+    type: 3}
+  m_PrefabInstance: {fileID: 7338369697551993364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &897800215
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,6 +298,8 @@ MonoBehaviour:
   uiLayoutWeight: 1
   gameAreaLayoutWeight: 3
   wallHeightAdditional: 3
+  leftWall: {fileID: 360345783}
+  rightWall: {fileID: 1226883293}
 --- !u!4 &1023769666
 Transform:
   m_ObjectHideFlags: 0
@@ -306,6 +314,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1226883293 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7338369698265969857, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+    type: 3}
+  m_PrefabInstance: {fileID: 7338369697551993364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1483163750 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2092010817408308764, guid: d7a80942b13d24c4082d83b2b9fc0edc,
@@ -677,6 +691,11 @@ PrefabInstance:
       propertyPath: forceScale
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 3832744484719757717, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1023769665}
     - target: {fileID: 3832744484719757718, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -696,6 +715,16 @@ PrefabInstance:
         type: 3}
       propertyPath: gravityOnWall
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832744484719757720, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1023769665}
+    - target: {fileID: 7338369698265969857, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+        type: 3}
+      propertyPath: m_TagString
+      value: RightWall
       objectReference: {fileID: 0}
     - target: {fileID: 7338369698871833256, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}

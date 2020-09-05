@@ -9,6 +9,9 @@ public class WallJumpingGameManager : MonoBehaviour
     [Header("Game attributes")]
     public int wallHeightAdditional;
 
+    public GameObject leftWall;
+    public GameObject rightWall;
+
     private WallJumpingUiManager wallJumpingUiManager;
     private WallGenerator wallGenerator;
     private float currentScore;
@@ -52,5 +55,23 @@ public class WallJumpingGameManager : MonoBehaviour
         wallGenerator = FindObjectOfType<WallGenerator>();
         float gameAreaHeightRatio = gameAreaLayoutWeight / weightSum;
         wallGenerator.Initialize(gameAreaHeightRatio, wallHeightAdditional);
+    }
+
+    public void ActivateLeftWallColiders()
+    {
+        var walls = leftWall.GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D childColider in walls)
+        {
+            childColider.enabled = true;
+        }
+    }
+
+    public void ActivateRightWallColiders()
+    {
+        var walls = rightWall.GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D childColider in walls)
+        {
+            childColider.enabled = true;
+        }
     }
 }

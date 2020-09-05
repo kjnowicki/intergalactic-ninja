@@ -9,6 +9,9 @@ public class PlayerControls : MonoBehaviour
 
     [Header("Gravity value while being attached to the wall")]
     public float gravityOnWall;
+
+    public WallJumpingGameManager gameManager;
+
     private float defaultGravity;
 
     private Player player;
@@ -17,6 +20,10 @@ public class PlayerControls : MonoBehaviour
 
     private Touch touch;
 
+    [SerializeField]
+    private const string rightWallTag = "RightWall";
+    [SerializeField]
+    private const string leftWallTag = "LeftWall";
     void Start()
     {
         player = GetComponent<Player>();
@@ -43,15 +50,27 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {            
-        if (transform.position.x < (Camera.main.pixelWidth / 2))
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        collision.enabled = false;
+        activateopositeWallColiders(collision);
+        player.playerRigidbody.velocity = new Vector2(0f, player.playerRigidbody.velocity.y);
+    }
+
+    private void activateopositeWallColiders(Collider2D collision)
+    {
+        var tag = collision.transform.parent.tag;
+        switch (tag)
         {
-            player.playerRigidbody.AddForce(Vector2.left*5);
-        }
-        else
-        {
-            player.playerRigidbody.AddForce(Vector2.right*5);
+            case leftWallTag:
+                gameManager.ActivateRightWallColiders();
+                break;
+            case rightWallTag:
+                gameManager.ActivateLeftWallColiders();
+                break;
+            default:
+                Debug.Log("Did not hit " + leftWallTag + " or " + rightWallTag);
+                break;
         }
     }
 }
