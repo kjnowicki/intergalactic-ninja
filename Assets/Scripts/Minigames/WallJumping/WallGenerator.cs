@@ -34,8 +34,8 @@ public class WallGenerator : MonoBehaviour
         Vector2 rightWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + gameAreaRectTransform.rect.width - wallBlockWidth / 2, bottomWallYCoord);
 
         Transform movableObjectsContainer = GetComponent<MovableObjectsContainer>().transform;
-        leftWall.Initialize(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer);
-        rightWall.Initialize(rightWallInitialPosition, wallBlockWidth, movableObjectsContainer);
+        leftWall = new Wall(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer);
+        rightWall = new Wall(rightWallInitialPosition, wallBlockWidth, movableObjectsContainer);
     }
 
     /// <summary>
