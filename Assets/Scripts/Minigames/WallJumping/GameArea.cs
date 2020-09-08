@@ -14,7 +14,7 @@ public class GameArea : MonoBehaviour
     {
         InitializePosition(heightRatio);
         InitializeMovableObjectsContainer();
-        InitializePlayer();
+        InitializePlayerPosition();
         InitializeWallGenerator(wallHeightAdditional);
     }
 
@@ -42,14 +42,14 @@ public class GameArea : MonoBehaviour
     }
 
     /// <summary>
-    /// Initializes Player.
+    /// Initializes Player position.
     /// </summary>
-    private void InitializePlayer()
+    private void InitializePlayerPosition()
     {
         float playerInitialYCoord = 3; // this will be removed when floor is added (it is only for testing)
         Player player = GetComponentInChildren<Player>();
         Vector2 playerInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, playerInitialYCoord);
-        player.Initialize(playerInitialPosition);
+        player.InitializePosition(playerInitialPosition);
     }
 
     /// <summary>

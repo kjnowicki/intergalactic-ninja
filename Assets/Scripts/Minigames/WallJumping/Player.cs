@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float forceScale;
-    public float playerHeightToDie;
+    private float forceScale;
+    private float playerHeightToDie;
 
     private Rigidbody2D playerRigidbody;
 
@@ -15,7 +16,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Initialize(Vector2 playerInitialPosition)
+    /// <summary>
+    /// Initializes Player parameters
+    /// </summary>
+    /// <param name="playerForceScale"></param>
+    /// <param name="playerHeightToDie"></param>
+    public void Initialize(float playerForceScale, float playerHeightToDie)
+    {
+        this.forceScale = playerForceScale;
+        this.playerHeightToDie = playerHeightToDie;
+    }
+
+    /// <summary>
+    /// Initializes Player position.
+    /// </summary>
+    /// <param name="playerInitialPosition"></param>
+    public void InitializePosition(Vector2 playerInitialPosition)
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
         transform.localPosition = playerInitialPosition;
@@ -36,5 +52,5 @@ public class Player : MonoBehaviour
     {
         Destroy(gameObject);
         // GameOver screen in future
-    }
+    }   
 }
