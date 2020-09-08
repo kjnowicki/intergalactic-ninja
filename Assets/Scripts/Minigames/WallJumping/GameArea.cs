@@ -63,6 +63,10 @@ public class GameArea : MonoBehaviour
         wallGenerator.Initialize(wallHeightAdditional, gameAreaRectTransform);
     }
 
+    /// <summary>
+    /// Initializes GarbageCollector position.
+    /// </summary>
+    /// <param name="garbageCollectorHeight"></param>
     private void InitializeGarbageCollectorPosition(float garbageCollectorHeight)
     {
         GarbageCollector garbageCollector = GetComponentInChildren<GarbageCollector>();
