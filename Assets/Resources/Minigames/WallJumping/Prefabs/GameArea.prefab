@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6514654069853851373}
-  - component: {fileID: 3109347911355790769}
   - component: {fileID: 3009870583828575907}
+  - component: {fileID: 7231057225529569182}
   m_Layer: 0
   m_Name: GarbageCollector
   m_TagString: Untagged
@@ -37,7 +37,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!68 &3109347911355790769
+--- !u!114 &3009870583828575907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920454322245167654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bab8a94c4a169f42954d8b8af0cf28e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!68 &7231057225529569182
 EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,20 +65,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.5, y: 0}
-  - {x: 0.5, y: 0}
---- !u!114 &3009870583828575907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 920454322245167654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bab8a94c4a169f42954d8b8af0cf28e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  - {x: -10, y: 0}
+  - {x: 10, y: 0}
 --- !u!1 &4961981376659684248
 GameObject:
   m_ObjectHideFlags: 0

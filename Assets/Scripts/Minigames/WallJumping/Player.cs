@@ -8,13 +8,13 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D playerRigidbody;
 
-    private void Update()
-    {
-        if (transform.localPosition.y < playerHeightToDie)
-        {
-            Die();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (transform.localPosition.y < playerHeightToDie)
+    //    {
+    //        Die();
+    //    }
+    //}
 
     /// <summary>
     /// Initializes Player parameters
@@ -48,9 +48,11 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Obliterates the Player mercilessly.
     /// </summary>
-    private void Die()
+    public void Die()
     {
         Destroy(gameObject);
         // GameOver screen in future
-    }   
+    }
+
+    
 }

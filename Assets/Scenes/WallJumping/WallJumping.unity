@@ -359,7 +359,7 @@ MonoBehaviour:
   gameAreaLayoutWeight: 3
   wallHeightAdditional: 3
   playerForceScale: 5
-  garbageCollectorHeight: 0
+  garbageCollectorHeight: -3
 --- !u!4 &1023769666
 Transform:
   m_ObjectHideFlags: 0

@@ -21,4 +21,9 @@ public class GarbageCollector : MonoBehaviour
     {
         transform.localPosition = garbageCollectorInitialPosition;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        collision.gameObject.GetComponent<Player>()?.Die(); // shorter for if (collision.gameObject.GetComponent<Player>() != null) collision.gameObject.GetComponent<Player>().Die()
+    }
 }
