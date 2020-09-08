@@ -10,12 +10,13 @@ public class GameArea : MonoBehaviour
     /// Initializes WallGenerator.
     /// </summary>
     /// <param name="heightRatio"></param>
-    public void Initialize(float heightRatio, int wallHeightAdditional)
+    public void Initialize(float heightRatio, int wallHeightAdditional, float garbageCollectorHeight)
     {
         InitializePosition(heightRatio);
         InitializeMovableObjectsContainer();
         InitializePlayerPosition();
         InitializeWallGenerator(wallHeightAdditional);
+        InitializeGarbageCollectorPosition(garbageCollectorHeight);
     }
 
     /// <summary>
@@ -60,5 +61,12 @@ public class GameArea : MonoBehaviour
     {
         wallGenerator = GetComponentInChildren<WallGenerator>();
         wallGenerator.Initialize(wallHeightAdditional, gameAreaRectTransform);
+    }
+
+    private void InitializeGarbageCollectorPosition(float garbageCollectorHeight)
+    {
+        GarbageCollector garbageCollector = GetComponentInChildren<GarbageCollector>();
+        Vector2 garbageCollectorInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, garbageCollectorHeight);
+        garbageCollector.InitializePosition(garbageCollectorInitialPosition);
     }
 }
