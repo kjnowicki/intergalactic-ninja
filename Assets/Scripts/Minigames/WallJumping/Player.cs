@@ -1,20 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private float forceScale;
-    private float playerHeightToDie;
 
     private Rigidbody2D playerRigidbody;
-
-    //private void Update()
-    //{
-    //    if (transform.localPosition.y < playerHeightToDie)
-    //    {
-    //        Die();
-    //    }
-    //}
 
     /// <summary>
     /// Initializes Player parameters
@@ -24,7 +14,6 @@ public class Player : MonoBehaviour
     public void Initialize(float playerForceScale, float playerHeightToDie)
     {
         this.forceScale = playerForceScale;
-        this.playerHeightToDie = playerHeightToDie;
     }
 
     /// <summary>
@@ -53,6 +42,4 @@ public class Player : MonoBehaviour
         Destroy(gameObject);
         // GameOver screen in future
     }
-
-    
 }
