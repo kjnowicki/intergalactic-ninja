@@ -58,7 +58,7 @@ public class GameArea : MonoBehaviour
     /// <param name="wallHeightAdditional"></param>
     private void InitializeWallGenerator(int wallHeightAdditional)
     {
-        wallGenerator = GetComponent<WallGenerator>();
+        wallGenerator = GetComponentInChildren<WallGenerator>();
         wallGenerator.Initialize(wallHeightAdditional, gameAreaRectTransform);
     }
 }
