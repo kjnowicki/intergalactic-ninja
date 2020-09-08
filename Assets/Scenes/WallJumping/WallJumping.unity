@@ -292,6 +292,8 @@ MonoBehaviour:
   uiLayoutWeight: 1
   gameAreaLayoutWeight: 3
   wallHeightAdditional: 3
+  playerForceScale: 5
+  playerHeightToDie: -3
 --- !u!4 &1023769666
 Transform:
   m_ObjectHideFlags: 0
