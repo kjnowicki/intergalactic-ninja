@@ -4,9 +4,9 @@ public class WallGenerator : MonoBehaviour
 {
     [Header("References")]
     public NormalWallBlock normalWallBlockPrefab;
-    public Wall leftWall;
-    public Wall rightWall;
 
+    private Wall leftWall;
+    private Wall rightWall;
     private int wallHeight; // in number of blocks
 
     /// <summary>

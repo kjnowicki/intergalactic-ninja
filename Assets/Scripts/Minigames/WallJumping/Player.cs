@@ -10,8 +10,7 @@ public class Player : MonoBehaviour
     /// Initializes Player parameters
     /// </summary>
     /// <param name="playerForceScale"></param>
-    /// <param name="playerHeightToDie"></param>
-    public void Initialize(float playerForceScale, float playerHeightToDie)
+    public void Initialize(float playerForceScale)
     {
         this.forceScale = playerForceScale;
     }

@@ -9,7 +9,7 @@ public class WallJumpingGameManager : MonoBehaviour
     [Header("Game attributes")]
     public int wallHeightAdditional;
     public float playerForceScale;
-    public float garbageCollectorHeight;
+    public float garbageCollectorYCoord;
 
     private float currentScore;
     private float bestScore;
@@ -52,12 +52,12 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         GameArea gameArea = FindObjectOfType<GameArea>();
         float gameAreaHeightRatio = gameAreaLayoutWeight / weightSum;
-        gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorHeight);
+        gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord);
     }
 
     private void InitializePlayer()
     {
         Player player = FindObjectOfType<Player>();
-        player.Initialize(playerForceScale, garbageCollectorHeight);
+        player.Initialize(playerForceScale);
     }
 }
