@@ -24,9 +24,9 @@ public class PlayerControls : MonoBehaviour
     private const string rightWallTag = "RightWall";
     [SerializeField]
     private const string leftWallTag = "LeftWall";
-    void Start()
+    public void Initialize(Player player)
     {
-        player = GetComponent<Player>();
+        this.player = player;
         defaultGravity = player.playerRigidbody.gravityScale;
     }
 

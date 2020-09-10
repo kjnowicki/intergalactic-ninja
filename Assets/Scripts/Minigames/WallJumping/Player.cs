@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
         transform.localPosition = initialPosition;
+        PlayerControls playerControls = GetComponent<PlayerControls>();
+        playerControls.Initialize(this);
     }
 
     /// <summary>
