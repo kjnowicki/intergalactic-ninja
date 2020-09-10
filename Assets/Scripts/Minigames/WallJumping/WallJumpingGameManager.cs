@@ -8,12 +8,12 @@ public class WallJumpingGameManager : MonoBehaviour
 
     [Header("Game attributes")]
     public int wallHeightAdditional;
+    public float playerForceScale;
+    public float garbageCollectorYCoord;
 
     public GameObject leftWall;
     public GameObject rightWall;
 
-    private WallJumpingUiManager wallJumpingUiManager;
-    private WallGenerator wallGenerator;
     private float currentScore;
     private float bestScore;
 
@@ -30,7 +30,8 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
         InitializeUi(weightSum);
-        InitializeWalls(weightSum, wallHeightAdditional);
+        InitializeGameArea(weightSum);
+        InitializePlayer();
     }
 
     /// <summary>
@@ -39,7 +40,7 @@ public class WallJumpingGameManager : MonoBehaviour
     /// <param name="weightSum"></param>
     private void InitializeUi(float weightSum)
     {
-        wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
+        WallJumpingUiManager wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
         currentScore = 0;
         bestScore = PlayerPrefsWrapper.GetWallJumpingBestScore();
         float uiLayoutRatio = uiLayoutWeight / weightSum;
@@ -50,11 +51,17 @@ public class WallJumpingGameManager : MonoBehaviour
     /// Initializes WallGenerator.
     /// </summary>
     /// <param name="weightSum"></param>
-    private void InitializeWalls(float weightSum, int wallHeightAdditional)
+    private void InitializeGameArea(float weightSum)
     {
-        wallGenerator = FindObjectOfType<WallGenerator>();
+        GameArea gameArea = FindObjectOfType<GameArea>();
         float gameAreaHeightRatio = gameAreaLayoutWeight / weightSum;
-        wallGenerator.Initialize(gameAreaHeightRatio, wallHeightAdditional);
+        gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord);
+    }
+
+    private void InitializePlayer()
+    {
+        Player player = FindObjectOfType<Player>();
+        player.Initialize(playerForceScale);
     }
 
     public void ActivateLeftWallColiders()

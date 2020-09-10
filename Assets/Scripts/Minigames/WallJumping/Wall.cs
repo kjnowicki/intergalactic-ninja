@@ -3,19 +3,21 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
-    private Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
+    private readonly Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
     private Vector2 newBlockPosition;
     private float blockHeight;
+    private Transform movableObjectsContainer;
 
     /// <summary>
     /// Initializes the Wall
     /// </summary>
     /// <param name="intialPosition"></param>
     /// <param name="blockHeight"></param>
-    public void Initialize(Vector2 intialPosition, float blockHeight)
+    public void Initialize(Vector2 intialPosition, float blockHeight, Transform movableObjectsContainer)
     {
         newBlockPosition = intialPosition;
         this.blockHeight = blockHeight;
+        this.movableObjectsContainer = movableObjectsContainer;
     }
 
     /// <summary>
@@ -26,7 +28,7 @@ public class Wall : MonoBehaviour
     /// </param>
     public void AddWallBlockOnTop(BaseWallBlock wallBlockPrefab)
     {
-        BaseWallBlock newWallBlock = Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, transform);
+        BaseWallBlock newWallBlock = GameObject.Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, movableObjectsContainer);
         wallBlocks.Enqueue(newWallBlock);
         newBlockPosition.y += blockHeight;
     }
