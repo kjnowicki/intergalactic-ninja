@@ -1,21 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : MonoBehaviour
+public class Wall
 {
-    private Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
     private Vector2 newBlockPosition;
-    private float blockHeight;
+    private readonly Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
+    private readonly float blockHeight;
+    private readonly Transform movableObjectsContainer;
 
     /// <summary>
     /// Initializes the Wall
     /// </summary>
     /// <param name="intialPosition"></param>
     /// <param name="blockHeight"></param>
-    public void Initialize(Vector2 intialPosition, float blockHeight)
+    public Wall(Vector2 intialPosition, float blockHeight, Transform movableObjectsContainer)
     {
         newBlockPosition = intialPosition;
         this.blockHeight = blockHeight;
+        this.movableObjectsContainer = movableObjectsContainer;
     }
 
     /// <summary>
@@ -26,7 +28,7 @@ public class Wall : MonoBehaviour
     /// </param>
     public void AddWallBlockOnTop(BaseWallBlock wallBlockPrefab)
     {
-        BaseWallBlock newWallBlock = Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, transform);
+        BaseWallBlock newWallBlock = GameObject.Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, movableObjectsContainer);
         wallBlocks.Enqueue(newWallBlock);
         newBlockPosition.y += blockHeight;
     }

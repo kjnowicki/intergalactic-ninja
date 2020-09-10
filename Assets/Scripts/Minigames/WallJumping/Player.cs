@@ -2,19 +2,27 @@
 
 public class Player : MonoBehaviour
 {
-    public float forceScale;
+    private float forceScale;
 
     private Rigidbody2D playerRigidbody;
 
-    void Start()
+    /// <summary>
+    /// Initializes Player parameters
+    /// </summary>
+    /// <param name="playerForceScale"></param>
+    public void Initialize(float playerForceScale)
     {
-        playerRigidbody = GetComponent<Rigidbody2D>();
+        this.forceScale = playerForceScale;
     }
 
-    public void Initialize(Vector2 initialPosition)
+    /// <summary>
+    /// Initializes Player position.
+    /// </summary>
+    /// <param name="playerInitialPosition"></param>
+    public void InitializePosition(Vector2 playerInitialPosition)
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
-        transform.localPosition = initialPosition;
+        transform.localPosition = playerInitialPosition;
     }
 
     /// <summary>
@@ -23,5 +31,14 @@ public class Player : MonoBehaviour
     public void Jump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
+    }
+
+    /// <summary>
+    /// Obliterates the Player mercilessly.
+    /// </summary>
+    public void Die()
+    {
+        Destroy(gameObject);
+        // GameOver screen in future
     }
 }
