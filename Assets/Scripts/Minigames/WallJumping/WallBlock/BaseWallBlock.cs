@@ -2,8 +2,16 @@
 
 public abstract class BaseWallBlock : MonoBehaviour
 {
+    public WallSide WallSide { get; set; }
+
     /// <summary>
     /// Abstract method called when the player touches the block.
     /// </summary>
     public abstract void OnPlayerTouch();
+}
+
+public enum WallSide
+{
+    Left,
+    Right
 }

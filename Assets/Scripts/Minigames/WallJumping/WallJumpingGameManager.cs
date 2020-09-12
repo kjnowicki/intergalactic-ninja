@@ -60,8 +60,8 @@ public class WallJumpingGameManager : MonoBehaviour
 
     private void InitializePlayer()
     {
-        Player player = FindObjectOfType<Player>();
-        player.Initialize(playerForceScale);
+        WallJumpingPlayer player = FindObjectOfType<WallJumpingPlayer>();
+        player.Initialize(playerForceScale, this);
     }
 
     public void ActivateLeftWallColiders()
