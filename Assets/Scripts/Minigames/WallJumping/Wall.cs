@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : MonoBehaviour
+public class Wall
 {
     private readonly Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
     private Vector2 newBlockPosition;
@@ -13,7 +13,7 @@ public class Wall : MonoBehaviour
     /// </summary>
     /// <param name="intialPosition"></param>
     /// <param name="blockHeight"></param>
-    public void Initialize(Vector2 intialPosition, float blockHeight, Transform movableObjectsContainer)
+    public Wall(Vector2 intialPosition, float blockHeight, Transform movableObjectsContainer)
     {
         newBlockPosition = intialPosition;
         this.blockHeight = blockHeight;
