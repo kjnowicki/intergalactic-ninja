@@ -32,12 +32,24 @@ public class WallJumpingPlayer : MonoBehaviour
         transform.localPosition = playerInitialPosition;
     }
 
+    public void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition) => State.OnJump(swipeStartPosition, swipeEndPosition);
+
+    public void OnTouchTheWall() => State.OnTouchTheWall();
+
     /// <summary>
     /// Adds force to players rigid body, resets time scale
     /// </summary>
     public void Jump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
+        Drag = 5;
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
+        State = new JumpingPlayerState(this);
+    }
+
+    public void TouchTheWall()
+    {
+        Drag = 20;
+        State = new OnWallPlayerState(this);
     }
 
     /// <summary>

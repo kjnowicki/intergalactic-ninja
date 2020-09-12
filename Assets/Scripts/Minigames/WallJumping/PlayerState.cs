@@ -17,30 +17,16 @@ public class InitialPlayerState : PlayerState
 {
     public InitialPlayerState(WallJumpingPlayer player) : base(player) { }
 
-    public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
-    {
-        player.Drag = 5;
-        player.Jump(swipeStartPosition, swipeEndPosition);
-        player.State = new JumpingPlayerState(player);
-    }
+    public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition) => player.Jump(swipeStartPosition, swipeEndPosition);
 
-    public override void OnTouchTheWall()
-    {
-        player.Drag = 20;
-        player.State = new OnWallPlayerState(player);
-    }
+    public override void OnTouchTheWall() => player.TouchTheWall();
 }
 
 public class OnWallPlayerState : PlayerState
 {
     public OnWallPlayerState(WallJumpingPlayer player) : base(player) { }
 
-    public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
-    {
-        player.Drag = 5;
-        player.Jump(swipeStartPosition, swipeEndPosition);
-        player.State = new JumpingPlayerState(player);
-    }
+    public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition) => player.Jump(swipeStartPosition, swipeEndPosition);
 
     public override void OnTouchTheWall() { } // already touching the wall
 }
@@ -51,9 +37,5 @@ public class JumpingPlayerState : PlayerState
 
     public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition) { } // no double jumps
 
-    public override void OnTouchTheWall()
-    {
-        player.Drag = 20;
-        player.State = new OnWallPlayerState(player);
-    }
+    public override void OnTouchTheWall() => player.TouchTheWall();
 }
