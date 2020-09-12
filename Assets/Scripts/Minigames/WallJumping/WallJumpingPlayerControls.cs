@@ -41,34 +41,34 @@ public class WallJumpingPlayerControls : MonoBehaviour
 
                 case TouchPhase.Ended:
                     Time.timeScale = 1f;
-                    player.Jump(swipeStartPosition, touch.position);
+                    player.OnJump(swipeStartPosition, touch.position);
                     break;
             }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        collision.GetComponent<BaseWallBlock>()?.OnPlayerTouch();
-        //collision.enabled = false;
-        activateopositeWallColiders(collision);
-        player.playerRigidbody.velocity = new Vector2(0f, player.playerRigidbody.velocity.y);
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    collision.GetComponent<BaseWallBlock>()?.OnPlayerTouch();
+    //    //collision.enabled = false;
+    //    //activateopositeWallColiders(collision);
+    //    //player.playerRigidbody.velocity = new Vector2(0f, player.playerRigidbody.velocity.y);
+    //}
 
-    private void activateopositeWallColiders(Collider2D collision)
-    {
-        var tag = collision.transform.parent.tag;
-        switch (tag)
-        {
-            case leftWallTag:
-                gameManager.ActivateRightWallColiders();
-                break;
-            case rightWallTag:
-                gameManager.ActivateLeftWallColiders();
-                break;
-            default:
-                Debug.Log("Did not hit " + leftWallTag + " or " + rightWallTag);
-                break;
-        }
-    }
+    //private void activateopositeWallColiders(Collider2D collision)
+    //{
+    //    var tag = collision.transform.parent.tag;
+    //    switch (tag)
+    //    {
+    //        case leftWallTag:
+    //            gameManager.ActivateRightWallColiders();
+    //            break;
+    //        case rightWallTag:
+    //            gameManager.ActivateLeftWallColiders();
+    //            break;
+    //        default:
+    //            Debug.Log("Did not hit " + leftWallTag + " or " + rightWallTag);
+    //            break;
+    //    }
+    //}
 }

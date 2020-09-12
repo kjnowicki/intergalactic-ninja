@@ -151,7 +151,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slowMotionValue: 0.1
   gravityOnWall: 0.5
-  gameManager: {fileID: 0}
 --- !u!114 &7318117729727740688
 MonoBehaviour:
   m_ObjectHideFlags: 0

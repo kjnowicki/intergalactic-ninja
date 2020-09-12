@@ -11,11 +11,9 @@ public class WallJumpingGameManager : MonoBehaviour
     public float playerForceScale;
     public float garbageCollectorYCoord;
 
-    public GameObject leftWall;
-    public GameObject rightWall;
-
     private float currentScore;
     private float bestScore;
+    private WallGenerator wallGenerator;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +27,7 @@ public class WallJumpingGameManager : MonoBehaviour
     private void SetUp()
     {
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
+        wallGenerator = GetComponentInChildren<WallGenerator>();
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
         InitializePlayer();
@@ -64,21 +63,22 @@ public class WallJumpingGameManager : MonoBehaviour
         player.Initialize(playerForceScale, this);
     }
 
-    public void ActivateLeftWallColiders()
-    {
-        var walls = leftWall.GetComponentsInChildren<Collider2D>();
-        foreach (Collider2D childColider in walls)
-        {
-            childColider.enabled = true;
-        }
-    }
+    //public void ActivateLeftWallColiders()
+    //{
+    //    wallGenerator.
+    //    var walls = leftWall.GetComponentsInChildren<Collider2D>();
+    //    foreach (Collider2D childColider in walls)
+    //    {
+    //        childColider.enabled = true;
+    //    }
+    //}
 
-    public void ActivateRightWallColiders()
-    {
-        var walls = rightWall.GetComponentsInChildren<Collider2D>();
-        foreach (Collider2D childColider in walls)
-        {
-            childColider.enabled = true;
-        }
-    }
+    //public void ActivateRightWallColiders()
+    //{
+    //    var walls = rightWall.GetComponentsInChildren<Collider2D>();
+    //    foreach (Collider2D childColider in walls)
+    //    {
+    //        childColider.enabled = true;
+    //    }
+    //}
 }

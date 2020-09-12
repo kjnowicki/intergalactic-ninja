@@ -3,5 +3,5 @@
     /// <summary>
     /// When player touches a Normal Wall Block they are safe.
     /// </summary>
-    public override void OnPlayerTouch() { }
+    public override void OnPlayerTouch(WallJumpingPlayer wallJumpingPlayer) => base.OnPlayerTouch(wallJumpingPlayer);
 }

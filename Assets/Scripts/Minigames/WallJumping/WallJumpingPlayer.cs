@@ -49,6 +49,7 @@ public class WallJumpingPlayer : MonoBehaviour
     public void TouchTheWall()
     {
         Drag = 20;
+        playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
         State = new OnWallPlayerState(this);
     }
 
@@ -61,4 +62,5 @@ public class WallJumpingPlayer : MonoBehaviour
         // GameOver screen in future
     }
 
+    private void OnCollisionEnter2D(Collision2D collision) => collision.gameObject.GetComponent<BaseWallBlock>()?.OnPlayerTouch(this);
 }
