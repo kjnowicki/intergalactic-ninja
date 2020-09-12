@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Player : MonoBehaviour
+public class WallJumpingPlayer : MonoBehaviour
 {
     private float forceScale;
 
@@ -11,11 +11,13 @@ public class Player : MonoBehaviour
     /// Initializes Player parameters
     /// </summary>
     /// <param name="playerForceScale"></param>
-    public void Initialize(float playerForceScale)
+    public void Initialize(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
     {
         forceScale = playerForceScale;
         playerRigidbody = GetComponent<Rigidbody2D>();
         isTouchingWall = false;
+        WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
+        playerControls.Initialize(this, wallJumpingGameManager);
     }
 
     /// <summary>
@@ -25,9 +27,6 @@ public class Player : MonoBehaviour
     public void InitializePosition(Vector2 playerInitialPosition)
     {
         transform.localPosition = playerInitialPosition;
-        //playerRigidbody = GetComponent<Rigidbody2D>();
-        PlayerControls playerControls = GetComponent<PlayerControls>();
-        playerControls.Initialize(this);
     }
 
     /// <summary>

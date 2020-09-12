@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PlayerControls : MonoBehaviour
+public class WallJumpingPlayerControls : MonoBehaviour
 {
 
     [Header("Time scale during swipe")]
@@ -10,24 +10,21 @@ public class PlayerControls : MonoBehaviour
     [Header("Gravity value while being attached to the wall")]
     public float gravityOnWall;
 
-    public WallJumpingGameManager gameManager;
-
+    private WallJumpingGameManager gameManager;
     private float defaultGravity;
-
-    private Player player;
-
+    private WallJumpingPlayer player;
     private Vector2 swipeStartPosition;
-
     private Touch touch;
 
     [SerializeField]
     private const string rightWallTag = "RightWall";
     [SerializeField]
     private const string leftWallTag = "LeftWall";
-    public void Initialize(Player player)
+    public void Initialize(WallJumpingPlayer player, WallJumpingGameManager wallJumpingGameManager)
     {
         this.player = player;
         defaultGravity = player.playerRigidbody.gravityScale;
+        gameManager = wallJumpingGameManager;
     }
 
     void Update()
