@@ -49,7 +49,8 @@ public class WallJumpingPlayerControls : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.enabled = false;
+        collision.GetComponent<BaseWallBlock>()?.OnPlayerTouch();
+        //collision.enabled = false;
         activateopositeWallColiders(collision);
         player.playerRigidbody.velocity = new Vector2(0f, player.playerRigidbody.velocity.y);
     }

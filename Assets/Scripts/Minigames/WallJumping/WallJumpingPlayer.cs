@@ -6,6 +6,7 @@ public class WallJumpingPlayer : MonoBehaviour
 
     public Rigidbody2D playerRigidbody;
     public bool isTouchingWall { get; set; }
+    public PlayerState State { get; set; }
 
     /// <summary>
     /// Initializes Player parameters
@@ -16,6 +17,7 @@ public class WallJumpingPlayer : MonoBehaviour
         forceScale = playerForceScale;
         playerRigidbody = GetComponent<Rigidbody2D>();
         isTouchingWall = false;
+        State = new InitialPlayerState(this);
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
         playerControls.Initialize(this, wallJumpingGameManager);
     }

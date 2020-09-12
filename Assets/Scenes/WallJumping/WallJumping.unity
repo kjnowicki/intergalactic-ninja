@@ -360,8 +360,6 @@ MonoBehaviour:
   wallHeightAdditional: 3
   playerForceScale: 300
   garbageCollectorYCoord: -3
-  leftWall: {fileID: 7338369697551993366}
-  rightWall: {fileID: 7338369697551993365}
 --- !u!4 &1023769666
 Transform:
   m_ObjectHideFlags: 0
@@ -847,15 +845,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d52ca37da9516541b9eb30f7c12c0f8, type: 3}
---- !u!1 &7338369697551993365 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5840899100250490268, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
-    type: 3}
-  m_PrefabInstance: {fileID: 7338369697551993364}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7338369697551993366 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7486238624972532396, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
-    type: 3}
-  m_PrefabInstance: {fileID: 7338369697551993364}
-  m_PrefabAsset: {fileID: 0}
