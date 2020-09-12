@@ -7,6 +7,7 @@ public class WallJumpingPlayer : MonoBehaviour
     public Rigidbody2D playerRigidbody;
     public bool isTouchingWall { get; set; }
     public PlayerState State { get; set; }
+    public float Drag { get => playerRigidbody.drag; set => playerRigidbody.drag = value; }
 
     /// <summary>
     /// Initializes Player parameters

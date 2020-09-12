@@ -19,12 +19,14 @@ public class InitialPlayerState : PlayerState
 
     public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
+        player.Drag = 5;
         player.Jump(swipeStartPosition, swipeEndPosition);
         player.State = new JumpingPlayerState(player);
     }
 
     public override void OnTouchTheWall()
     {
+        player.Drag = 20;
         player.State = new OnWallPlayerState(player);
     }
 }
@@ -35,6 +37,7 @@ public class OnWallPlayerState : PlayerState
 
     public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
+        player.Drag = 5;
         player.Jump(swipeStartPosition, swipeEndPosition);
         player.State = new JumpingPlayerState(player);
     }
@@ -50,6 +53,7 @@ public class JumpingPlayerState : PlayerState
 
     public override void OnTouchTheWall()
     {
+        player.Drag = 20;
         player.State = new OnWallPlayerState(player);
     }
 }
