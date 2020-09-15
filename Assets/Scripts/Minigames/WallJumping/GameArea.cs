@@ -5,6 +5,7 @@ public class GameArea : MonoBehaviour
     private RectTransform gameAreaRectTransform;
     private WallGenerator wallGenerator;
     private MovableObjectsContainer movableObjectsContainer;
+    private WallJumpingPlayer player;
 
     /// <summary>
     /// Initializes WallGenerator.
@@ -12,6 +13,9 @@ public class GameArea : MonoBehaviour
     /// <param name="heightRatio"></param>
     public void Initialize(float heightRatio, int wallHeightAdditional, float garbageCollectorHeight)
     {
+        gameAreaRectTransform = GetComponent<RectTransform>();
+        player = GetComponentInChildren<WallJumpingPlayer>();
+        movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
         InitializePosition(heightRatio);
         InitializeMovableObjectsContainer();
         InitializePlayerPosition();
@@ -25,9 +29,8 @@ public class GameArea : MonoBehaviour
     /// <param name="heightRatio"></param>
     private void InitializePosition(float heightRatio)
     {
-        gameAreaRectTransform = GetComponent<RectTransform>();
+        
         Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-
         Vector2 gameAreaBounds = new Vector2(screenBounds.x, screenBounds.y * heightRatio);
         gameAreaRectTransform.sizeDelta = gameAreaBounds * 2;
         gameAreaRectTransform.anchoredPosition = new Vector2(-gameAreaBounds.x, -screenBounds.y);
@@ -38,7 +41,6 @@ public class GameArea : MonoBehaviour
     /// </summary>
     private void InitializeMovableObjectsContainer()
     {
-        movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
         movableObjectsContainer.Initialize(gameAreaRectTransform);
     }
 
@@ -48,7 +50,6 @@ public class GameArea : MonoBehaviour
     private void InitializePlayerPosition()
     {
         float playerInitialYCoord = 3; // this will be removed when floor is added (it is only for testing)
-        WallJumpingPlayer player = GetComponentInChildren<WallJumpingPlayer>();
         Vector2 playerInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, playerInitialYCoord);
         player.InitializePosition(playerInitialPosition);
     }
@@ -60,7 +61,7 @@ public class GameArea : MonoBehaviour
     private void InitializeWallGenerator(int wallHeightAdditional)
     {
         wallGenerator = GetComponentInChildren<WallGenerator>();
-        wallGenerator.Initialize(wallHeightAdditional, gameAreaRectTransform);
+        wallGenerator.Initialize(wallHeightAdditional, gameAreaRectTransform, player);
     }
 
     /// <summary>

@@ -7,17 +7,19 @@ public class Wall
     private Vector2 newBlockPosition;
     private float blockHeight;
     private Transform movableObjectsContainer;
+    private OnWallPlayerState onWallPlayerState;
 
     /// <summary>
     /// Initializes the Wall
     /// </summary>
     /// <param name="intialPosition"></param>
     /// <param name="blockHeight"></param>
-    public Wall(Vector2 intialPosition, float blockHeight, Transform movableObjectsContainer)
+    public Wall(Vector2 intialPosition, float blockHeight, Transform movableObjectsContainer, OnWallPlayerState onWallPlayerState)
     {
         newBlockPosition = intialPosition;
         this.blockHeight = blockHeight;
         this.movableObjectsContainer = movableObjectsContainer;
+        this.onWallPlayerState = onWallPlayerState;
     }
 
     /// <summary>
@@ -29,6 +31,7 @@ public class Wall
     public void AddWallBlockOnTop(BaseWallBlock wallBlockPrefab)
     {
         BaseWallBlock newWallBlock = GameObject.Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, movableObjectsContainer);
+        newWallBlock.WallSideState = onWallPlayerState;
         wallBlocks.Enqueue(newWallBlock);
         newBlockPosition.y += blockHeight;
     }

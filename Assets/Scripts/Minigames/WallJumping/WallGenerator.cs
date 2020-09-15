@@ -8,14 +8,16 @@ public class WallGenerator : MonoBehaviour
     private Wall leftWall;
     private Wall rightWall;
     private int wallHeight; // in number of blocks
+    private WallJumpingPlayer player;
 
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
     /// <param name="wallHeight"></param>
     /// <param name="gameAreaRectTransform"></param>
-    public void Initialize(int wallHeightAdditional, RectTransform gameAreaRectTransform)
+    public void Initialize(int wallHeightAdditional, RectTransform gameAreaRectTransform, WallJumpingPlayer player)
     {
+        this.player = player;
         float wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
         wallHeight = (int)(gameAreaRectTransform.rect.height / wallBlockWidth) + wallHeightAdditional;
         InitializeWallsPosition(gameAreaRectTransform);
@@ -34,8 +36,8 @@ public class WallGenerator : MonoBehaviour
         Vector2 rightWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + gameAreaRectTransform.rect.width - wallBlockWidth / 2, bottomWallYCoord);
 
         Transform movableObjectsContainer = GetComponent<MovableObjectsContainer>().transform;
-        leftWall = new Wall(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer);
-        rightWall = new Wall(rightWallInitialPosition, wallBlockWidth, movableObjectsContainer);
+        leftWall = new Wall(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer, new OnLeftWallPlayerState(player));
+        rightWall = new Wall(rightWallInitialPosition, wallBlockWidth, movableObjectsContainer, new OnRightWallPlayerState(player));
     }
 
     /// <summary>

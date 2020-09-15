@@ -10,5 +10,5 @@ public abstract class PlayerState
     }
 
     public abstract void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition);
-    public abstract void OnTouchTheWall();
+    public abstract void OnTouchTheWall(OnWallPlayerState onWallPlayerState);
 }
