@@ -12,13 +12,13 @@ public class WallJumpingPlayer : MonoBehaviour
     /// Initializes Player parameters
     /// </summary>
     /// <param name="playerForceScale"></param>
-    public void Initialize(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
+    public void Initialize(float playerForceScale)
     {
         forceScale = playerForceScale;
         playerRigidbody = GetComponent<Rigidbody2D>();
         State = new InitialPlayerState(this);
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
-        playerControls.Initialize(this, wallJumpingGameManager);
+        playerControls.Initialize(this);
     }
 
     /// <summary>

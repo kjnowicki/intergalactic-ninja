@@ -63,6 +63,6 @@ public class WallJumpingGameManager : MonoBehaviour
     private void InitializePlayer()
     {
         WallJumpingPlayer player = FindObjectOfType<WallJumpingPlayer>();
-        player.Initialize(playerForceScale, this);
+        player.Initialize(playerForceScale);
     }
 }

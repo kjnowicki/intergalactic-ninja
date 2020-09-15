@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class WallJumpingPlayerControls : MonoBehaviour
 {
-
     [Header("Time scale during swipe")]
     public float slowMotionValue;
 
@@ -18,6 +17,11 @@ public class WallJumpingPlayerControls : MonoBehaviour
     private const string rightWallTag = "RightWall";
     [SerializeField]
     private const string leftWallTag = "LeftWall";
+
+    /// <summary>
+    /// Initializes PlayerControls
+    /// </summary>
+    /// <param name="player"></param>
     public void Initialize(WallJumpingPlayer player)
     {
         this.player = player;
