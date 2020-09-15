@@ -5,7 +5,6 @@ public class WallJumpingPlayer : MonoBehaviour
     private float forceScale;
 
     public Rigidbody2D playerRigidbody;
-    public bool isTouchingWall { get; set; }
     public PlayerState State { get; set; }
     public float Drag { get => playerRigidbody.drag; set => playerRigidbody.drag = value; }
 
@@ -17,7 +16,6 @@ public class WallJumpingPlayer : MonoBehaviour
     {
         forceScale = playerForceScale;
         playerRigidbody = GetComponent<Rigidbody2D>();
-        isTouchingWall = false;
         State = new InitialPlayerState(this);
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
         playerControls.Initialize(this, wallJumpingGameManager);
@@ -32,8 +30,17 @@ public class WallJumpingPlayer : MonoBehaviour
         transform.localPosition = playerInitialPosition;
     }
 
+    /// <summary>
+    /// Triggers State's OnJump() method.
+    /// </summary>
+    /// <param name="swipeStartPosition"></param>
+    /// <param name="swipeEndPosition"></param>
     public void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition) => State.OnJump(swipeStartPosition, swipeEndPosition);
 
+    /// <summary>
+    /// Triggers State's OnTouchTheWall() method.
+    /// </summary>
+    /// <param name="onWallPlayerState"></param>
     public void OnTouchTheWall(OnWallPlayerState onWallPlayerState) => State.OnTouchTheWall(onWallPlayerState);
 
     /// <summary>
@@ -46,6 +53,10 @@ public class WallJumpingPlayer : MonoBehaviour
         State = new JumpingPlayerState(this);
     }
 
+    /// <summary>
+    /// Makes player touching the wall.
+    /// </summary>
+    /// <param name="onWallPlayerState"></param>
     public void TouchTheWall(OnWallPlayerState onWallPlayerState)
     {
         Drag = 20;

@@ -14,6 +14,8 @@ public class Wall
     /// </summary>
     /// <param name="intialPosition"></param>
     /// <param name="blockHeight"></param>
+    /// <param name="movableObjectsContainer"></param>
+    /// <param name="onWallPlayerState"></param>
     public Wall(Vector2 intialPosition, float blockHeight, Transform movableObjectsContainer, OnWallPlayerState onWallPlayerState)
     {
         newBlockPosition = intialPosition;

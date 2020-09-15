@@ -57,28 +57,12 @@ public class WallJumpingGameManager : MonoBehaviour
         gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord);
     }
 
+    /// <summary>
+    /// Initializes Player.
+    /// </summary>
     private void InitializePlayer()
     {
         WallJumpingPlayer player = FindObjectOfType<WallJumpingPlayer>();
         player.Initialize(playerForceScale, this);
     }
-
-    //public void ActivateLeftWallColiders()
-    //{
-    //    wallGenerator.
-    //    var walls = leftWall.GetComponentsInChildren<Collider2D>();
-    //    foreach (Collider2D childColider in walls)
-    //    {
-    //        childColider.enabled = true;
-    //    }
-    //}
-
-    //public void ActivateRightWallColiders()
-    //{
-    //    var walls = rightWall.GetComponentsInChildren<Collider2D>();
-    //    foreach (Collider2D childColider in walls)
-    //    {
-    //        childColider.enabled = true;
-    //    }
-    //}
 }

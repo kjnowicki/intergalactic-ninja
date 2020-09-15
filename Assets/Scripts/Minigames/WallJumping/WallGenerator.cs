@@ -13,8 +13,9 @@ public class WallGenerator : MonoBehaviour
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
-    /// <param name="wallHeight"></param>
+    /// <param name="wallHeightAdditional"></param>
     /// <param name="gameAreaRectTransform"></param>
+    /// <param name="player"></param>
     public void Initialize(int wallHeightAdditional, RectTransform gameAreaRectTransform, WallJumpingPlayer player)
     {
         this.player = player;
