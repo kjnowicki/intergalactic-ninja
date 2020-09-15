@@ -9,9 +9,3 @@ public abstract class BaseWallBlock : MonoBehaviour
     /// </summary>
     public virtual void OnPlayerTouch(WallJumpingPlayer wallJumpingPlayer) => wallJumpingPlayer.OnTouchTheWall(WallSideState);
 }
-
-public enum WallSide
-{
-    Left,
-    Right
-}

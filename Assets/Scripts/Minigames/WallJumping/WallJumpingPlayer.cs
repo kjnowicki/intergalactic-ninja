@@ -62,5 +62,5 @@ public class WallJumpingPlayer : MonoBehaviour
         // GameOver screen in future
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) => collision.gameObject.GetComponent<BaseWallBlock>()?.OnPlayerTouch(this);
+    private void OnTriggerEnter2D(Collider2D collision) => collision.gameObject.GetComponent<BaseWallBlock>()?.OnPlayerTouch(this);
 }
