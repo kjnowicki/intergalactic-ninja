@@ -11,29 +11,37 @@ public class BackgroundGenerator : MonoBehaviour
     private float backgroundBlockHeight;
     private int backgroundWallHeight;
 
+    /// <summary>
+    /// Initializes BackgroundGenerator.
+    /// </summary>
+    /// <param name="gameAreaRectTransform"></param>
+    /// <param name="wallHeightAdditional"></param>
     public void Initialize(RectTransform gameAreaRectTransform, int wallHeightAdditional)
     {
         backgroundBlockPrefab = Resources.Load<GameObject>(BACKGROUND_BLOCK_PREFAB_PATH);
         Vector2 backgroundBlockSize = backgroundBlockPrefab.GetComponent<SpriteRenderer>().bounds.size;
         backgroundBlockHeight = backgroundBlockSize.y;
         backgroundWallHeight = (int)(gameAreaRectTransform.rect.height / backgroundBlockHeight) + wallHeightAdditional;
+        newBlockPosition = new Vector2(0, gameAreaRectTransform.localPosition.y + backgroundBlockHeight / 2);
 
         RescaleBackgroundBlock(gameAreaRectTransform.sizeDelta.x, backgroundBlockSize.x);
-        SetInitialPosition(gameAreaRectTransform, backgroundBlockHeight);
         GenerateInitialBackground();
     }
 
+    /// <summary>
+    /// Rescales BackgroundBlockPrefab so it matches the screen width.
+    /// </summary>
+    /// <param name="gameAreaWidth"></param>
+    /// <param name="backgroundBlockWidth"></param>
     private void RescaleBackgroundBlock(float gameAreaWidth, float backgroundBlockWidth)
     {
         float backgroundBlockScale = gameAreaWidth / backgroundBlockWidth;
         backgroundBlockPrefab.transform.localScale = new Vector2(backgroundBlockScale, 1);
     }
 
-    private void SetInitialPosition(RectTransform gameAreaRectTransform, float backgroundBlockHeight)
-    {
-        newBlockPosition = new Vector2(0, gameAreaRectTransform.localPosition.y + backgroundBlockHeight / 2);
-    }
-
+    /// <summary>
+    /// Generates initial background.
+    /// </summary>
     private void GenerateInitialBackground()
     {
         for (int _ = 0; _ < backgroundWallHeight; _++)
@@ -42,6 +50,9 @@ public class BackgroundGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adds single background block on top.
+    /// </summary>
     private void AddBackgroundBlockOnTop()
     {
         GameObject newBackgroundBlock = Instantiate(backgroundBlockPrefab, newBlockPosition, Quaternion.identity, transform);
