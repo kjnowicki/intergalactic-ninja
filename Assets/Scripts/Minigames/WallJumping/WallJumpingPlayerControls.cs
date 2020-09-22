@@ -1,22 +1,12 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WallJumpingPlayerControls : MonoBehaviour
 {
     [Header("Time scale during swipe")]
     public float slowMotionValue;
 
-    [Header("Gravity value while being attached to the wall")]
-    public float gravityOnWall;
-
     private WallJumpingPlayer player;
     private Vector2 swipeStartPosition;
-    private Touch touch;
-
-    [SerializeField]
-    private const string rightWallTag = "RightWall";
-    [SerializeField]
-    private const string leftWallTag = "LeftWall";
 
     /// <summary>
     /// Initializes PlayerControls
@@ -31,7 +21,7 @@ public class WallJumpingPlayerControls : MonoBehaviour
     {
         if (Input.touchCount > 0)
         {
-            touch = Input.GetTouch(0);
+            Touch touch = Input.GetTouch(0);
             switch (touch.phase)
             {
                 case TouchPhase.Began:

@@ -13,7 +13,6 @@ public class WallJumpingGameManager : MonoBehaviour
 
     private float currentScore;
     private float bestScore;
-    private WallGenerator wallGenerator;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +26,6 @@ public class WallJumpingGameManager : MonoBehaviour
     private void SetUp()
     {
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
-        wallGenerator = GetComponentInChildren<WallGenerator>();
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
         InitializePlayer();

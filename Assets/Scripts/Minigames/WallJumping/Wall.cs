@@ -5,7 +5,7 @@ public class Wall
 {
     private readonly Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
     private Vector2 newBlockPosition;
-    private readonly float blockHeight;
+    private float blockHeight;
     private readonly Transform movableObjectsContainer;
     private readonly int direction;
 
@@ -15,7 +15,7 @@ public class Wall
     /// <param name="intialPosition"></param>
     /// <param name="blockHeight"></param>
     /// <param name="movableObjectsContainer"></param>
-    /// <param name="onWallPlayerState"></param>
+    /// <param name="direction"></param>
     public Wall(Vector2 intialPosition, float blockHeight, Transform movableObjectsContainer, int direction)
     {
         newBlockPosition = intialPosition;

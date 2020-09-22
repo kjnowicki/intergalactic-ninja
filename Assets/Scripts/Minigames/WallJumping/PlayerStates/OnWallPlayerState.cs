@@ -12,7 +12,7 @@ public class OnWallPlayerState : PlayerState
     /// <summary>
     /// When player touches the wall while being on the wall nothing should happen.
     /// </summary>
-    /// <param name="onWallPlayerState"></param>
+    /// <param name="direction"></param>
     public override void OnTouchTheWall(int direction) { } // already touching the wall
 
     public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)

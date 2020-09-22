@@ -43,7 +43,7 @@ public class WallJumpingPlayer : MonoBehaviour
     /// <summary>
     /// Makes player touching the wall.
     /// </summary>
-    /// <param name="onWallPlayerState"></param>
+    /// <param name="direction"></param>
     public void TouchTheWall(int direction)
     {
         Drag = 20;
