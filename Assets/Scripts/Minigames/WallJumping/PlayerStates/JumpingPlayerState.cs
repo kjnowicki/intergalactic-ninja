@@ -15,5 +15,5 @@ public class JumpingPlayerState : PlayerState
     /// Action caused when Player touches the wall while jumping.
     /// </summary>
     /// <param name="onWallPlayerState"></param>
-    public override void OnTouchTheWall(OnWallPlayerState onWallPlayerState) => player.TouchTheWall(onWallPlayerState);
+    public override void OnTouchTheWall(int direction) => player.TouchTheWall(direction);
 }

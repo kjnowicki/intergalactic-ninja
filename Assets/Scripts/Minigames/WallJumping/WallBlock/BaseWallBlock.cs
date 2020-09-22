@@ -2,10 +2,10 @@
 
 public abstract class BaseWallBlock : MonoBehaviour
 {
-    public OnWallPlayerState WallSideState { get; set; }
+    public int Direction { get; set; }
 
     /// <summary>
     /// Abstract method called when the player touches the block.
     /// </summary>
-    public virtual void OnPlayerTouch(WallJumpingPlayer wallJumpingPlayer) => wallJumpingPlayer.OnTouchTheWall(WallSideState);
+    public virtual void OnPlayerTouch(WallJumpingPlayer wallJumpingPlayer) => wallJumpingPlayer.State.OnTouchTheWall(Direction);
 }

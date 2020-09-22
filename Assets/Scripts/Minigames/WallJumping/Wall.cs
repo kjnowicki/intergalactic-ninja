@@ -5,9 +5,9 @@ public class Wall
 {
     private readonly Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
     private Vector2 newBlockPosition;
-    private float blockHeight;
-    private Transform movableObjectsContainer;
-    private OnWallPlayerState onWallPlayerState;
+    private readonly float blockHeight;
+    private readonly Transform movableObjectsContainer;
+    private readonly int direction;
 
     /// <summary>
     /// Initializes the Wall
@@ -16,12 +16,12 @@ public class Wall
     /// <param name="blockHeight"></param>
     /// <param name="movableObjectsContainer"></param>
     /// <param name="onWallPlayerState"></param>
-    public Wall(Vector2 intialPosition, float blockHeight, Transform movableObjectsContainer, OnWallPlayerState onWallPlayerState)
+    public Wall(Vector2 intialPosition, float blockHeight, Transform movableObjectsContainer, int direction)
     {
         newBlockPosition = intialPosition;
         this.blockHeight = blockHeight;
         this.movableObjectsContainer = movableObjectsContainer;
-        this.onWallPlayerState = onWallPlayerState;
+        this.direction = direction;
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public class Wall
     public void AddWallBlockOnTop(BaseWallBlock wallBlockPrefab)
     {
         BaseWallBlock newWallBlock = GameObject.Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, movableObjectsContainer);
-        newWallBlock.WallSideState = onWallPlayerState;
+        newWallBlock.Direction = direction;
         wallBlocks.Enqueue(newWallBlock);
         newBlockPosition.y += blockHeight;
     }

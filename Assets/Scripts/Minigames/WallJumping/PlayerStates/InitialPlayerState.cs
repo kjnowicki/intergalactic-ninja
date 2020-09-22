@@ -15,5 +15,5 @@ public class InitialPlayerState : PlayerState
     /// If player ever touches the wall (for example floor in the future), they should be in new state.
     /// </summary>
     /// <param name="onWallPlayerState"></param>
-    public override void OnTouchTheWall(OnWallPlayerState onWallPlayerState) => player.TouchTheWall(onWallPlayerState);
+    public override void OnTouchTheWall(int direction) => player.TouchTheWall(direction);
 }

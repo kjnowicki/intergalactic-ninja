@@ -31,19 +31,6 @@ public class WallJumpingPlayer : MonoBehaviour
     }
 
     /// <summary>
-    /// Triggers State's OnJump() method.
-    /// </summary>
-    /// <param name="swipeStartPosition"></param>
-    /// <param name="swipeEndPosition"></param>
-    public void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition) => State.OnJump(swipeStartPosition, swipeEndPosition);
-
-    /// <summary>
-    /// Triggers State's OnTouchTheWall() method.
-    /// </summary>
-    /// <param name="onWallPlayerState"></param>
-    public void OnTouchTheWall(OnWallPlayerState onWallPlayerState) => State.OnTouchTheWall(onWallPlayerState);
-
-    /// <summary>
     /// Adds force to players rigid body, resets time scale
     /// </summary>
     public void Jump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
@@ -57,11 +44,11 @@ public class WallJumpingPlayer : MonoBehaviour
     /// Makes player touching the wall.
     /// </summary>
     /// <param name="onWallPlayerState"></param>
-    public void TouchTheWall(OnWallPlayerState onWallPlayerState)
+    public void TouchTheWall(int direction)
     {
         Drag = 20;
         playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
-        State = onWallPlayerState;
+        State = new OnWallPlayerState(this, direction);
     }
 
     /// <summary>

@@ -41,7 +41,7 @@ public class WallJumpingPlayerControls : MonoBehaviour
 
                 case TouchPhase.Ended:
                     Time.timeScale = 1f;
-                    player.OnJump(swipeStartPosition, touch.position);
+                    player.State.OnJump(swipeStartPosition, touch.position);
                     break;
             }
         }

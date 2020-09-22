@@ -37,8 +37,8 @@ public class WallGenerator : MonoBehaviour
         Vector2 rightWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + gameAreaRectTransform.rect.width - wallBlockWidth / 2, bottomWallYCoord);
 
         Transform movableObjectsContainer = GetComponent<MovableObjectsContainer>().transform;
-        leftWall = new Wall(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer, new OnLeftWallPlayerState(player));
-        rightWall = new Wall(rightWallInitialPosition, wallBlockWidth, movableObjectsContainer, new OnRightWallPlayerState(player));
+        leftWall = new Wall(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer, 1);
+        rightWall = new Wall(rightWallInitialPosition, wallBlockWidth, movableObjectsContainer, -1);
     }
 
     /// <summary>
