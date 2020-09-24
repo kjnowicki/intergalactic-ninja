@@ -23,7 +23,7 @@ public class GameArea : MonoBehaviour
         InitializePlayerPosition();
         InitializeWallGenerator(wallHeightAdditional);
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
-        InitializeBackgroundGenerator(wallHeightAdditional);
+        InitializeBackgroundGenerator();
     }
 
     /// <summary>
@@ -81,9 +81,8 @@ public class GameArea : MonoBehaviour
     /// <summary>
     /// Initializes BackgroundGenerator.
     /// </summary>
-    /// <param name="wallHeightAdditional"></param>
-    private void InitializeBackgroundGenerator(int wallHeightAdditional)
+    private void InitializeBackgroundGenerator()
     {
-        backgroundGenerator.Initialize(gameAreaRectTransform, wallHeightAdditional);
+        backgroundGenerator.Initialize(gameAreaRectTransform);
     }
 }

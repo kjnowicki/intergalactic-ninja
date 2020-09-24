@@ -3,25 +3,24 @@ using UnityEngine;
 
 public class BackgroundGenerator : MonoBehaviour
 {
-    private const string BACKGROUND_BLOCK_PREFAB_PATH = "Minigames/WallJumping/Prefabs/BackgroundBlock";
+    private const string BACKGROUND_BLOCK_PREFAB_PATH = "Minigames/WallJumping/Prefabs/WallJumpingBackground";
+    private const int BACKGROUND_WALL_HEIGHT = 2;
 
     private Queue<GameObject> backgroundBlocks = new Queue<GameObject>();
     private Vector2 newBlockPosition;
     private GameObject backgroundBlockPrefab;
     private float backgroundBlockHeight;
-    private int backgroundWallHeight;
+    
 
     /// <summary>
     /// Initializes BackgroundGenerator.
     /// </summary>
     /// <param name="gameAreaRectTransform"></param>
-    /// <param name="wallHeightAdditional"></param>
-    public void Initialize(RectTransform gameAreaRectTransform, int wallHeightAdditional)
+    public void Initialize(RectTransform gameAreaRectTransform)
     {
         backgroundBlockPrefab = Resources.Load<GameObject>(BACKGROUND_BLOCK_PREFAB_PATH);
         Vector2 backgroundBlockSize = backgroundBlockPrefab.GetComponent<SpriteRenderer>().bounds.size;
         backgroundBlockHeight = backgroundBlockSize.y;
-        backgroundWallHeight = (int)(gameAreaRectTransform.rect.height / backgroundBlockHeight) + wallHeightAdditional;
         newBlockPosition = new Vector2(0, gameAreaRectTransform.localPosition.y + backgroundBlockHeight / 2);
 
         RescaleBackgroundBlock(gameAreaRectTransform.sizeDelta.x, backgroundBlockSize.x);
@@ -44,7 +43,7 @@ public class BackgroundGenerator : MonoBehaviour
     /// </summary>
     private void GenerateInitialBackground()
     {
-        for (int _ = 0; _ < backgroundWallHeight; _++)
+        for (int _ = 0; _ < BACKGROUND_WALL_HEIGHT; _++)
         {
             AddBackgroundBlockOnTop();
         }
