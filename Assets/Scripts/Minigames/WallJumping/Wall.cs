@@ -5,7 +5,7 @@ public class Wall
 {
     private readonly Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
     private Vector2 newBlockPosition;
-    private float blockHeight;
+    private readonly float blockHeight;
     private readonly Transform movableObjectsContainer;
     private readonly int direction;
 

@@ -8,5 +8,5 @@ public abstract class BaseWallBlock : MonoBehaviour
     /// Abstract method called when the player touches the block.
     /// </summary>
     /// <param name="wallJumpingPlayer"></param>
-    public virtual void OnPlayerTouch(WallJumpingPlayer wallJumpingPlayer) => wallJumpingPlayer.State.OnTouchTheWall(Direction);
+    public virtual void OnPlayerTouch(WallJumpingPlayer wallJumpingPlayer) => wallJumpingPlayer.State.OnTouchTheWall(Direction, transform.localPosition);
 }

@@ -2,7 +2,9 @@
 
 public class WallJumpingPlayer : MonoBehaviour
 {
+    private const float HALF_WALL_WIDTH = 0.5f;
     private float forceScale;
+    private float playerToWallOffset;
 
     public Rigidbody2D playerRigidbody;
     public PlayerState State { get; set; }
@@ -16,6 +18,8 @@ public class WallJumpingPlayer : MonoBehaviour
     {
         forceScale = playerForceScale;
         playerRigidbody = GetComponent<Rigidbody2D>();
+        CircleCollider2D circleCollider = GetComponent<CircleCollider2D>();
+        playerToWallOffset = HALF_WALL_WIDTH + circleCollider.radius;
         State = new InitialPlayerState(this);
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
         playerControls.Initialize(this);
@@ -44,10 +48,12 @@ public class WallJumpingPlayer : MonoBehaviour
     /// Makes player touching the wall.
     /// </summary>
     /// <param name="direction"></param>
-    public void TouchTheWall(int direction)
+    /// <param name="wallBlockPosition"></param>
+    public void TouchTheWall(int direction, Vector2 wallBlockPosition)
     {
         Drag = 20;
         playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
+        playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction, playerRigidbody.transform.localPosition.y);
         State = new OnWallPlayerState(this, direction);
     }
 
