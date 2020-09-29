@@ -358,7 +358,7 @@ MonoBehaviour:
   uiLayoutWeight: 1
   gameAreaLayoutWeight: 3
   wallHeightAdditional: 3
-  playerForceScale: 5
+  playerForceScale: 500
   garbageCollectorYCoord: -3
 --- !u!4 &1023769666
 Transform:
@@ -788,6 +788,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3832744484719757720, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1023769665}
     - target: {fileID: 4961981376659684248, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}
       propertyPath: m_Name
@@ -832,6 +837,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 7486238624972532396, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+        type: 3}
+      propertyPath: m_Name
+      value: LeftWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d52ca37da9516541b9eb30f7c12c0f8, type: 3}

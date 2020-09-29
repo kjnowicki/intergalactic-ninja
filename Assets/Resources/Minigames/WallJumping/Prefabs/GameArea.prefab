@@ -131,6 +131,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalWallBlockPrefab: {fileID: 2810391603609130868, guid: 3b0b5f3f299bb4d46ac6c9b9925bd914,
     type: 3}
+  leftWall: {fileID: 0}
+  rightWall: {fileID: 0}
 --- !u!1 &7338369698871833263
 GameObject:
   m_ObjectHideFlags: 0

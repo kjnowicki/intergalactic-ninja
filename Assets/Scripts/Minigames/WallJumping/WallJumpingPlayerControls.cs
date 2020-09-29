@@ -1,27 +1,27 @@
 ﻿using UnityEngine;
 
-public class PlayerControls : MonoBehaviour
+public class WallJumpingPlayerControls : MonoBehaviour
 {
-
     [Header("Time scale during swipe")]
     public float slowMotionValue;
 
-    private Player player;
-
+    private WallJumpingPlayer player;
     private Vector2 swipeStartPosition;
 
-    private Touch touch;
-
-    void Start()
+    /// <summary>
+    /// Initializes PlayerControls
+    /// </summary>
+    /// <param name="player"></param>
+    public void Initialize(WallJumpingPlayer player)
     {
-        player = GetComponent<Player>();
+        this.player = player;
     }
 
     void Update()
     {
         if (Input.touchCount > 0)
         {
-            touch = Input.GetTouch(0);
+            Touch touch = Input.GetTouch(0);
             switch (touch.phase)
             {
                 case TouchPhase.Began:
@@ -31,7 +31,7 @@ public class PlayerControls : MonoBehaviour
 
                 case TouchPhase.Ended:
                     Time.timeScale = 1f;
-                    player.Jump(swipeStartPosition, touch.position);
+                    player.State.OnJump(swipeStartPosition, touch.position);
                     break;
             }
         }

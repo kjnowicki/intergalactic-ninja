@@ -55,9 +55,12 @@ public class WallJumpingGameManager : MonoBehaviour
         gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord);
     }
 
+    /// <summary>
+    /// Initializes Player.
+    /// </summary>
     private void InitializePlayer()
     {
-        Player player = FindObjectOfType<Player>();
+        WallJumpingPlayer player = FindObjectOfType<WallJumpingPlayer>();
         player.Initialize(playerForceScale);
     }
 }

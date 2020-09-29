@@ -2,17 +2,20 @@
 
 public class WallGenerator : MonoBehaviour
 {
-    [Header("References")]
-    public NormalWallBlock normalWallBlockPrefab;
+    private const int DIRECTION_LEFT = 1;
+    private const int DIRECTION_RIGHT = -1;
 
     private Wall leftWall;
     private Wall rightWall;
     private int wallHeight; // in number of blocks
 
+    [Header("References")]
+    public NormalWallBlock normalWallBlockPrefab;
+
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
-    /// <param name="wallHeight"></param>
+    /// <param name="wallHeightAdditional"></param>
     /// <param name="gameAreaRectTransform"></param>
     public void Initialize(int wallHeightAdditional, RectTransform gameAreaRectTransform)
     {
@@ -34,8 +37,8 @@ public class WallGenerator : MonoBehaviour
         Vector2 rightWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + gameAreaRectTransform.rect.width - wallBlockWidth / 2, bottomWallYCoord);
 
         Transform movableObjectsContainer = GetComponent<MovableObjectsContainer>().transform;
-        leftWall = new Wall(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer);
-        rightWall = new Wall(rightWallInitialPosition, wallBlockWidth, movableObjectsContainer);
+        leftWall = new Wall(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer, DIRECTION_LEFT);
+        rightWall = new Wall(rightWallInitialPosition, wallBlockWidth, movableObjectsContainer, DIRECTION_RIGHT);
     }
 
     /// <summary>
