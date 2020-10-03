@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class WallJumpingPlayer : MonoBehaviour
 {
     private const float HALF_WALL_WIDTH = 0.5f;
     private float forceScale;
     private float playerToWallOffset;
+    private WallJumpingGameManager wallJumpingGameManager;
 
     public Rigidbody2D playerRigidbody;
+
     public PlayerState State { get; set; }
     public float Drag { get => playerRigidbody.drag; set => playerRigidbody.drag = value; }
 
@@ -14,13 +17,15 @@ public class WallJumpingPlayer : MonoBehaviour
     /// Initializes Player parameters
     /// </summary>
     /// <param name="playerForceScale"></param>
-    public void Initialize(float playerForceScale)
+    public void Initialize(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
     {
         forceScale = playerForceScale;
         playerRigidbody = GetComponent<Rigidbody2D>();
         CircleCollider2D circleCollider = GetComponent<CircleCollider2D>();
         playerToWallOffset = HALF_WALL_WIDTH + circleCollider.radius;
+        this.wallJumpingGameManager = wallJumpingGameManager;
         State = new InitialPlayerState(this);
+
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
         playerControls.Initialize(this);
     }
@@ -56,6 +61,12 @@ public class WallJumpingPlayer : MonoBehaviour
         playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction, playerRigidbody.transform.localPosition.y);
         State = new OnWallPlayerState(this, direction);
     }
+
+    public void Slime()
+    {
+        wallJumpingGameManager.Slime();
+    }
+
 
     /// <summary>
     /// Obliterates the Player mercilessly.

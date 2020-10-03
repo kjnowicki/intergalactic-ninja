@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class WallJumpingGameManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class WallJumpingGameManager : MonoBehaviour
 
     private float currentScore;
     private float bestScore;
+    WallJumpingUiManager wallJumpingUiManager;
+    private SlimeGenerator slimeGenerator;
 
     // Start is called before the first frame update
     void Start()
@@ -25,10 +28,13 @@ public class WallJumpingGameManager : MonoBehaviour
     /// </summary>
     private void SetUp()
     {
+        wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
+        slimeGenerator = FindObjectOfType<SlimeGenerator>();
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
         InitializePlayer();
+        InitializeSlimeGenerator();
     }
 
     /// <summary>
@@ -37,7 +43,6 @@ public class WallJumpingGameManager : MonoBehaviour
     /// <param name="weightSum"></param>
     private void InitializeUi(float weightSum)
     {
-        WallJumpingUiManager wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
         currentScore = 0;
         bestScore = PlayerPrefsWrapper.GetWallJumpingBestScore();
         float uiLayoutRatio = uiLayoutWeight / weightSum;
@@ -61,6 +66,16 @@ public class WallJumpingGameManager : MonoBehaviour
     private void InitializePlayer()
     {
         WallJumpingPlayer player = FindObjectOfType<WallJumpingPlayer>();
-        player.Initialize(playerForceScale);
+        player.Initialize(playerForceScale, this);
+    }
+
+    private void InitializeSlimeGenerator()
+    {
+        slimeGenerator.Initialize();
+    }
+
+    public void Slime()
+    {
+        slimeGenerator.Slime();
     }
 }
