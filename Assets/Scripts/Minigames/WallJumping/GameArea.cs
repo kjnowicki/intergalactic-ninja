@@ -6,6 +6,7 @@ public class GameArea : MonoBehaviour
     private WallGenerator wallGenerator;
     private MovableObjectsContainer movableObjectsContainer;
     private WallJumpingPlayer player;
+    private BackgroundGenerator backgroundGenerator;
 
     /// <summary>
     /// Initializes WallGenerator.
@@ -16,11 +17,13 @@ public class GameArea : MonoBehaviour
         gameAreaRectTransform = GetComponent<RectTransform>();
         player = GetComponentInChildren<WallJumpingPlayer>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
+        backgroundGenerator = GetComponentInChildren<BackgroundGenerator>();
         InitializePosition(heightRatio);
         InitializeMovableObjectsContainer();
         InitializePlayerPosition();
         InitializeWallGenerator(wallHeightAdditional);
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
+        InitializeBackgroundGenerator();
         InitializeSlimeGenerator();
     }
 
@@ -74,6 +77,14 @@ public class GameArea : MonoBehaviour
         GarbageCollector garbageCollector = GetComponentInChildren<GarbageCollector>();
         Vector2 garbageCollectorInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, garbageCollectorHeight);
         garbageCollector.InitializePosition(garbageCollectorInitialPosition);
+    }
+
+    /// <summary>
+    /// Initializes BackgroundGenerator.
+    /// </summary>
+    private void InitializeBackgroundGenerator()
+    {
+        backgroundGenerator.Initialize(gameAreaRectTransform);
     }
 
     private void InitializeSlimeGenerator()
