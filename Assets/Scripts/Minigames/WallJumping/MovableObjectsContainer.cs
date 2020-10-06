@@ -10,6 +10,7 @@ public class MovableObjectsContainer : MonoBehaviour
     /// <param name="gameAreaRectTransform"></param>
     public void Initialize(RectTransform gameAreaRectTransform)
     {
+        transform.position = gameAreaRectTransform.position;
         movableObjectsContainerRectTransform = GetComponent<RectTransform>();
         movableObjectsContainerRectTransform.sizeDelta = gameAreaRectTransform.sizeDelta;
         movableObjectsContainerRectTransform.position = gameAreaRectTransform.position;

@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 2532366984591086047}
   - component: {fileID: 7192839142478545449}
   - component: {fileID: 8456167839507210973}
+  - component: {fileID: 6338150360202169406}
   m_Layer: 0
   m_Name: MovableObjectsContainer
   m_TagString: Untagged
@@ -131,8 +132,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalWallBlockPrefab: {fileID: 2810391603609130868, guid: 3b0b5f3f299bb4d46ac6c9b9925bd914,
     type: 3}
-  leftWall: {fileID: 0}
-  rightWall: {fileID: 0}
+--- !u!114 &6338150360202169406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4961981376659684248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9783ca8a03efe14e9900f9b4505ae23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundBlockPrefab: {fileID: 0}
 --- !u!1 &7338369698871833263
 GameObject:
   m_ObjectHideFlags: 0
