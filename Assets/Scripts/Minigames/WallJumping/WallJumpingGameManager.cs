@@ -34,7 +34,6 @@ public class WallJumpingGameManager : MonoBehaviour
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
         InitializePlayer();
-        InitializeSlimeGenerator();
     }
 
     /// <summary>
@@ -67,11 +66,6 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         WallJumpingPlayer player = FindObjectOfType<WallJumpingPlayer>();
         player.Initialize(playerForceScale, this);
-    }
-
-    private void InitializeSlimeGenerator()
-    {
-        slimeGenerator.Initialize();
     }
 
     public void Slime()

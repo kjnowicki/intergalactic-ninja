@@ -21,6 +21,7 @@ public class GameArea : MonoBehaviour
         InitializePlayerPosition();
         InitializeWallGenerator(wallHeightAdditional);
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
+        InitializeSlimeGenerator();
     }
 
     /// <summary>
@@ -73,5 +74,11 @@ public class GameArea : MonoBehaviour
         GarbageCollector garbageCollector = GetComponentInChildren<GarbageCollector>();
         Vector2 garbageCollectorInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, garbageCollectorHeight);
         garbageCollector.InitializePosition(garbageCollectorInitialPosition);
+    }
+
+    private void InitializeSlimeGenerator()
+    {
+        SlimeGenerator slimeGenerator = FindObjectOfType<SlimeGenerator>();
+        slimeGenerator.Initialize(gameAreaRectTransform);
     }
 }

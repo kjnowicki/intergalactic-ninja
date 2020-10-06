@@ -131,8 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalWallBlockPrefab: {fileID: 2810391603609130868, guid: 3b0b5f3f299bb4d46ac6c9b9925bd914,
     type: 3}
-  leftWall: {fileID: 0}
-  rightWall: {fileID: 0}
 --- !u!1 &7338369698871833263
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,6 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7338369698871833257}
   - component: {fileID: 1908482546327863251}
+  - component: {fileID: 3050912482924226483}
   m_Layer: 0
   m_Name: GameArea
   m_TagString: Untagged
@@ -181,6 +180,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 853c5f7c2dc5fc94ab7f0af13d485b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3050912482924226483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338369698871833263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899a607a9a95531449f5f87d589c2532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5818520426676482693
