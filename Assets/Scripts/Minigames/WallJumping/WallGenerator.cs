@@ -11,6 +11,8 @@ public class WallGenerator : MonoBehaviour
 
     [Header("References")]
     public NormalWallBlock normalWallBlockPrefab;
+    public SpikeWallBlock spikeWallBlockPrefab;
+    public SlimeWallBlock slimeWallBlockPrefab;
 
     /// <summary>
     /// Initializes WallGenerator.
@@ -55,10 +57,19 @@ public class WallGenerator : MonoBehaviour
     /// <param name="wallHeight"></param>
     private void GenerateInitialWall(int wallHeight)
     {
+        // Just for testing 
+        // --------------------------
         for (int _ = 0; _ < wallHeight; _++)
         {
-            leftWall.AddWallBlockOnTop(normalWallBlockPrefab);
-            rightWall.AddWallBlockOnTop(normalWallBlockPrefab);
+            leftWall.AddWallBlockOnTop(spikeWallBlockPrefab);
+            rightWall.AddWallBlockOnTop(slimeWallBlockPrefab);
         }
+        // --------------------------
+
+        //for (int _ = 0; _ < wallHeight; _++)
+        //{
+        //    leftWall.AddWallBlockOnTop(normalWallBlockPrefab);
+        //    rightWall.AddWallBlockOnTop(normalWallBlockPrefab);
+        //}
     }
 }

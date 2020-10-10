@@ -2,7 +2,7 @@
 {
     public override void OnPlayerTouch(WallJumpingPlayer wallJumpingPlayer)
     {
-        //base.OnPlayerTouch(wallJumpingPlayer);
+        base.OnPlayerTouch(wallJumpingPlayer);
         wallJumpingPlayer.GenerateSlimeEffect();
     }
 }

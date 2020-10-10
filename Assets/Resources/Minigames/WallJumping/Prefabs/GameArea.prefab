@@ -132,6 +132,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalWallBlockPrefab: {fileID: 2810391603609130868, guid: 3b0b5f3f299bb4d46ac6c9b9925bd914,
     type: 3}
+  spikeWallBlockPrefab: {fileID: 5000010943347075852, guid: 0eebc02729e8ea444aaa95a77d0e9ed0,
+    type: 3}
+  slimeWallBlockPrefab: {fileID: 2448692346565663708, guid: 0f06b540041d2814ea71f542b4e9bd39,
+    type: 3}
 --- !u!114 &6338150360202169406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,7 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9783ca8a03efe14e9900f9b4505ae23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundBlockPrefab: {fileID: 0}
 --- !u!1 &7338369698871833263
 GameObject:
   m_ObjectHideFlags: 0
