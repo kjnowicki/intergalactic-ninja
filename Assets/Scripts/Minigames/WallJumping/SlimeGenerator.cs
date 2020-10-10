@@ -1,33 +1,47 @@
-﻿using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SlimeGenerator : MonoBehaviour
 {
     private const string SLIME_EFFECT_PREFAB_PATH = "Minigames/WallJumping/Prefabs/SlimeEffect";
+
     private GameObject slimeEffectPrefab;
     private RectTransform gameAreaRectTransform;
     private GameObject slimeEffect;
     private bool isSlimeActive;
+    private float remainingSlimeTime;
+    private float slimeEffectDuration;
 
-    public void Initialize(RectTransform gameAreaRectTransform)
+    public void Initialize(RectTransform gameAreaRectTransform, float slimeEffectDuration)
     {
         slimeEffectPrefab = Resources.Load(SLIME_EFFECT_PREFAB_PATH) as GameObject;
         this.gameAreaRectTransform = gameAreaRectTransform;
+        this.slimeEffectDuration = slimeEffectDuration;
         InstantiateSlimeEffect();
         RescaleSlimeEffect();
+        DisableSlimeEffect();
     }
 
-    public void Slime()
+    public void GenerateSlimeEffect()
     {
-        slimeEffect.SetActive(true);
-        isSlimeActive = true;
+        EnableSlimeEffect();
+    }
+
+    void Update()
+    {
+        if (isSlimeActive)
+        {
+            remainingSlimeTime -= Time.deltaTime;
+            if (remainingSlimeTime <= 0f)
+            {
+                DisableSlimeEffect();
+            }
+        }
     }
 
     private void InstantiateSlimeEffect()
     {
         slimeEffect = Instantiate(slimeEffectPrefab, transform);
         slimeEffect.transform.localPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, gameAreaRectTransform.sizeDelta.y / 2);
-        slimeEffect.SetActive(false);
     }
 
     private void RescaleSlimeEffect()
@@ -38,5 +52,18 @@ public class SlimeGenerator : MonoBehaviour
         float slimeEffectScaleX = gameAreaWidth / slimeEffectSize.x;
         float slimeEffectScaleY = gameAreaHeight / slimeEffectSize.y;
         slimeEffect.transform.localScale = new Vector2(slimeEffectScaleX, slimeEffectScaleY);
+    }
+
+    private void EnableSlimeEffect()
+    {
+        slimeEffect.SetActive(true);
+        isSlimeActive = true;
+        remainingSlimeTime = slimeEffectDuration;
+    }
+
+    private void DisableSlimeEffect()
+    {
+        slimeEffect.SetActive(false);
+        isSlimeActive = false;
     }
 }

@@ -12,7 +12,7 @@ public class GameArea : MonoBehaviour
     /// Initializes WallGenerator.
     /// </summary>
     /// <param name="heightRatio"></param>
-    public void Initialize(float heightRatio, int wallHeightAdditional, float garbageCollectorHeight)
+    public void Initialize(float heightRatio, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
     {
         gameAreaRectTransform = GetComponent<RectTransform>();
         player = GetComponentInChildren<WallJumpingPlayer>();
@@ -24,7 +24,7 @@ public class GameArea : MonoBehaviour
         InitializeWallGenerator(wallHeightAdditional);
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
         InitializeBackgroundGenerator();
-        InitializeSlimeGenerator();
+        InitializeSlimeGenerator(slimeEffectDuration);
     }
 
     /// <summary>
@@ -87,9 +87,9 @@ public class GameArea : MonoBehaviour
         backgroundGenerator.Initialize(gameAreaRectTransform);
     }
 
-    private void InitializeSlimeGenerator()
+    private void InitializeSlimeGenerator(float slimeEffectDuration)
     {
         SlimeGenerator slimeGenerator = FindObjectOfType<SlimeGenerator>();
-        slimeGenerator.Initialize(gameAreaRectTransform);
+        slimeGenerator.Initialize(gameAreaRectTransform, slimeEffectDuration);
     }
 }

@@ -11,6 +11,7 @@ public class WallJumpingGameManager : MonoBehaviour
     public int wallHeightAdditional;
     public float playerForceScale;
     public float garbageCollectorYCoord;
+    public float slimeEffectDuration;
 
     private float currentScore;
     private float bestScore;
@@ -56,7 +57,7 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         GameArea gameArea = FindObjectOfType<GameArea>();
         float gameAreaHeightRatio = gameAreaLayoutWeight / weightSum;
-        gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord);
+        gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord, slimeEffectDuration);
     }
 
     /// <summary>
@@ -68,8 +69,8 @@ public class WallJumpingGameManager : MonoBehaviour
         player.Initialize(playerForceScale, this);
     }
 
-    public void Slime()
+    public void GenerateSlimeEffect()
     {
-        slimeGenerator.Slime();
+        slimeGenerator.GenerateSlimeEffect();
     }
 }

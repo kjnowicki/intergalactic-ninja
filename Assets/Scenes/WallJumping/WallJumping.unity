@@ -171,7 +171,7 @@ PrefabInstance:
     - target: {fileID: 8082811595042219046, guid: 0f06b540041d2814ea71f542b4e9bd39,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8082811595042219046, guid: 0f06b540041d2814ea71f542b4e9bd39,
         type: 3}
@@ -429,6 +429,7 @@ MonoBehaviour:
   wallHeightAdditional: 3
   playerForceScale: 500
   garbageCollectorYCoord: -3
+  slimeEffectDuration: 5
 --- !u!4 &1023769666
 Transform:
   m_ObjectHideFlags: 0

@@ -62,9 +62,9 @@ public class WallJumpingPlayer : MonoBehaviour
         State = new OnWallPlayerState(this, direction);
     }
 
-    public void Slime()
+    public void GenerateSlimeEffect()
     {
-        wallJumpingGameManager.Slime();
+        wallJumpingGameManager.GenerateSlimeEffect();
     }
 
 
