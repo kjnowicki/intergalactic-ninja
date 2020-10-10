@@ -69,6 +69,9 @@ public class WallJumpingGameManager : MonoBehaviour
         player.Initialize(playerForceScale, this);
     }
 
+    /// <summary>
+    /// Generates slime effect.
+    /// </summary>
     public void GenerateSlimeEffect()
     {
         slimeGenerator.GenerateSlimeEffect();

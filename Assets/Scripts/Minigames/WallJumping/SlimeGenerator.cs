@@ -11,6 +11,11 @@ public class SlimeGenerator : MonoBehaviour
     private float remainingSlimeTime;
     private float slimeEffectDuration;
 
+    /// <summary>
+    /// Initializes SlimeGenerator.
+    /// </summary>
+    /// <param name="gameAreaRectTransform"></param>
+    /// <param name="slimeEffectDuration"></param>
     public void Initialize(RectTransform gameAreaRectTransform, float slimeEffectDuration)
     {
         slimeEffectPrefab = Resources.Load(SLIME_EFFECT_PREFAB_PATH) as GameObject;
@@ -21,6 +26,9 @@ public class SlimeGenerator : MonoBehaviour
         DisableSlimeEffect();
     }
 
+    /// <summary>
+    /// Generates slime effect.
+    /// </summary>
     public void GenerateSlimeEffect()
     {
         EnableSlimeEffect();
@@ -38,12 +46,18 @@ public class SlimeGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Instantiates SlimeEffect object.
+    /// </summary>
     private void InstantiateSlimeEffect()
     {
         slimeEffect = Instantiate(slimeEffectPrefab, transform);
         slimeEffect.transform.localPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, gameAreaRectTransform.sizeDelta.y / 2);
     }
 
+    /// <summary>
+    /// Rescales SlimeEffect object to match Game Area.
+    /// </summary>
     private void RescaleSlimeEffect()
     {
         float gameAreaWidth = gameAreaRectTransform.sizeDelta.x;
@@ -54,6 +68,9 @@ public class SlimeGenerator : MonoBehaviour
         slimeEffect.transform.localScale = new Vector2(slimeEffectScaleX, slimeEffectScaleY);
     }
 
+    /// <summary>
+    /// Enables slime effect.
+    /// </summary>
     private void EnableSlimeEffect()
     {
         slimeEffect.SetActive(true);
@@ -61,6 +78,9 @@ public class SlimeGenerator : MonoBehaviour
         remainingSlimeTime = slimeEffectDuration;
     }
 
+    /// <summary>
+    /// Disables slime effect.
+    /// </summary>
     private void DisableSlimeEffect()
     {
         slimeEffect.SetActive(false);

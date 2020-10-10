@@ -87,6 +87,10 @@ public class GameArea : MonoBehaviour
         backgroundGenerator.Initialize(gameAreaRectTransform);
     }
 
+    /// <summary>
+    /// Initializes SlimeGenerator.
+    /// </summary>
+    /// <param name="slimeEffectDuration"></param>
     private void InitializeSlimeGenerator(float slimeEffectDuration)
     {
         SlimeGenerator slimeGenerator = FindObjectOfType<SlimeGenerator>();
