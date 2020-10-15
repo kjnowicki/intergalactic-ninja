@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/Minigames/NinjaTiles/Prefabs.meta
 guid: 3282404bfb6b0424390bc58fcccc7d4d
+=======
+guid: 75b0c4d7bf749d44fa54a5c6be3b9b06
+>>>>>>> e6e8ac43209b45895ff50460fb7878572dbf906c:Assets/Scenes/Hacking.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
