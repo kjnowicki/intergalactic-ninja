@@ -2,7 +2,7 @@
 
 internal class CockpitActionHubTranslationsKeeper : BaseStringsKeeper
 {
-    protected override string _TranslationPath => "CockpitActionHub"; // path begining from Recources/Strings/
+    protected override string TranslationPath => "CockpitActionHub"; // path begining from Recources/Strings/
 
     private static readonly Lazy<CockpitActionHubTranslationsKeeper>
         lazy =
