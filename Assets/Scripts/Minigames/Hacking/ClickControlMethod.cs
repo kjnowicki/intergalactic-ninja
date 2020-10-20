@@ -11,23 +11,16 @@ public class ClickControlMethod : BaseControlMethod
     {
         if (FirstFocusedBubble.IsNeighbourOfBubble(SecondFocusedBubble))
         {
-            int tmpRow = SecondFocusedBubble.row;
-            int tmpColumn = SecondFocusedBubble.column;
-
-            SecondFocusedBubble.row = FirstFocusedBubble.row;
-            FirstFocusedBubble.row = tmpRow;
-
-            SecondFocusedBubble.column = FirstFocusedBubble.column;
-            FirstFocusedBubble.column = tmpColumn;
+            GameManagerHacking.Instance.DisableControl();
+            matrix.SwapBubbles(FirstFocusedBubble, SecondFocusedBubble);
         }
-        else
-        {
-            ClearData();
-        }
+        ClearData();
     }
 
     public override void OnMouseDownAction(Bubble bubble)
     {
+        if (!GameManagerHacking.Instance.ControlEnabled)
+            return;
         if (FirstFocusedBubble == null)
         {
             FirstFocusedBubble = bubble;
@@ -39,8 +32,6 @@ public class ClickControlMethod : BaseControlMethod
             SecondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             MovePieces();
         }
-
     }
-
     public override void OnMouseUpAction() { }
 }
