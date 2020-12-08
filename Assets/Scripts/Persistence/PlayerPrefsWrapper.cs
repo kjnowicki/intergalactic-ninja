@@ -16,12 +16,6 @@ public class PlayerPrefsWrapper
         return (Language)languageValue;
     }
 
-    public static void SetLanguageAndSave(Language language)
-    {
-        PlayerPrefs.SetInt(LANGUAGE_KEY, (int)language);
-        PlayerPrefs.Save();
-    }
-
     public static int GetKillerBestScore()
     {
         int defaultValue = 0;

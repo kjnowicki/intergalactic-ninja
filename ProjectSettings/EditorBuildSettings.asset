@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/CockPitActionHub.unity
     guid: c0891c132863aa44ca03d01de58aa3bb
   - enabled: 1
-    path: Assets/Scenes/Killer/Killer.unity
-    guid: 43467f6c37dc0404f8a835ed05fbf673
-  - enabled: 1
     path: Assets/Scenes/Hacking/Hacking.unity
     guid: eee2e947197562b4bb07c5c96df626e5
+  - enabled: 1
+    path: Assets/Scenes/Killer/Killer.unity
+    guid: 43467f6c37dc0404f8a835ed05fbf673
   m_configObjects: {}
