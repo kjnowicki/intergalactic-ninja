@@ -5,4 +5,6 @@
     public static KillerStringsModel KillerStringsModel => new KillerStringsModel();
 
     public static HackingStringsModel HackingStringsModel => new HackingStringsModel();
+
+    public static ReturnPopupStringsModel ReturnStringsModel => new ReturnPopupStringsModel();
 }
