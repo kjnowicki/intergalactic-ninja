@@ -38,14 +38,14 @@ public class PlayerPrefsWrapper
         PlayerPrefs.Save();
     }
 
-    public static int GetHackingBestScore()
+    public static float GetHackingBestScore()
     {
-        int defaultValue = 0;
+        float defaultValue = 0;
         if (!PlayerPrefs.HasKey(HACKING_BEST_SCORE))
         {
             SetHackingBestScoreAndSave(defaultValue);
         }
-        return PlayerPrefs.GetInt(HACKING_BEST_SCORE);
+        return PlayerPrefs.GetFloat(HACKING_BEST_SCORE);
     }
 
     public static void SetHackingBestScoreAndSave(float value)
