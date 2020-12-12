@@ -8,7 +8,7 @@ public enum Language
 
 internal static class LanguageExtensions
 {
-    private static Dictionary<Language, string> _languageNameDictionary = new Dictionary<Language, string>()
+    private static Dictionary<Language, string> languageNameDictionary = new Dictionary<Language, string>()
     {
         { Language.English, "eng" },
         { Language.Polish, "pl" }
@@ -16,6 +16,6 @@ internal static class LanguageExtensions
 
     public static string GetStringValue(this Language language)
     {
-        return _languageNameDictionary[language];
+        return languageNameDictionary[language];
     }
 }

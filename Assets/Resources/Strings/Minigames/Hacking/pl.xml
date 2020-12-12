@@ -1,3 +1,8 @@
 <root>
-  <Example>Przykład</Example>
+  <BestScore>Najlepszy wynik: {0}</BestScore>
+  <CurrentScore>Wynik: {0}</CurrentScore>
+  <Time>Pozostały czas: #0.00</Time>
+  <ResetMessage>Czas się skończył! Chcesz podjąć ponownie wyzwanie?</ResetMessage>
+  <ResetAccept>To była dopiero rozgrzewka!</ResetAccept>
+  <ResetCancel>Muszę urtować jeszcze reszte świata.</ResetCancel>
 </root>

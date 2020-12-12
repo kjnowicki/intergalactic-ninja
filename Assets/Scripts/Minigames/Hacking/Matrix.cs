@@ -1,46 +1,62 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-
-using static UnityEngine.Random;
 using static UnityEngine.Mathf;
+using static UnityEngine.Random;
+using System;
+using System.Threading.Tasks;
+using System.Threading;
 
 public class Matrix : MonoBehaviour
 {
+    private const string BACKGROUND_TILE_NAME = "BackgroundTile ({0}, {1})";
+
+    private const string BUBBLE_NAME = "Bubble ({0}, {1})";
+
+    private const string BUBBLES_ASSETS_PATH = "Minigames/Hacking/Prefabs/Bubbles";
+
     [Header("Matrix parameters")]
     public int width;
     public int height;
     public GameObject backgroundTilePrefab;
 
-    private GameObject[,] _matrixBackgroundTiles;
+    private GameObject[,] matrixBackgroundTiles;
 
-    private GameObject[] _bubblesPool; // it contains pool of unique bubbles (matrix is filled with those bubbles)
+    private GameObject[] bubblesPool; // it contains pool of unique bubbles (matrix is filled with those bubbles)
 
-    private readonly string _bubblesAssetPath = "Minigames/Hacking/Prefabs/Bubbles";
+    private DeadlockChecker deadlockChecker;
+
+    private List<Vector2> emptyPositionsBufferList = new List<Vector2>();
+
+    private List<Bubble> recentlyMovedBubblesBufferList = new List<Bubble>();
+
+    private int maxNumberOfMatchingNeighboursInARowOnSetup = 2;
+
+    private Vector2 direction = Vector2.down;
+    public Vector2 Direction
+    {
+        get => direction;
+        set
+        {
+            direction = value;
+            GameManagerHacking.Instance.RotateGravityArrow(direction);
+        }
+    }
+
+    private int comboMultiplier = 1;
 
     public GameObject[,] MatrixBubbles { get; set; }
 
-    public BaseControlMethod controlMethod;
-
-    private const int DEADLOCK_EXPECTED_NUMBER_OF_NEIHBOURS = 3;
-
-    private const int DEADLOCK_NEIGHBOUR_RANGE = 2;
-
-    private const string BACKGROUND_TILE_NAME = "BackgroundTile ({0}, {1})";
-
-    private const string BUBBLE_NAME = "Bubble ({0}, {1})";
-
-    //dot => bubble
-    void Start()
+    void Awake()
     {
-        _matrixBackgroundTiles = new GameObject[width, height];
+        matrixBackgroundTiles = new GameObject[width, height];
         MatrixBubbles = new GameObject[width, height];
-        _bubblesPool = Resources.LoadAll<GameObject>(_bubblesAssetPath);
-        controlMethod = ControlMethodFactory.GetControlMethod(this);
-
+        bubblesPool = Resources.LoadAll<GameObject>(BUBBLES_ASSETS_PATH);
+        deadlockChecker = new DeadlockChecker(this);
         SetUp();
+        BubbleAnimation.RandomIdleAnimation(this);
     }
+
     /// <summary>
     /// Method is setting all Matrix with BackgroundTiles (unmovable) and bubbles (movable)
     /// </summary>
@@ -58,9 +74,18 @@ public class Matrix : MonoBehaviour
         CheckMatrixDeadlock();
     }
 
-    private void FixedUpdate()
+    /// <summary>
+    /// Checks if matrix is on deadlock. If it is the matrix gets resetted
+    /// </summary>
+    private void CheckMatrixDeadlock()
     {
-        controlMethod.ChangePosition();
+        if (deadlockChecker.IsMatrixOnDeadlock())
+        {
+            Debug.Log("Matrix on deadlock. Resetting...");
+            Reset();
+        }
+        Direction = Vector2.Perpendicular(Direction);
+        GameManagerHacking.Instance.EnableControl();
     }
 
     /// <summary>
@@ -69,39 +94,44 @@ public class Matrix : MonoBehaviour
     /// <param name="tilePosition"></param>
     private void SetBackgroundTileAtPosition(Vector2 tilePosition)
     {
-        GameObject backgroundTile = Instantiate(backgroundTilePrefab, tilePosition, Quaternion.identity, this.transform) as GameObject;
+        GameObject backgroundTile = Instantiate(backgroundTilePrefab, tilePosition, Quaternion.identity, transform);
         backgroundTile.name = string.Format(BACKGROUND_TILE_NAME, (int)tilePosition.x, (int)tilePosition.y);
-        _matrixBackgroundTiles[(int)tilePosition.x, (int)tilePosition.y] = backgroundTile;
+        matrixBackgroundTiles[(int)tilePosition.x, (int)tilePosition.y] = backgroundTile;
     }
 
     /// <summary>
     /// Instantiates a bubble at given position
     /// </summary>
     /// <param name="tilePosition"></param>
-    private void SetBubbleAtPosition(Vector2 tilePosition)
+    private Bubble SetBubbleAtPosition(Vector2 tilePosition)
     {
-        int bubbleToUseIndex = Range(0, _bubblesPool.Length);
-        GameObject bubble = Instantiate(_bubblesPool[bubbleToUseIndex], tilePosition, Quaternion.identity, this.transform) as GameObject;
-        bubble.name = string.Format(BUBBLE_NAME, (int)tilePosition.x, (int)tilePosition.y); ;
+        IEnumerable<GameObject> availableBubblesPool = bubblesPool;
+        if (tilePosition.x >= maxNumberOfMatchingNeighboursInARowOnSetup) availableBubblesPool = availableBubblesPool.Where(bubbleObject => bubbleObject.GetComponent<Bubble>().color != MatrixBubbles[(int)tilePosition.x - maxNumberOfMatchingNeighboursInARowOnSetup, (int)tilePosition.y].GetComponent<Bubble>().color);
+        if (tilePosition.y >= maxNumberOfMatchingNeighboursInARowOnSetup) availableBubblesPool = availableBubblesPool.Where(bubbleObject => bubbleObject.GetComponent<Bubble>().color != MatrixBubbles[(int)tilePosition.x, (int)tilePosition.y - maxNumberOfMatchingNeighboursInARowOnSetup].GetComponent<Bubble>().color);
+        int bubbleToUseIndex = Range(0, availableBubblesPool.Count());
+        GameObject bubble = Instantiate(availableBubblesPool.ElementAt(bubbleToUseIndex), tilePosition, Quaternion.identity, transform);
+        bubble.name = string.Format(BUBBLE_NAME, (int)tilePosition.x, (int)tilePosition.y);
         MatrixBubbles[(int)tilePosition.x, (int)tilePosition.y] = bubble;
+        return bubble.GetComponent<Bubble>();
     }
 
     /// <summary>
-    /// Checks if matrix is on deadlock. If it is the matrix gets resetted
+    /// Instantiates a bubble at given position outside the matrix
     /// </summary>
-    public void CheckMatrixDeadlock()
+    /// <param name="tilePosition"></param>
+    private Bubble SetBubbleAtOutsidePosition(Vector2 tilePosition)
     {
-        if (IsMatrixOnDeadlock())
-        {
-            Debug.Log("Matrix on deadlock. Resetting...");
-            Reset();
-        }
+        int bubbleToUseIndex = Range(0, bubblesPool.Length);
+        GameObject bubble = Instantiate(bubblesPool[bubbleToUseIndex], tilePosition, Quaternion.identity, transform);
+        bubble.name = string.Format(BUBBLE_NAME, (int)tilePosition.x, (int)tilePosition.y);
+        bubble.SetActive(false);
+        return bubble.GetComponent<Bubble>();
     }
 
     /// <summary>
     /// Resets the matrix and setups it from scratch
     /// </summary>
-    private void Reset()
+    public void Reset()
     {
         foreach (GameObject bubble in MatrixBubbles) Destroy(bubble);
         for (int i = 0; i < width; i++)
@@ -116,134 +146,178 @@ public class Matrix : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks if there are no moves to be made for current matrix
+    /// Swaps bubbles and checks if there is a match.
+    /// If there is no match the bubbles are swapped back,
+    /// if there is a match the matched bubbles are removed and control is enabled.
     /// </summary>
-    /// <returns>True if there are no moves, False if there is a move</returns>
-    private bool IsMatrixOnDeadlock()
+    /// <param name="bubble1"></param>
+    /// <param name="bubble2"></param>
+    public void SwapBubbles(Bubble bubble1, Bubble bubble2)
     {
-        for (int j = 0; j < height; j++)
+        Task swappingTask = new Task(async () =>
         {
-            for (int i = 0; i < width; i++)
+            await BubbleMover.SwapBubbles(bubble1, bubble2);
+            MatrixBubbles[bubble1.column, bubble1.row] = bubble1.gameObject;
+            MatrixBubbles[bubble2.column, bubble2.row] = bubble2.gameObject;
+
+            int numberOfMatchedBubble1 = MatchFinder.RemoveBubbleAndMatchesIfExist(bubble1);
+            int numberOfMatchedBubble2 = 0;
+
+            bool isBubble1Matched = numberOfMatchedBubble1 != 0;
+            bool isBubble2Matched = false;
+            if (!emptyPositionsBufferList.Contains(bubble2.transform.position))
             {
-                if (IsMovePossibleAtPoint(i, j))
+                numberOfMatchedBubble2 = MatchFinder.RemoveBubbleAndMatchesIfExist(bubble2);
+                isBubble2Matched = numberOfMatchedBubble2 != 0;
+            }
+            if (!isBubble1Matched && !isBubble2Matched)
+            {
+                await BubbleMover.SwapBubbles(bubble1, bubble2);
+                MatrixBubbles[bubble1.column, bubble1.row] = bubble1.gameObject;
+                MatrixBubbles[bubble2.column, bubble2.row] = bubble2.gameObject;
+                GameManagerHacking.Instance.EnableControl();
+                return;
+            }
+            comboMultiplier = Convert.ToInt32(isBubble1Matched);
+            GameManagerHacking.Instance.AddCurrentScore(numberOfMatchedBubble1, comboMultiplier);
+            comboMultiplier += Convert.ToInt32(isBubble2Matched);
+            GameManagerHacking.Instance.AddCurrentScore(numberOfMatchedBubble2, comboMultiplier);
+            FillEmptySpace();
+        });
+        swappingTask.RunSynchronously();
+    }
+
+    /// <summary>
+    /// Moves babbles
+    /// </summary>
+    /// <param name="bubble"></param>
+    /// <param name="newPosition"></param>
+    /// <param name="moveTimeMultiplier"></param>
+    /// <returns></returns>
+    public async Task MoveBubble(Bubble bubble, Vector2 newPosition, int moveTimeMultiplier)
+    {
+        await BubbleMover.MoveBubble(bubble, newPosition, moveTimeMultiplier);
+        MatrixBubbles[(int)newPosition.x, (int)newPosition.y] = bubble.gameObject;
+        recentlyMovedBubblesBufferList.Add(bubble);
+    }
+
+    /// <summary>
+    /// Adds empty position to matrix bufffer of empty positions
+    /// </summary>
+    /// <param name="column"></param>
+    /// <param name="row"></param>
+    public void AddEmptyPositionToBuffer(int column, int row)
+    {
+        emptyPositionsBufferList.Add(new Vector2(column, row));
+    }
+
+    /// <summary>
+    /// Fill empty spaces gathered in matrix's empty positions buffer
+    /// </summary>
+    public void FillEmptySpace()
+    {
+        Task adjustingTask = new Task(async () =>
+        {
+            List<Task> tasks = new List<Task>();
+            tasks.AddRange(AdjustEmptySpace(emptyPositionsBufferList, Direction));
+            tasks.AddRange(FillEmptySpace(emptyPositionsBufferList, Direction));
+            await Task.WhenAll(tasks);
+
+            emptyPositionsBufferList.Clear();
+            CheckMatchesForRecentlyMovedBubbles();
+        });
+        adjustingTask.RunSynchronously();
+    }
+
+    /// <summary>
+    /// Tasking the creation and moving of new bubbles into empty positions in specified direction
+    /// </summary>
+    /// <param name="emptyPositionsBufferList"></param>
+    /// <param name="direction"></param>
+    /// <returns>List of tasks to move new bubbles into empty positions</returns>
+    private List<Task> FillEmptySpace(List<Vector2> emptyPositionsBufferList, Vector2 direction)
+    {
+        int yFlag = (int)Abs(direction.y);
+        int xFlag = (int)Abs(direction.x);
+        List<Task> tasks = new List<Task>();
+        foreach (Vector2 position in emptyPositionsBufferList)
+        {
+            int emptySpacesInColumnCount = emptyPositionsBufferList.Where(vector => vector.x * yFlag + vector.y * xFlag == position.x * yFlag + position.y * xFlag).Count();
+            Bubble bubble = SetBubbleAtOutsidePosition(new Vector2(position.x - direction.x * emptySpacesInColumnCount, position.y - direction.y * emptySpacesInColumnCount));
+            tasks.Add(MoveBubble(bubble, position, emptySpacesInColumnCount));
+        }
+        return tasks;
+    }
+
+    /// <summary>
+    /// Tasking the moving of existing bubbles into empty positions in specified direction
+    /// </summary>
+    /// <param name="emptyPositions"></param>
+    /// <param name="direction"></param>
+    /// <returns>List of tasks to move existing bubbles into empty positions</returns>
+    private List<Task> AdjustEmptySpace(List<Vector2> emptyPositions, Vector2 direction)
+    {
+        int yFlag = (int)Abs(direction.y);
+        int xFlag = (int)Abs(direction.x);
+        List<Task> tasks = new List<Task>();
+        List<int> dimensionIndexerList = emptyPositions.Select(vector => (int)vector.x * yFlag + (int)vector.y * xFlag).Distinct().ToList();
+
+        foreach (int dimensionIndex in dimensionIndexerList)
+        {
+            int emptySpacesInIndexerCount = emptyPositions.Where(vector => (int)vector.x * yFlag + (int)vector.y * xFlag == dimensionIndex).Count();
+            Vector2 adjustedDirection = new Vector2(direction.x * xFlag * emptySpacesInIndexerCount, direction.y * yFlag * emptySpacesInIndexerCount);
+
+            for (int secondDimensionIndex = 0; secondDimensionIndex < height * yFlag + width * xFlag; secondDimensionIndex++)
+            {
+                int row = yFlag != 0 ? (direction.y > 0 ? height - 1 - secondDimensionIndex : secondDimensionIndex) : dimensionIndex;
+                int column = xFlag != 0 ? (direction.x > 0 ? width - 1 - secondDimensionIndex : secondDimensionIndex) : dimensionIndex;
+
+                if (MatrixBubbles[column, row] != null)
                 {
-                    Debug.Log(String.Format("Possible at point ({0},{1}).", i, j));
-                    return false;
+                    Vector2 newPosition = new Vector2(column + adjustedDirection.x, row + adjustedDirection.y);
+
+                    if (emptyPositions.Contains(newPosition))
+                    {
+                        Bubble bubble = MatrixBubbles[column, row].GetComponent<Bubble>();
+
+                        tasks.Add(MoveBubble(bubble, newPosition, emptySpacesInIndexerCount));
+                        MatrixBubbles[column, row] = null;
+                        emptyPositions.Add(new Vector2(column, row));
+                        emptyPositions.Remove(newPosition);
+                    }
                 }
             }
         }
-        return true;
+        emptyPositionsBufferList = emptyPositions;
+        return tasks;
     }
 
     /// <summary>
-    /// Check if the point in matrix is a target of a possible move
+    /// Checks if any of the recent moves in matrix caused a match
     /// </summary>
-    /// <param name="i">Column</param>
-    /// <param name="j">Row</param>
-    /// <returns>True if there is a move, False if there are no moves</returns>
-    private bool IsMovePossibleAtPoint(int i, int j)
+    private void CheckMatchesForRecentlyMovedBubbles()
     {
-        List<Color> neighboursColorsList = GetNeighboursOfPoint(i, j);
-        foreach (Color matchColor in neighboursColorsList.Distinct())
+        List<Bubble> unmatchedBubbles = new List<Bubble>();
+        foreach (Bubble bubble in recentlyMovedBubblesBufferList)
         {
-            if (HasColorsListExpectedNumberOfColor(neighboursColorsList, matchColor, DEADLOCK_EXPECTED_NUMBER_OF_NEIHBOURS)) return true;
-        }
-        return false;
-    }
-
-    /// <summary>
-    /// Gets list of neighbours at specific point in matrix
-    /// </summary>
-    /// <param name="i">Column</param>
-    /// <param name="j">Row</param>
-    /// <returns>List of horizontal and vertical neighbours</returns>
-    private List<Color> GetNeighboursOfPoint(int i, int j)
-    {
-        List<Color> colorsList = new List<Color>();
-        AddVerticalNeighboursOfBubbleAtPointToList(ref colorsList, i, j);
-        AddHorizontalNeighboursOfBubbleAtPointToList(ref colorsList, i, j);
-        return colorsList;
-    }
-
-    /// <summary>
-    /// Checks if the list of colors has countity more than expected number
-    /// </summary>
-    /// <param name="colorsList">List of colors</param>
-    /// <param name="matchColor">Color to be matched</param>
-    /// <returns>True if number is equal or greater than expected number and false otherwise</returns>
-    private bool HasColorsListExpectedNumberOfColor(List<Color> colorsList, Color matchColor, int expectedNumber)
-    {
-        if (colorsList.Where(color => color == matchColor).Count() >= expectedNumber) return true;
-        else return false;
-    }
-
-    /// <summary>
-    /// Gets list of vertical neighbours at specific point in matrix
-    /// </summary>
-    /// <param name="colorsList">List of colors</param>
-    /// <param name="col">Column</param>
-    /// <param name="row">Row</param>
-    private void AddVerticalNeighboursOfBubbleAtPointToList(ref List<Color> colorsList, int col, int row)
-    {
-        for (int k = Max(0, col - DEADLOCK_NEIGHBOUR_RANGE); k < Min(width, col + DEADLOCK_NEIGHBOUR_RANGE + 1); k++)
-        {
-            int colDifference = k - col;
-            switch (Abs(colDifference))
+            if (bubble != null)
             {
-                case 0:
-                    break;
-                case 1:
-                    colorsList.Add(GetCellColor(k, row));
-                    break;
-                case 2:
-                    Color cellColor = GetCellColor(k, row);
-                    if (cellColor == GetCellColor(k - (int)Sign(colDifference), row)) colorsList.Add(cellColor);
-                    break;
-                default:
-                    Debug.LogError("Neighbour out of range!");
-                    break;
-            }
-        }
-    }
+                int NumberOfMatched = MatchFinder.RemoveBubbleAndMatchesIfExist(bubble);
 
-    /// <summary>
-    /// Gets list of horizontal neighbours at specific point in matrix
-    /// </summary>
-    /// <param name="colorsList">List of colors</param>
-    /// <param name="col">Column</param>
-    /// <param name="row">Row</param>
-    private void AddHorizontalNeighboursOfBubbleAtPointToList(ref List<Color> colorsList, int col, int row)
-    {
-        for (int k = Max(0, row - DEADLOCK_NEIGHBOUR_RANGE); k < Min(height, row + DEADLOCK_NEIGHBOUR_RANGE + 1); k++)
-        {
-            int rowDiffernce = k - row;
-            switch (Abs(rowDiffernce))
-            {
-                case 0:
-                    break;
-                case 1:
-                    colorsList.Add(GetCellColor(col, k));
-                    break;
-                case 2:
-                    Color cellColor = GetCellColor(col, k);
-                    if (cellColor == GetCellColor(col, k - (int)Sign(rowDiffernce))) colorsList.Add(cellColor);
-                    break;
-                default:
-                    Debug.LogError("Neighbour out of range!");
-                    break;
+                if (NumberOfMatched != 0)
+                {
+                    comboMultiplier++;
+                    GameManagerHacking.Instance.AddCurrentScore(NumberOfMatched, comboMultiplier);
+                    FillEmptySpace();
+                    return;
+                }
             }
+            unmatchedBubbles.Add(bubble);
         }
-    }
-
-    /// <summary>
-    /// Gets color of the cell located at (i,j) point in matrix
-    /// </summary>
-    /// <param name="i">Column</param>
-    /// <param name="j">Row</param>
-    /// <returns>Color of the cell</returns>
-    private Color GetCellColor(int i, int j)
-    {
-        return MatrixBubbles[i, j].GetComponentInChildren<SpriteRenderer>().color;
+        recentlyMovedBubblesBufferList.RemoveAll(bubble => unmatchedBubbles.Contains(bubble));
+        Debug.Log("Points multiplied by: " + comboMultiplier);
+        comboMultiplier = 1;
+        CheckMatrixDeadlock();
     }
 }
 
