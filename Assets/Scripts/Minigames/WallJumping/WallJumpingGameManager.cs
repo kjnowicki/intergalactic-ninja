@@ -10,9 +10,12 @@ public class WallJumpingGameManager : MonoBehaviour
     public int wallHeightAdditional;
     public float playerForceScale;
     public float garbageCollectorYCoord;
+    public float slimeEffectDuration;
 
     private float currentScore;
     private float bestScore;
+    WallJumpingUiManager wallJumpingUiManager;
+    private SlimeGenerator slimeGenerator;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +28,8 @@ public class WallJumpingGameManager : MonoBehaviour
     /// </summary>
     private void SetUp()
     {
+        wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
+        slimeGenerator = FindObjectOfType<SlimeGenerator>();
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
@@ -37,7 +42,6 @@ public class WallJumpingGameManager : MonoBehaviour
     /// <param name="weightSum"></param>
     private void InitializeUi(float weightSum)
     {
-        WallJumpingUiManager wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
         currentScore = 0;
         bestScore = PlayerPrefsWrapper.GetWallJumpingBestScore();
         float uiLayoutRatio = uiLayoutWeight / weightSum;
@@ -52,7 +56,7 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         GameArea gameArea = FindObjectOfType<GameArea>();
         float gameAreaHeightRatio = gameAreaLayoutWeight / weightSum;
-        gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord);
+        gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord, slimeEffectDuration);
     }
 
     /// <summary>
@@ -61,6 +65,14 @@ public class WallJumpingGameManager : MonoBehaviour
     private void InitializePlayer()
     {
         WallJumpingPlayer player = FindObjectOfType<WallJumpingPlayer>();
-        player.Initialize(playerForceScale);
+        player.Initialize(playerForceScale, this);
+    }
+
+    /// <summary>
+    /// Generates slime effect.
+    /// </summary>
+    public void GenerateSlimeEffect()
+    {
+        slimeGenerator.EnableSlimeEffect();
     }
 }
