@@ -26,14 +26,6 @@ public class SlimeGenerator : MonoBehaviour
         DisableSlimeEffect();
     }
 
-    /// <summary>
-    /// Generates slime effect.
-    /// </summary>
-    public void GenerateSlimeEffect()
-    {
-        EnableSlimeEffect();
-    }
-
     void Update()
     {
         if (isSlimeActive)
@@ -71,7 +63,7 @@ public class SlimeGenerator : MonoBehaviour
     /// <summary>
     /// Enables slime effect.
     /// </summary>
-    private void EnableSlimeEffect()
+    public void EnableSlimeEffect()
     {
         slimeEffect.SetActive(true);
         isSlimeActive = true;
