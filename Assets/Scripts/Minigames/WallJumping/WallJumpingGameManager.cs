@@ -10,16 +10,23 @@ public class WallJumpingGameManager : MonoBehaviour
     public int wallHeightAdditional;
     public float playerForceScale;
     public float garbageCollectorYCoord;
+    public float downwardForce;
     [Header("")]
     public GameObject movableObjectsColection;
 
     private float currentScore;
     private float bestScore;
 
+
     // Start is called before the first frame update
     void Start()
     {
         SetUp();
+    }
+
+    private void Update()
+    {
+        CameraMovement();
     }
 
     /// <summary>
@@ -68,9 +75,12 @@ public class WallJumpingGameManager : MonoBehaviour
 
     private void CameraMovement()
     {
-        foreach(Transform movablePosition in movableObjectsColection.GetComponentsInChildren<Transform>())
+        float deltaTime = Time.deltaTime;
+        float moveValue = downwardForce * deltaTime;
+        foreach (Transform movablePosition in movableObjectsColection.GetComponentsInChildren<Transform>())
         {
-
+            if (movablePosition.parent == movableObjectsColection.transform)
+                movablePosition.position += Vector3.down * moveValue;
         }
     }
 }

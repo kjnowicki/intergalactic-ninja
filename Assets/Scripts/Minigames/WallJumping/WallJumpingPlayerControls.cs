@@ -17,7 +17,7 @@ public class WallJumpingPlayerControls : MonoBehaviour
         this.player = player;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (Input.touchCount > 0)
         {
