@@ -10,6 +10,8 @@ public class WallJumpingGameManager : MonoBehaviour
     public int wallHeightAdditional;
     public float playerForceScale;
     public float garbageCollectorYCoord;
+    [Header("")]
+    public GameObject movableObjectsColection;
 
     private float currentScore;
     private float bestScore;
@@ -62,5 +64,10 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         WallJumpingPlayer player = FindObjectOfType<WallJumpingPlayer>();
         player.Initialize(playerForceScale);
+    }
+
+    private void CameraMovement()
+    {
+       // foreach(Transform movablePosition : gamearea)
     }
 }
