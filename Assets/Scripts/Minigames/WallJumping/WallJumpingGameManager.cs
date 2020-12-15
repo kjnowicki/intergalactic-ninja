@@ -68,6 +68,9 @@ public class WallJumpingGameManager : MonoBehaviour
 
     private void CameraMovement()
     {
-       // foreach(Transform movablePosition : gamearea)
+        foreach(Transform movablePosition in movableObjectsColection.GetComponentsInChildren<Transform>())
+        {
+
+        }
     }
 }
