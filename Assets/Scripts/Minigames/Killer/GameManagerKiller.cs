@@ -31,6 +31,8 @@ public class GameManagerKiller : MonoBehaviour
     private readonly KillerStringsModel stringsModel = StringsModelsModel.KillerStringsModel;
     private string bestScoreTemplate;
     private string currentScoreTemplate;
+    private float spawnTimer;
+    private float lifeTime;
 
     [Header("UI score display")]
     public TextMeshPro currentScoreText;
@@ -43,8 +45,8 @@ public class GameManagerKiller : MonoBehaviour
     public GameObject targetContainer;
 
     [Header("Target parameters")]
-    public float spawnTimer;
-    public float lifeTime;
+    public float initialSpawnTimer;
+    public float initialLifeTime;
     [Range(0.0f, 1.0f)]
     public float lowerLifeTime;
     [Range(0.0f, 1.0f)]
@@ -68,7 +70,7 @@ public class GameManagerKiller : MonoBehaviour
     //TO DO:
     //Exp progres bar
 
-    void Start()
+    public void Initialize()
     {
         InitializeData();
 
@@ -84,6 +86,8 @@ public class GameManagerKiller : MonoBehaviour
         currentScoreTemplate = stringsModel.CurrentScore;
         gameOverObejct.SetActive(false);
         gameOver = false;
+        spawnTimer = initialSpawnTimer;
+        lifeTime = initialLifeTime;
         Time.timeScale = 1;
 
         currentScore = 0;
@@ -165,6 +169,6 @@ public class GameManagerKiller : MonoBehaviour
     /// </summary>
     public void Replay()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Initialize();
     }
 }

@@ -64,7 +64,6 @@ public class GameManagerHacking : MonoBehaviour
     {
         InitializeData();
         controlMethod = ControlMethodFactory.GetControlMethod(matrix);
-        StartTimer();
         BubbleAnimation.RandomIdleAnimation(matrix);
         resetWindow.SetActive(false);
     }
