@@ -1,11 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameArea : MonoBehaviour
 {
+
+    public float restrictedAreaHeight;
+
     private RectTransform gameAreaRectTransform;
     private WallGenerator wallGenerator;
     private MovableObjectsContainer movableObjectsContainer;
     private WallJumpingPlayer player;
+    private CameraRubberBand cameraMovement;
 
     /// <summary>
     /// Initializes WallGenerator.
@@ -16,11 +21,22 @@ public class GameArea : MonoBehaviour
         gameAreaRectTransform = GetComponent<RectTransform>();
         player = GetComponentInChildren<WallJumpingPlayer>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
+        cameraMovement = FindObjectOfType<CameraRubberBand>();
+
         InitializePosition(heightRatio);
         InitializeMovableObjectsContainer();
         InitializePlayerPosition();
         InitializeWallGenerator(wallHeightAdditional);
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
+        InitializeRestrictedArea();
+    }
+
+    private void InitializeRestrictedArea()
+    {
+
+        Vector2 restrictedAreaPosition = gameAreaRectTransform.position;
+        Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
+        cameraMovement.Initialize(restrictedAreaPosition, restrictedAreaSize);
     }
 
     /// <summary>
