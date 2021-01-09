@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -109,19 +110,20 @@ public class GameManagerHacking : MonoBehaviour
     {
         currentTime = maxTime;
         EnableControl();
-        Timer();
+        StartCoroutine(Timer());
     }
 
     /// <summary>
     /// Time is ticking!
     /// </summary>
-    public async void Timer()
+    public IEnumerator Timer()
     {
-        while (0f < currentTime)
+        while (currentTime > 0)
         {
-            currentTime = (float)Math.Round(currentTime - 0.01, 2);
+            currentTime -= Time.deltaTime;
             timeText.text = currentTime.ToString(timeTemplate);
-            await Task.Delay(TimeSpan.FromMilliseconds(10f));
+
+            yield return null;
         }
         GameOver();
     }
