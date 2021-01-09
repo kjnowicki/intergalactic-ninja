@@ -7,4 +7,6 @@
     public static HackingStringsModel HackingStringsModel => new HackingStringsModel();
 
     public static WallJumpingStringsModel WallJumpingStringsModel => new WallJumpingStringsModel();
+
+    public static ReturnPopupStringsModel ReturnStringsModel => new ReturnPopupStringsModel();
 }

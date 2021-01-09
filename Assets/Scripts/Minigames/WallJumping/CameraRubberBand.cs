@@ -65,7 +65,7 @@ public class CameraRubberBand : MonoBehaviour
         {
             Vector2 position = movablePosition.position;
             if (movablePosition.parent == movableObjectsColection.transform)
-                movablePosition.position = Vector2.Lerp(position, new Vector2(position.x, position.y - downwardForce), rubberBandStrength * Time.deltaTime);
+                movablePosition.position = Vector2.Lerp(position, new Vector2(position.x, position.y - downwardForce * rubberBandStrength), Time.deltaTime);
         }
     }
 }

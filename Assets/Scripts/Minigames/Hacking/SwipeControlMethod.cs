@@ -2,7 +2,6 @@
 
 public class SwipeControlMethod : BaseControlMethod
 {
-
     public SwipeControlMethod(Matrix matrix) : base(matrix) { }
 
     /// <summary>
@@ -37,17 +36,16 @@ public class SwipeControlMethod : BaseControlMethod
 
         if (newColumn >= 0 && newColumn < matrix.width && newRow >= 0 && newRow < matrix.height)
         {
+            GameManagerHacking.Instance.DisableControl();
             SecondFocusedBubble = matrix.MatrixBubbles[newColumn, newRow].GetComponent<Bubble>();
-            SwapCoords(FirstFocusedBubble, SecondFocusedBubble); //method exchanging row and column field between the bubbles
+            matrix.SwapBubbles(FirstFocusedBubble, SecondFocusedBubble);
         }
-        else
-            ClearData();
-
+        ClearData();
     }
 
     public override void OnMouseDownAction(Bubble bubble)
     {
-        if (FirstTouch == null && SecondTouch == null)
+        if (GameManagerHacking.Instance.ControlEnabled && FirstTouch == null && SecondTouch == null)
         {
             FirstFocusedBubble = bubble;
             FirstTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -56,23 +54,16 @@ public class SwipeControlMethod : BaseControlMethod
 
     public override void OnMouseUpAction()
     {
-        if (SecondTouch == null && FirstTouch != null)
+        if (GameManagerHacking.Instance.ControlEnabled && SecondTouch == null && FirstTouch != null)
         {
             SecondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            MovePieces();
+            if (!AreTouchesOverTheSameBubble()) MovePieces();
+            else ClearData();
         }
     }
 
-    private void SwapCoords(Bubble firstFocusedBubble, Bubble secondFocusedBubble)
+    private bool AreTouchesOverTheSameBubble()
     {
-        int row = firstFocusedBubble.row;
-        int column = firstFocusedBubble.column;
-
-        firstFocusedBubble.row = secondFocusedBubble.row;
-        firstFocusedBubble.column = secondFocusedBubble.column;
-
-        secondFocusedBubble.row = row;
-        secondFocusedBubble.column = column;
+        return Mathf.RoundToInt(FirstTouch.Value.x) == Mathf.RoundToInt(SecondTouch.Value.x) && Mathf.RoundToInt(FirstTouch.Value.y) == Mathf.RoundToInt(SecondTouch.Value.y);
     }
-
 }

@@ -11,6 +11,8 @@ public class WallGenerator : MonoBehaviour
 
     [Header("References")]
     public NormalWallBlock normalWallBlockPrefab;
+    public SpikeWallBlock spikeWallBlockPrefab;
+    public SlimeWallBlock slimeWallBlockPrefab;
 
     /// <summary>
     /// Initializes WallGenerator.

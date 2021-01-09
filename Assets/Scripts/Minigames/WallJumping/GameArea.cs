@@ -10,24 +10,28 @@ public class GameArea : MonoBehaviour
     private WallGenerator wallGenerator;
     private MovableObjectsContainer movableObjectsContainer;
     private WallJumpingPlayer player;
+    private BackgroundGenerator backgroundGenerator;
     private CameraRubberBand cameraMovement;
 
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
     /// <param name="heightRatio"></param>
-    public void Initialize(float heightRatio, int wallHeightAdditional, float garbageCollectorHeight)
+    public void Initialize(float heightRatio, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
     {
         gameAreaRectTransform = GetComponent<RectTransform>();
         player = GetComponentInChildren<WallJumpingPlayer>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
         cameraMovement = FindObjectOfType<CameraRubberBand>();
+        backgroundGenerator = GetComponentInChildren<BackgroundGenerator>();
 
         InitializePosition(heightRatio);
         InitializeMovableObjectsContainer();
         InitializePlayerPosition();
         InitializeWallGenerator(wallHeightAdditional);
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
+        InitializeBackgroundGenerator();
+        InitializeSlimeGenerator(slimeEffectDuration);
         InitializeRestrictedArea();
     }
 
@@ -89,5 +93,23 @@ public class GameArea : MonoBehaviour
         GarbageCollector garbageCollector = GetComponentInChildren<GarbageCollector>();
         Vector2 garbageCollectorInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, garbageCollectorHeight);
         garbageCollector.InitializePosition(garbageCollectorInitialPosition);
+    }
+
+    /// <summary>
+    /// Initializes BackgroundGenerator.
+    /// </summary>
+    private void InitializeBackgroundGenerator()
+    {
+        backgroundGenerator.Initialize(gameAreaRectTransform);
+    }
+
+    /// <summary>
+    /// Initializes SlimeGenerator.
+    /// </summary>
+    /// <param name="slimeEffectDuration"></param>
+    private void InitializeSlimeGenerator(float slimeEffectDuration)
+    {
+        SlimeGenerator slimeGenerator = FindObjectOfType<SlimeGenerator>();
+        slimeGenerator.Initialize(gameAreaRectTransform, slimeEffectDuration);
     }
 }
