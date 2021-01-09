@@ -8,14 +8,17 @@ public class CameraRubberBand : MonoBehaviour
 
     private GameObject movableObjectsColection;
 
-    public BoxCollider2D restrictedArea;
-    [Range (0.0f, 15.0f)]
-    public float rubberBandStrength;
+    [SerializeField] private BoxCollider2D restrictedArea;
+
+    [Range(0.0f, 15.0f)]
+    [SerializeField] private float rubberBandStrength = 5f;
+
     [Range (0.0f, 10.0f)]
-    public float downwardForce;
+    [SerializeField] private float downwardForce = 1f;
+
     [Header ("Restricted area treshold")]
     [Range (0.5f, 1f)]
-    public float restrictedAreaHeight;
+    [SerializeField] private float restrictedAreaHeight = 0.85f;
 
     private void Awake()
     {
@@ -60,8 +63,9 @@ public class CameraRubberBand : MonoBehaviour
     {
         foreach (Transform movablePosition in movableObjectsColection.GetComponentsInChildren<Transform>())
         {
+            Vector2 position = movablePosition.position;
             if (movablePosition.parent == movableObjectsColection.transform)
-                movablePosition.position = Vector2.Lerp(movablePosition.position, new Vector2(movablePosition.position.x, movablePosition.position.y - downwardForce), rubberBandStrength * Time.deltaTime);
+                movablePosition.position = Vector2.Lerp(position, new Vector2(position.x, position.y - downwardForce), rubberBandStrength * Time.deltaTime);
         }
     }
 }
