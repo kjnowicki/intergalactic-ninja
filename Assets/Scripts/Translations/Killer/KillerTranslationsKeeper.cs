@@ -2,7 +2,7 @@
 
 internal class KillerTranslationsKeeper : BaseStringsKeeper
 {
-    protected override string _TranslationPath => "Minigames/Killer"; // path begining from Recources/Strings/
+    protected override string TranslationPath => "Minigames/Killer"; // path begining from Recources/Strings/
 
     private static readonly Lazy<KillerTranslationsKeeper>
         lazy =
