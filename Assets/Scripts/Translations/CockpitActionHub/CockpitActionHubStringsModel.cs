@@ -1,10 +1,10 @@
 ﻿public class CockpitActionHubStringsModel : BaseStringsModel
 {
-    private const string _SETTINGS_KEY = "Settings";
+    private const string SETTINGS_KEY = "Settings";
 
-    public string Settings { get => GetString(_SETTINGS_KEY); }
+    public string Settings { get => GetString(SETTINGS_KEY); }
 
-    protected override BaseStringsKeeper _stringsKeeperInstance => CockpitActionHubTranslationsKeeper.Instance;
+    protected override BaseStringsKeeper stringsKeeperInstance => CockpitActionHubTranslationsKeeper.Instance;
 
     public CockpitActionHubStringsModel() : base() { }
 }

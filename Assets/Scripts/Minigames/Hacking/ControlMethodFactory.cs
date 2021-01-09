@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public static class ControlMethodFactory
+﻿public static class ControlMethodFactory
 {
     /// <summary>
     /// This Method gets control method from PlayerPrefs and return it 
@@ -15,9 +11,6 @@ public static class ControlMethodFactory
         BaseControlMethod result;
         switch (controlMethod)
         {
-            case ControlMethod.Swipe:
-                result = new SwipeControlMethod(matrix);
-                break;
             case ControlMethod.Click:
                 result = new ClickControlMethod(matrix);
                 break;
@@ -27,5 +20,4 @@ public static class ControlMethodFactory
         }
         return result;
     }
-
 }
