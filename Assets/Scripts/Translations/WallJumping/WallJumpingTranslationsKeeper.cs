@@ -2,7 +2,7 @@
 
 internal class WallJumpingTranslationsKeeper : BaseStringsKeeper
 {
-    protected override string _TranslationPath => "Minigames/WallJumping"; // path begining from Recources/Strings/
+    protected override string TranslationPath => "Minigames/WallJumping"; // path begining from Recources/Strings/
 
     private static readonly Lazy<WallJumpingTranslationsKeeper>
         lazy =
