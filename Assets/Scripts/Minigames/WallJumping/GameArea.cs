@@ -26,7 +26,7 @@ public class GameArea : MonoBehaviour
     }
 
     /// <summary>
-    /// Initializes Player position.
+    /// Initializes Player.
     /// </summary>
     public void InitializePlayer(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
     {

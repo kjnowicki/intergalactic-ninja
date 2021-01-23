@@ -20,6 +20,11 @@ public class MovableObjectsContainer : MonoBehaviour
         movableObjectsContainerRectTransform.position = gameAreaRectTransform.position;
     }
 
+    /// <summary>
+    /// Initializes Player.
+    /// </summary>
+    /// <param name="playerForceScale"></param>
+    /// <param name="wallJumpingGameManager"></param>
     public void InitializePlayer(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
     {
         Vector2 playerInitialPosition = Vector2.zero;

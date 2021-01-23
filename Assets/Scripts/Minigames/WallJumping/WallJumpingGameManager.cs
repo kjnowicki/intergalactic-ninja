@@ -24,6 +24,9 @@ public class WallJumpingGameManager : MonoBehaviour
         SetUp();
     }
 
+    /// <summary>
+    /// Initializes the game.
+    /// </summary>
     public void Initialize()
     {
         InitializePlayer();
