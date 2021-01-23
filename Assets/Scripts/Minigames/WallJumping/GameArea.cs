@@ -15,16 +15,22 @@ public class GameArea : MonoBehaviour
     public void Initialize(float heightRatio, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
     {
         gameAreaRectTransform = GetComponent<RectTransform>();
-        player = GetComponentInChildren<WallJumpingPlayer>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
         backgroundGenerator = GetComponentInChildren<BackgroundGenerator>();
         InitializePosition(heightRatio);
         InitializeMovableObjectsContainer();
-        InitializePlayerPosition();
         InitializeWallGenerator(wallHeightAdditional);
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
         InitializeBackgroundGenerator();
         InitializeSlimeGenerator(slimeEffectDuration);
+    }
+
+    /// <summary>
+    /// Initializes Player position.
+    /// </summary>
+    public void InitializePlayer(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
+    {
+        movableObjectsContainer.InitializePlayer(playerForceScale, wallJumpingGameManager);
     }
 
     /// <summary>
@@ -46,16 +52,6 @@ public class GameArea : MonoBehaviour
     private void InitializeMovableObjectsContainer()
     {
         movableObjectsContainer.Initialize(gameAreaRectTransform);
-    }
-
-    /// <summary>
-    /// Initializes Player position.
-    /// </summary>
-    private void InitializePlayerPosition()
-    {
-        float playerInitialYCoord = 3; // this will be removed when floor is added (it is only for testing)
-        Vector2 playerInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, playerInitialYCoord);
-        player.InitializePosition(playerInitialPosition);
     }
 
     /// <summary>
