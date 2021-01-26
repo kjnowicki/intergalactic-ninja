@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class WallJumpingPlayer : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class WallJumpingPlayer : MonoBehaviour
     private float forceScale;
     private float playerToWallOffset;
     private WallJumpingGameManager wallJumpingGameManager;
+    private float maximumHeight = 0;
 
     public Rigidbody2D playerRigidbody;
 
@@ -27,6 +29,16 @@ public class WallJumpingPlayer : MonoBehaviour
 
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
         playerControls.Initialize(this);
+    }
+
+    private void FixedUpdate()
+    {
+        float currentPlayerHeight = transform.localPosition.y;
+        if (currentPlayerHeight > maximumHeight)
+        {
+            maximumHeight = currentPlayerHeight;
+            wallJumpingGameManager.SetScore(maximumHeight);
+        }
     }
 
     /// <summary>

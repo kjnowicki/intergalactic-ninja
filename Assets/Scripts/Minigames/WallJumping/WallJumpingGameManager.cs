@@ -75,4 +75,9 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         slimeGenerator.EnableSlimeEffect();
     }
+
+    public void SetScore(float score)
+    {
+        wallJumpingUiManager.CurrentScore = score;
+    }
 }
