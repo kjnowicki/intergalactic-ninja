@@ -3,15 +3,12 @@ using UnityEngine;
 
 public class GameArea : MonoBehaviour
 {
-
-    public float restrictedAreaHeight;
-
     private RectTransform gameAreaRectTransform;
     private WallGenerator wallGenerator;
     private MovableObjectsContainer movableObjectsContainer;
     private WallJumpingPlayer player;
     private BackgroundGenerator backgroundGenerator;
-    private CameraRubberBand cameraMovement;
+    private CameraRubberBand cameraRubberBand;
 
     /// <summary>
     /// Initializes WallGenerator.
@@ -22,7 +19,7 @@ public class GameArea : MonoBehaviour
         gameAreaRectTransform = GetComponent<RectTransform>();
         player = GetComponentInChildren<WallJumpingPlayer>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
-        cameraMovement = FindObjectOfType<CameraRubberBand>();
+        cameraRubberBand = FindObjectOfType<CameraRubberBand>();
         backgroundGenerator = GetComponentInChildren<BackgroundGenerator>();
 
         InitializePosition(heightRatio);
@@ -32,15 +29,7 @@ public class GameArea : MonoBehaviour
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
         InitializeBackgroundGenerator();
         InitializeSlimeGenerator(slimeEffectDuration);
-        InitializeRestrictedArea();
-    }
-
-    private void InitializeRestrictedArea()
-    {
-
-        Vector2 restrictedAreaPosition = gameAreaRectTransform.position;
-        Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
-        cameraMovement.Initialize(restrictedAreaPosition, restrictedAreaSize);
+        InitializeRubberBandAreaSize();
     }
 
     /// <summary>
@@ -111,5 +100,15 @@ public class GameArea : MonoBehaviour
     {
         SlimeGenerator slimeGenerator = FindObjectOfType<SlimeGenerator>();
         slimeGenerator.Initialize(gameAreaRectTransform, slimeEffectDuration);
+    }
+    /// <summary>
+    /// Initializes size of the trigger that is responsible for rubber banding camera
+    /// </summary>
+    private void InitializeRubberBandAreaSize()
+    {
+
+        Vector2 restrictedAreaPosition = gameAreaRectTransform.position;
+        Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
+        cameraRubberBand.Initialize(restrictedAreaPosition, restrictedAreaSize);
     }
 }

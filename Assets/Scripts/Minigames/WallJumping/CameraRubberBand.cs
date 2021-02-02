@@ -57,7 +57,7 @@ public class CameraRubberBand : MonoBehaviour
         }
     }
     /// <summary>
-    /// Rubber band mechanizm to restrict player from jumping to high
+    /// Rubber band mechanism to restrict player from jumping to high
     /// </summary>
     private void RubberBand()
     {

@@ -17,7 +17,6 @@ public class WallJumpingGameManager : MonoBehaviour
     WallJumpingUiManager wallJumpingUiManager;
     private SlimeGenerator slimeGenerator;
 
-
     // Start is called before the first frame update
     void Start()
     {
