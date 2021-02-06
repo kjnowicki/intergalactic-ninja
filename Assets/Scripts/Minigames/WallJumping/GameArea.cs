@@ -106,7 +106,6 @@ public class GameArea : MonoBehaviour
     /// </summary>
     private void InitializeRubberBandAreaSize()
     {
-
         Vector2 restrictedAreaPosition = gameAreaRectTransform.position;
         Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
         cameraRubberBand.Initialize(restrictedAreaPosition, restrictedAreaSize);
