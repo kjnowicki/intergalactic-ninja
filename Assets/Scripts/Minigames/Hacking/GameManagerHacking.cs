@@ -56,7 +56,11 @@ public class GameManagerHacking : MonoBehaviour
 
     public BaseControlMethod controlMethod;
     public bool ControlEnabled { get; private set; }
-    private const float ARROW_ANIMATION_SPEED = 0.1f;
+
+    [Header("Gravity arrow")]
+    [SerializeField] private float arrowAnimationSpeed = 10f;
+    private Quaternion prevArrowRotation;
+    private Coroutine gravityArrowCoroutine;
 
     private void Awake()
     {
@@ -187,16 +191,33 @@ public class GameManagerHacking : MonoBehaviour
         ControlEnabled = false;
     }
 
-    public async void RotateGravityArrow(Vector2 direction)
+    /// <summary>
+    /// It stops previous rotation and start new one
+    /// </summary>
+    /// <param name="direction"></param>
+    public void RotateGravityArrow(Vector2 direction)
+    {
+        if (gravityArrowCoroutine != null)
+            StopCoroutine(gravityArrowCoroutine);
+        gravityArrow.transform.rotation = prevArrowRotation;
+        gravityArrowCoroutine = StartCoroutine(StartRotateGravityArrow(direction));
+    }
+
+    /// <summary>
+    /// coroutine which rotate arrow
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    IEnumerator StartRotateGravityArrow(Vector2 direction)
     {
         var angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-        Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        while (Mathf.Abs(gravityArrow.transform.rotation.eulerAngles.z - targetRotation.eulerAngles.z) > ARROW_ANIMATION_SPEED)
+        prevArrowRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        while (Mathf.Abs(gravityArrow.transform.rotation.eulerAngles.z - prevArrowRotation.eulerAngles.z) > arrowAnimationSpeed)
         {
-            gravityArrow.transform.rotation = Quaternion.Lerp(gravityArrow.transform.rotation, targetRotation, ARROW_ANIMATION_SPEED);
-            await Task.Delay(1);
+            gravityArrow.transform.rotation = Quaternion.Lerp(gravityArrow.transform.rotation, prevArrowRotation, Time.deltaTime * arrowAnimationSpeed);
+            yield return null;
         }
-        gravityArrow.transform.rotation = targetRotation;
+        gravityArrow.transform.rotation = prevArrowRotation;
     }
 
 }
