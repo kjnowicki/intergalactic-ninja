@@ -101,6 +101,7 @@ public class GameArea : MonoBehaviour
         SlimeGenerator slimeGenerator = FindObjectOfType<SlimeGenerator>();
         slimeGenerator.Initialize(gameAreaRectTransform, slimeEffectDuration);
     }
+
     /// <summary>
     /// Initializes size of the trigger that is responsible for rubber banding camera
     /// </summary>
