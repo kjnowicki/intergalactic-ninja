@@ -75,5 +75,4 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         slimeGenerator.EnableSlimeEffect();
     }
-
 }
