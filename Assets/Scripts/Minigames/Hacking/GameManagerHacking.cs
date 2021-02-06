@@ -37,9 +37,6 @@ public class GameManagerHacking : MonoBehaviour
     public TextMeshProUGUI currentScoreText;
     public TextMeshProUGUI bestScoreText;
     public TextMeshProUGUI timeText;
-    public TextMeshProUGUI resetMessageText;
-    public TextMeshProUGUI resetAcceptText;
-    public TextMeshProUGUI resetCancelText;
     public GameObject gravityArrow;
     public GameObject resetWindow;
 
@@ -98,9 +95,6 @@ public class GameManagerHacking : MonoBehaviour
     private void SetUI()
     {
         bestScoreText.text = String.Format(bestScoreTemplate, bestScore);
-        resetMessageText.text = stringsModel.ResetMessage;
-        resetAcceptText.text = stringsModel.ResetAccept;
-        resetCancelText.text = stringsModel.ResetCancel;
     }
 
     /// <summary>
