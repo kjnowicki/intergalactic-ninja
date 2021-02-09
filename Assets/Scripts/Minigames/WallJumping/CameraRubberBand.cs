@@ -31,12 +31,10 @@ public class CameraRubberBand : MonoBehaviour
         CameraMovement();
     }
 
-    public void Initialize(WallJumpingGameManager wallJumpingGameManager, Vector2 restrictedAreaPosition,
-        Vector2 restrictedAreaSize)
+    public void Initialize(WallJumpingGameManager wallJumpingGameManager, Vector2 restrictedAreaPosition, Vector2 restrictedAreaSize)
     {
         this.wallJumpingGameManager = wallJumpingGameManager;
-        restrictedArea.transform.position = new Vector2(restrictedAreaPosition.x + (restrictedAreaSize.x / 2),
-            -restrictedAreaPosition.y * restrictedAreaHeight);
+        restrictedArea.transform.position = new Vector2(restrictedAreaPosition.x + (restrictedAreaSize.x / 2), -restrictedAreaPosition.y * restrictedAreaHeight);
         restrictedArea.size = new Vector2(restrictedAreaSize.x * 2f, restrictedAreaSize.y);
     }
 
@@ -47,14 +45,14 @@ public class CameraRubberBand : MonoBehaviour
     {
         float deltaTime = Time.deltaTime;
         float moveValue = downwardForce * deltaTime;
-        Vector3 movablePositionChange = Vector3.down * moveValue;
+        Vector3 positionChange = Vector3.down * moveValue;
         wallJumpingGameManager.AddScore(moveValue);
 
         foreach (Transform movablePosition in movableObjectsColection.GetComponentsInChildren<Transform>())
         {
             if (movablePosition.parent == movableObjectsColection.transform)
             {
-                movablePosition.position += movablePositionChange;
+                movablePosition.position += positionChange;
             }
         }
     }
