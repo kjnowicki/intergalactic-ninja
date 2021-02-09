@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class WallJumpingPlayer : MonoBehaviour
+public class WallJumpingPlayer : MonoBehaviour, ICollectable
 {
     private const float HALF_WALL_WIDTH = 0.5f;
     private float forceScale;
@@ -73,7 +73,7 @@ public class WallJumpingPlayer : MonoBehaviour
     /// <summary>
     /// Obliterates the Player mercilessly.
     /// </summary>
-    public void Die()
+    public void OnCollected()
     {
         Destroy(gameObject);
         // GameOver screen in future

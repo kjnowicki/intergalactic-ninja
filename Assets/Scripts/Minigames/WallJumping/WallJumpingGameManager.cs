@@ -16,6 +16,7 @@ public class WallJumpingGameManager : MonoBehaviour
     private float bestScore;
     WallJumpingUiManager wallJumpingUiManager;
     private SlimeGenerator slimeGenerator;
+    private WallGenerator wallGenerator;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
         slimeGenerator = FindObjectOfType<SlimeGenerator>();
+        wallGenerator = FindObjectOfType<WallGenerator>();
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
@@ -74,5 +76,10 @@ public class WallJumpingGameManager : MonoBehaviour
     public void GenerateSlimeEffect()
     {
         slimeGenerator.EnableSlimeEffect();
+    }
+
+    public void GenerateNewWallsOnTop()
+    {
+        wallGenerator.GenerateNewWallsOnTop();
     }
 }

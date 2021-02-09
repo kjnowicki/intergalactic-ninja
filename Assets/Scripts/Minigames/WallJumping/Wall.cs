@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Wall
 {
-    private readonly Queue<BaseWallBlock> wallBlocks = new Queue<BaseWallBlock>();
+    private BaseWallBlock topBlock;
     private Vector2 newBlockPosition;
     private readonly float blockHeight;
     private readonly Transform movableObjectsContainer;
@@ -32,9 +32,16 @@ public class Wall
     /// </param>
     public void AddWallBlockOnTop(BaseWallBlock wallBlockPrefab)
     {
+        var newPosition = new Vector2( topBlock.transform.position.x, topBlock.transform.position.y + blockHeight);
+        BaseWallBlock newWallBlock = GameObject.Instantiate(wallBlockPrefab, newPosition, Quaternion.identity, movableObjectsContainer);
+        newWallBlock.Direction = direction;
+        topBlock = newWallBlock;
+    }
+
+    public void AddInitialBlock(BaseWallBlock wallBlockPrefab)
+    {
         BaseWallBlock newWallBlock = GameObject.Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, movableObjectsContainer);
         newWallBlock.Direction = direction;
-        wallBlocks.Enqueue(newWallBlock);
-        newBlockPosition.y += blockHeight;
+        topBlock = newWallBlock;
     }
 }
