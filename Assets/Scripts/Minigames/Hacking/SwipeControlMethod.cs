@@ -57,9 +57,13 @@ public class SwipeControlMethod : BaseControlMethod
         if (GameManagerHacking.Instance.ControlEnabled && SecondTouch == null && FirstTouch != null)
         {
             SecondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (!AreTouchesOverTheSameBubble()) MovePieces();
-            else ClearData();
+            if (!AreTouchesOverTheSameBubble())
+            {
+                MovePieces();
+                return;
+            }
         }
+        ClearData();
     }
 
     private bool AreTouchesOverTheSameBubble()
