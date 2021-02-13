@@ -12,6 +12,9 @@ public class WallJumpingGameManager : MonoBehaviour
     public float garbageCollectorYCoord;
     public float slimeEffectDuration;
 
+    [Header("References")]
+    public GameObject gameReplayObject;
+
     private float currentScore;
     private float bestScore;
     WallJumpingUiManager wallJumpingUiManager;
@@ -90,5 +93,13 @@ public class WallJumpingGameManager : MonoBehaviour
     public void AddScore(float score)
     {
         wallJumpingUiManager.CurrentScore += score;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void OnGameOver()
+    {
+        gameReplayObject.SetActive(true);
     }
 }
