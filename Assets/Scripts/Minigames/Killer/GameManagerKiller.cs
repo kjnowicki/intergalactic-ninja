@@ -33,6 +33,8 @@ public class GameManagerKiller : MonoBehaviour
     private string currentScoreTemplate;
     private float spawnTimer;
     private float lifeTime;
+    private IEnumerator spawnTargetCoroutine;
+    private IEnumerator speedUpCoroutine;
 
     [Header("UI score display")]
     public TextMeshPro currentScoreText;
@@ -74,8 +76,8 @@ public class GameManagerKiller : MonoBehaviour
     {
         InitializeData();
 
-        StartCoroutine(SpawnTarget());
-        StartCoroutine(SpeedUp());
+        StartCoroutine(spawnTargetCoroutine);
+        StartCoroutine(speedUpCoroutine);
     }
     /// <summary>
     /// Initializes data on scene startup
@@ -94,6 +96,9 @@ public class GameManagerKiller : MonoBehaviour
         currentScoreText.SetText(string.Format(currentScoreTemplate, currentScore));
 
         bestScoreText.SetText(string.Format(bestScoreTemplate, PlayerPrefsWrapper.GetKillerBestScore()));
+        
+        spawnTargetCoroutine = SpawnTarget();
+        speedUpCoroutine = SpeedUp();
     }
     /// <summary>
     /// Makes the game harder by speeding up spawn time and lowering life time of targets
@@ -169,6 +174,8 @@ public class GameManagerKiller : MonoBehaviour
     /// </summary>
     public void Replay()
     {
+        StopCoroutine(spawnTargetCoroutine);
+        StopCoroutine(speedUpCoroutine);
         Initialize();
     }
 }
