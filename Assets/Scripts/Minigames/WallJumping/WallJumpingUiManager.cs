@@ -23,7 +23,7 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             currentScore = value;
-            currentScoreText.SetText(string.Format(currentScoreTemplate, value));
+            currentScoreText.SetText(string.Format(currentScoreTemplate, value.ToString("0000")));
         }
     }
 
@@ -36,7 +36,7 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             bestScore = value;
-            bestScoreText.SetText(string.Format(bestScoreTemplate, value));
+            bestScoreText.SetText(string.Format(bestScoreTemplate, value.ToString("0000")));
         }
     }
 

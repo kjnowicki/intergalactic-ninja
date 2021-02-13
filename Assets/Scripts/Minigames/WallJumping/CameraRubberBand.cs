@@ -7,6 +7,7 @@ public class CameraRubberBand : MonoBehaviour
     private string PLAYER_TAG = "Player";
 
     private GameObject movableObjectsColection;
+    private WallJumpingGameManager wallJumpingGameManager;
 
     [SerializeField] private BoxCollider2D restrictedArea;
 
@@ -30,11 +31,13 @@ public class CameraRubberBand : MonoBehaviour
         CameraMovement();
     }
 
-    public void Initialize(Vector2 restrictedAreaPosition,Vector2 restrictedAreaSize)
+    public void Initialize(WallJumpingGameManager wallJumpingGameManager, Vector2 restrictedAreaPosition, Vector2 restrictedAreaSize)
     {
+        this.wallJumpingGameManager = wallJumpingGameManager;
         restrictedArea.transform.position = new Vector2(restrictedAreaPosition.x + (restrictedAreaSize.x / 2), -restrictedAreaPosition.y * restrictedAreaHeight);
         restrictedArea.size = new Vector2(restrictedAreaSize.x * 2f, restrictedAreaSize.y);
     }
+
     /// <summary>
     /// Moves all movable objects to create ilusion of camera movement
     /// </summary>
@@ -42,10 +45,15 @@ public class CameraRubberBand : MonoBehaviour
     {
         float deltaTime = Time.deltaTime;
         float moveValue = downwardForce * deltaTime;
+        Vector3 positionChange = Vector3.down * moveValue;
+        wallJumpingGameManager.AddScore(moveValue);
+
         foreach (Transform movablePosition in movableObjectsColection.GetComponentsInChildren<Transform>())
         {
             if (movablePosition.parent == movableObjectsColection.transform)
-                movablePosition.position += Vector3.down * moveValue;
+            {
+                movablePosition.position += positionChange;
+            }
         }
     }
 
@@ -62,11 +70,15 @@ public class CameraRubberBand : MonoBehaviour
     /// </summary>
     private void RubberBand()
     {
+        float bandStrength = downwardForce * rubberBandStrength;
+        wallJumpingGameManager.AddScore(bandStrength * Time.deltaTime);
         foreach (Transform movablePosition in movableObjectsColection.GetComponentsInChildren<Transform>())
         {
             Vector2 position = movablePosition.position;
             if (movablePosition.parent == movableObjectsColection.transform)
-                movablePosition.position = Vector2.Lerp(position, new Vector2(position.x, position.y - downwardForce * rubberBandStrength), Time.deltaTime);
+            {
+                movablePosition.position = Vector2.Lerp(position, new Vector2(position.x, position.y - bandStrength), Time.deltaTime);
+            }
         }
     }
 }

@@ -64,7 +64,7 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         gameArea = FindObjectOfType<GameArea>();
         float gameAreaHeightRatio = gameAreaLayoutWeight / weightSum;
-        gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord, slimeEffectDuration);
+        gameArea.Initialize(this, gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord, slimeEffectDuration);
     }
 
     /// <summary>
@@ -81,5 +81,14 @@ public class WallJumpingGameManager : MonoBehaviour
     public void GenerateSlimeEffect()
     {
         slimeGenerator.EnableSlimeEffect();
+    }
+
+    /// <summary>
+    /// Adds score.
+    /// </summary>
+    /// <param name="score"></param>
+    public void AddScore(float score)
+    {
+        wallJumpingUiManager.CurrentScore += score;
     }
 }
