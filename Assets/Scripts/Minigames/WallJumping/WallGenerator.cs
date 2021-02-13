@@ -77,7 +77,7 @@ public class WallGenerator : MonoBehaviour
 
     public void GenerateNextWallFromScenario()
     {
-        scenario.
+        //Get new scenario, get next block and remove it from list
     }
 
     public void RollScenario()
