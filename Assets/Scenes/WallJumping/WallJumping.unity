@@ -141,6 +141,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c11abb352b29da743ba1b03442a2cb13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scenarios:
+    listOfScenarios:
+    - leftWallScenario: 00000000000000000000000000000000
+      rightWallScenario: 00000000000000000000000000000000
+    - leftWallScenario: 00000000000000000000000000000000
+      rightWallScenario: 00000000000000000000000000000000
 --- !u!1 &897800215
 GameObject:
   m_ObjectHideFlags: 0

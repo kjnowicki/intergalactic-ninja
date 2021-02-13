@@ -25,7 +25,7 @@ public class WallGenerator : MonoBehaviour
     {
         float wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
         wallHeight = (int)(gameAreaRectTransform.rect.height / wallBlockWidth) + wallHeightAdditional;
-        spawnScenarios = GetComponent<SpawnScenarios>();
+        //spawnScenarios = GetComponent<SpawnScenarios>();
         InitializeWallsPosition(gameAreaRectTransform);
         InitializeWalls();
     }
@@ -77,11 +77,11 @@ public class WallGenerator : MonoBehaviour
 
     public void GenerateNextWallFromScenario()
     {
-        
+        scenario.
     }
 
     public void RollScenario()
     {
-        scenario = spawnScenarios.RollScenario();
+        scenario = spawnScenarios.GetRandomScenario();
     }
 }
