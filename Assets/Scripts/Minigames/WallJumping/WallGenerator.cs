@@ -14,6 +14,8 @@ public class WallGenerator : MonoBehaviour
     public SpikeWallBlock spikeWallBlockPrefab;
     public SlimeWallBlock slimeWallBlockPrefab;
 
+    private SpawnScenarios spawnScenarios;
+    private WallSpawnScenario scenario;
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
@@ -23,6 +25,7 @@ public class WallGenerator : MonoBehaviour
     {
         float wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
         wallHeight = (int)(gameAreaRectTransform.rect.height / wallBlockWidth) + wallHeightAdditional;
+        spawnScenarios = GetComponent<SpawnScenarios>();
         InitializeWallsPosition(gameAreaRectTransform);
         InitializeWalls();
     }
@@ -70,5 +73,15 @@ public class WallGenerator : MonoBehaviour
     {
         leftWall.AddWallBlockOnTop(normalWallBlockPrefab);
         rightWall.AddWallBlockOnTop(normalWallBlockPrefab);
+    }
+
+    public void GenerateNextWallFromScenario()
+    {
+        
+    }
+
+    public void RollScenario()
+    {
+        scenario = spawnScenarios.RollScenario();
     }
 }
