@@ -16,11 +16,20 @@ public class WallJumpingGameManager : MonoBehaviour
     private float bestScore;
     WallJumpingUiManager wallJumpingUiManager;
     private SlimeGenerator slimeGenerator;
+    private GameArea gameArea;
 
     // Start is called before the first frame update
     void Start()
     {
         SetUp();
+    }
+
+    /// <summary>
+    /// Initializes the game.
+    /// </summary>
+    public void Initialize()
+    {
+        InitializePlayer();
     }
 
     /// <summary>
@@ -33,7 +42,6 @@ public class WallJumpingGameManager : MonoBehaviour
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
-        InitializePlayer();
     }
 
     /// <summary>
@@ -54,7 +62,7 @@ public class WallJumpingGameManager : MonoBehaviour
     /// <param name="weightSum"></param>
     private void InitializeGameArea(float weightSum)
     {
-        GameArea gameArea = FindObjectOfType<GameArea>();
+        gameArea = FindObjectOfType<GameArea>();
         float gameAreaHeightRatio = gameAreaLayoutWeight / weightSum;
         gameArea.Initialize(this, gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord, slimeEffectDuration);
     }
@@ -64,8 +72,7 @@ public class WallJumpingGameManager : MonoBehaviour
     /// </summary>
     private void InitializePlayer()
     {
-        WallJumpingPlayer player = FindObjectOfType<WallJumpingPlayer>();
-        player.Initialize(playerForceScale, this);
+        gameArea.InitializePlayer(playerForceScale, this);
     }
 
     /// <summary>
