@@ -13,8 +13,12 @@ public class GameArea : MonoBehaviour
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
+    /// <param name="wallJumpingGameManager"></param>
     /// <param name="heightRatio"></param>
-    public void Initialize(float heightRatio, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
+    /// <param name="wallHeightAdditional"></param>
+    /// <param name="garbageCollectorHeight"></param>
+    /// <param name="slimeEffectDuration"></param>
+    public void Initialize(WallJumpingGameManager wallJumpingGameManager, float heightRatio, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
     {
         gameAreaRectTransform = GetComponent<RectTransform>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
@@ -27,7 +31,7 @@ public class GameArea : MonoBehaviour
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
         InitializeBackgroundGenerator();
         InitializeSlimeGenerator(slimeEffectDuration);
-        InitializeRubberBandAreaSize();
+        InitializeRubberBandAreaSize(wallJumpingGameManager);
     }
 
     /// <summary>
@@ -101,10 +105,11 @@ public class GameArea : MonoBehaviour
     /// <summary>
     /// Initializes size of the trigger that is responsible for rubber banding camera
     /// </summary>
-    private void InitializeRubberBandAreaSize()
+    /// <param name="wallJumpingGameManager"></param>
+    private void InitializeRubberBandAreaSize(WallJumpingGameManager wallJumpingGameManager)
     {
         Vector2 restrictedAreaPosition = gameAreaRectTransform.position;
         Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
-        cameraRubberBand.Initialize(restrictedAreaPosition, restrictedAreaSize);
+        cameraRubberBand.Initialize(wallJumpingGameManager, restrictedAreaPosition, restrictedAreaSize);
     }
 }
