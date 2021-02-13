@@ -41,6 +41,11 @@ public class GameArea : MonoBehaviour
     {
         movableObjectsContainer.InitializePlayer(playerForceScale, wallJumpingGameManager);
     }
+    
+    public void Restart()
+    {
+        throw new NotImplementedException();
+    }
 
     /// <summary>
     /// Initializes GameArea position.

@@ -49,14 +49,20 @@ public class WallJumpingUiManager : MonoBehaviour
     public void Initialize(float initialCurrentScore, float initialBestScore, float uiLayoutRatio)
     {
         InitializePosition(uiLayoutRatio);
-        InitializeText(initialCurrentScore, initialBestScore);
+        InitializeText();
+        InitializeValues(initialCurrentScore, initialBestScore);
+    }
+
+    public void Restart(float initialCurrentScore, float initialBestScore)
+    {
+        InitializeValues(initialCurrentScore, initialBestScore);
     }
 
     /// <summary>
     /// Initializes UI position.
     /// </summary>
     /// <param name="uiLayoutRatio"></param>
-    private void InitializePosition(float uiLayoutRatio)
+    public void InitializePosition(float uiLayoutRatio)
     {
         RectTransform uiLayoutTransform = uiContainer.GetComponent<RectTransform>();
         float fixedUiLayoutHeight = uiLayoutRatio * Screen.height;
@@ -64,16 +70,23 @@ public class WallJumpingUiManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Initializes text templates and values.
+    /// Initializes values.
     /// </summary>
     /// <param name="initialCurrentScore"></param>
     /// <param name="initialBestScore"></param>
-    private void InitializeText(float initialCurrentScore, float initialBestScore)
+    public void InitializeValues(float initialCurrentScore, float initialBestScore)
+    {
+        CurrentScore = initialCurrentScore;
+        BestScore = initialBestScore;
+    }
+
+    /// <summary>
+    /// Initializes text templates.
+    /// </summary>
+    private void InitializeText()
     {
         stringsModel = StringsModelsModel.WallJumpingStringsModel;
         currentScoreTemplate = stringsModel.CurrentScore;
         bestScoreTemplate = stringsModel.BestScore;
-        CurrentScore = initialCurrentScore;
-        BestScore = initialBestScore;
     }
 }
