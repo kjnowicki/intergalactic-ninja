@@ -31,6 +31,9 @@ public class WallGenerator : MonoBehaviour
         InitializeWalls();
     }
     
+    /// <summary>
+    /// Restarts WallGenerator.
+    /// </summary>
     public void Restart()
     {
         leftWall = new Wall(leftWallInitialPosition, wallBlockWidth, movableObjectsContainerTransform, DIRECTION_LEFT);

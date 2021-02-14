@@ -29,6 +29,9 @@ public class BackgroundGenerator : MonoBehaviour
         GenerateInitialBackground();
     }
 
+    /// <summary>
+    /// Restarts Background.
+    /// </summary>
     public void Restart()
     {
         newBlockPosition = new Vector2(0, gameAreaRectTransform.localPosition.y + backgroundBlockHeight / 2);
