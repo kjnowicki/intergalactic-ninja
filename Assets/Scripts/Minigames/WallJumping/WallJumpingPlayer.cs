@@ -66,7 +66,6 @@ public class WallJumpingPlayer : MonoBehaviour
     /// </summary>
     public void Die()
     {
-        Destroy(gameObject);
         wallJumpingGameManager.OnGameOver();
     }
 

@@ -52,9 +52,6 @@ public class WallJumpingGameManager : MonoBehaviour
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
-        // float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
-        // InitializeUi(weightSum);
-        // InitializeGameArea(weightSum);
     }
 
     /// <summary>
