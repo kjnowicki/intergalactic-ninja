@@ -37,6 +37,8 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         RestartUi();
         gameArea.Restart();
+        InitializePlayer();
+        gameReplayObject.SetActive(false);
     }
 
     /// <summary>

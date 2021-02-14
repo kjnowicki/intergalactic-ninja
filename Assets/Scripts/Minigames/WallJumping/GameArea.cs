@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class GameArea : MonoBehaviour
@@ -44,7 +47,14 @@ public class GameArea : MonoBehaviour
     
     public void Restart()
     {
-        throw new NotImplementedException();
+        List<Transform> children = new List<Transform>(movableObjectsContainer.GetComponentsInChildren<Transform>());
+        children.Remove(movableObjectsContainer.transform);
+        foreach (Transform child in children)
+        {
+            Destroy(child.gameObject);
+        }
+        backgroundGenerator.Restart();
+        wallGenerator.Restart();
     }
 
     /// <summary>

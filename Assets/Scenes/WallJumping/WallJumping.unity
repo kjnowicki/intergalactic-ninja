@@ -954,7 +954,7 @@ PrefabInstance:
     - target: {fileID: 5442530678170934855, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
       propertyPath: onReplayClickedAction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Initialize
+      value: Replay
       objectReference: {fileID: 0}
     - target: {fileID: 5442530678170934855, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}

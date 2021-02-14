@@ -25,7 +25,7 @@ public class ReplayGame : MonoBehaviour
     /// </summary>
     public virtual void OnCancelButtonClicked()
     {
-        SceneManager.LoadScene("CockPitActionHub", LoadSceneMode.Single);
         onCancelClickedAction?.Invoke();
+        SceneManager.LoadScene("CockPitActionHub", LoadSceneMode.Single);
     }
 }
