@@ -5,11 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class SpawnScenarios : MonoBehaviour
 {
-    private const int defaultScenarioSize = 4;
+    private const int defaultScenarioSize = 6;
     [SerializeField] ScenariosList scenarios = new ScenariosList(defaultScenarioSize);
 
     public WallSpawnScenario GetRandomScenario()
     {
-        return scenarios.GetRandomScenario();
+        return scenarios.GetRandomScenarioCopy();
     }
 }

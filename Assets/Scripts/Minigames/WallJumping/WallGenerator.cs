@@ -15,7 +15,7 @@ public class WallGenerator : MonoBehaviour
     public SlimeWallBlock slimeWallBlockPrefab;
 
     private SpawnScenarios spawnScenarios;
-    private WallSpawnScenario scenario;
+    private WallSpawnScenario scenario = new WallSpawnScenario();
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
@@ -25,9 +25,10 @@ public class WallGenerator : MonoBehaviour
     {
         float wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
         wallHeight = (int)(gameAreaRectTransform.rect.height / wallBlockWidth) + wallHeightAdditional;
-        //spawnScenarios = GetComponent<SpawnScenarios>();
+        spawnScenarios = GetComponent<SpawnScenarios>();
         InitializeWallsPosition(gameAreaRectTransform);
         InitializeWalls();
+        RollScenario();
     }
 
     /// <summary>
@@ -69,18 +70,69 @@ public class WallGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generates normal wall blocks on top of walls
+    /// </summary>
     public void GenerateNewWallsOnTop()
     {
         leftWall.AddWallBlockOnTop(normalWallBlockPrefab);
         rightWall.AddWallBlockOnTop(normalWallBlockPrefab);
     }
 
-    public void GenerateNextWallFromScenario()
+    /// <summary>
+    /// Generates new wall blocks on top of walls
+    /// </summary>
+    /// <param name="blocksPair">WallBlocks prefabs to be initialized</param>
+    public void GenerateNewWallsOnTop((BaseWallBlock, BaseWallBlock) blocksPair)
     {
-        //Get new scenario, get next block and remove it from list
+        leftWall.AddWallBlockOnTop(blocksPair.Item1);
+        rightWall.AddWallBlockOnTop(blocksPair.Item2);
     }
 
-    public void RollScenario()
+    /// <summary>
+    /// Chooses what blocks to initialize based on current scenario
+    /// </summary>
+    public void GenerateNextWallFromScenario()
+    {
+        if(scenario.GetNextBlocks() == (null,null))
+        {
+            RollScenario();
+        }
+        var nextBlocksPairEnum = scenario.GetNextBlocks();
+        scenario.RemoveLastPairOfBlocks();
+
+        var nextBlocksPair = (EnumToPrefab(nextBlocksPairEnum.Item1), EnumToPrefab(nextBlocksPairEnum.Item2));
+        GenerateNewWallsOnTop(nextBlocksPair);
+    }
+
+    /// <summary>
+    /// Converts enum to blocks prefabs
+    /// </summary>
+    /// <param name="block">Block enum</param>
+    /// <returns>Block prefab</returns>
+    private BaseWallBlock EnumToPrefab(WallBlocks? block)
+    {
+        switch (block)
+        {
+            case WallBlocks.baseWallBlock:
+                return normalWallBlockPrefab;
+
+            case WallBlocks.slimeWallBlock:
+                return slimeWallBlockPrefab;
+
+            case WallBlocks.spikeWallBlock:
+                return spikeWallBlockPrefab;
+
+            default:
+                Debug.Log("Fuck up");
+                return normalWallBlockPrefab;
+        }
+    }
+
+    /// <summary>
+    /// Rolls new scenario
+    /// </summary>
+    private void RollScenario()
     {
         scenario = spawnScenarios.GetRandomScenario();
     }

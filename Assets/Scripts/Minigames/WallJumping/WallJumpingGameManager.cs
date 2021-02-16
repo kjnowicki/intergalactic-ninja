@@ -80,6 +80,6 @@ public class WallJumpingGameManager : MonoBehaviour
 
     public void GenerateNewWallsOnTop()
     {
-        wallGenerator.GenerateNewWallsOnTop();
+        wallGenerator.GenerateNextWallFromScenario();
     }
 }
