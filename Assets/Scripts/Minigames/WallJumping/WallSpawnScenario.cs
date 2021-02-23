@@ -81,11 +81,6 @@ public class ScenariosList
         {
             new WallSpawnScenario(scenarioLength)
         };
-
-        for(int i = 0; i < listOfScenarios.Count(); i++)
-        { 
-            listOfScenarios.Add(listOfScenarios[i].CopyWithSideSwap());
-        }
     }
     /// <summary>
     /// Rolls new scenario based on wieghts
@@ -106,8 +101,12 @@ public class ScenariosList
         return listOfScenarios[0];
     }
 
-    public int GetScenariosCount()
+    public void MirrorScenarios()
     {
-        return listOfScenarios.Count();
+        int scenarioCount = listOfScenarios.Count();
+        for (int i = 0; i < scenarioCount; i++)
+        {
+            listOfScenarios.Add(listOfScenarios[i].CopyWithSideSwap());
+        }
     }
 }

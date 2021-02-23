@@ -10,11 +10,9 @@ public class SpawnScenarios : MonoBehaviour
 
     public void Awake()
     {
-        for (int _ = 0; _ < scenarios.GetScenariosCount(); _++)
-        {
-
-        }
+        scenarios.MirrorScenarios();
     }
+
     public WallSpawnScenario GetRandomScenario()
     {
         return scenarios.GetRandomScenarioCopy();
