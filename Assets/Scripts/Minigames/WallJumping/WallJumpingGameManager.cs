@@ -18,6 +18,29 @@ public class WallJumpingGameManager : MonoBehaviour
     private SlimeGenerator slimeGenerator;
     private WallGenerator wallGenerator;
 
+    #region singleton
+    private static WallJumpingGameManager instance;
+
+    public static WallJumpingGameManager Instance { get { return instance; } }
+
+    private void CheckForInstanceDuplicate()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+    #endregion
+    private void Awake()
+    {
+        CheckForInstanceDuplicate();
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {

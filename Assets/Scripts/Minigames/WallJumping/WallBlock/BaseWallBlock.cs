@@ -14,7 +14,7 @@ public abstract class BaseWallBlock : MonoBehaviour, ICollectable
     {
         if(Direction == 1)
         {
-            FindObjectOfType<WallJumpingGameManager>().GenerateNewWallsOnTop();
+            WallJumpingGameManager.Instance.GenerateNewWallsOnTop();
         }
         Destroy(gameObject);
     }

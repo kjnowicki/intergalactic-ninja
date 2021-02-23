@@ -16,6 +16,7 @@ public class WallGenerator : MonoBehaviour
 
     private SpawnScenarios spawnScenarios;
     private WallSpawnScenario scenario = new WallSpawnScenario();
+
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
@@ -43,8 +44,8 @@ public class WallGenerator : MonoBehaviour
         Vector2 rightWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + gameAreaRectTransform.rect.width - wallBlockWidth / 2, bottomWallYCoord);
 
         Transform movableObjectsContainer = GetComponent<MovableObjectsContainer>().transform;
-        leftWall = new Wall(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer, DIRECTION_LEFT);
-        rightWall = new Wall(rightWallInitialPosition, wallBlockWidth, movableObjectsContainer, DIRECTION_RIGHT);
+        leftWall = Wall.Initialize(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer, DIRECTION_LEFT, normalWallBlockPrefab);
+        rightWall = Wall.Initialize(rightWallInitialPosition, wallBlockWidth, movableObjectsContainer, DIRECTION_RIGHT, normalWallBlockPrefab);
     }
 
     /// <summary>
@@ -61,22 +62,11 @@ public class WallGenerator : MonoBehaviour
     /// <param name="wallHeight"></param>
     private void GenerateInitialWall(int wallHeight)
     {
-        leftWall.AddInitialBlock(normalWallBlockPrefab);
-        rightWall.AddInitialBlock(normalWallBlockPrefab);
         for (int _ = 0; _ < wallHeight; _++)
         {
             leftWall.AddWallBlockOnTop(normalWallBlockPrefab);
             rightWall.AddWallBlockOnTop(normalWallBlockPrefab);
         }
-    }
-
-    /// <summary>
-    /// Generates normal wall blocks on top of walls
-    /// </summary>
-    public void GenerateNewWallsOnTop()
-    {
-        leftWall.AddWallBlockOnTop(normalWallBlockPrefab);
-        rightWall.AddWallBlockOnTop(normalWallBlockPrefab);
     }
 
     /// <summary>

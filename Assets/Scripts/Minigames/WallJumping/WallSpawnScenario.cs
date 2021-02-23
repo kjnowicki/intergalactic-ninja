@@ -9,8 +9,8 @@ public enum WallBlocks { baseWallBlock, spikeWallBlock, slimeWallBlock}
 public class WallSpawnScenario
 {
 
-    [SerializeField] List<WallBlocks> leftWallScenario;
-    [SerializeField] List<WallBlocks> rightWallScenario;
+    [SerializeField] private List<WallBlocks> leftWallScenario;
+    [SerializeField] private List<WallBlocks> rightWallScenario;
 
     [SerializeField] public int weight = 1;
 
@@ -56,6 +56,16 @@ public class WallSpawnScenario
 
         return newScenario;
     }
+
+    public WallSpawnScenario CopyWithSideSwap()
+    {
+        WallSpawnScenario newScenario = new WallSpawnScenario(leftWallScenario.Count);
+
+        newScenario.leftWallScenario = rightWallScenario.Select(x => x).ToList();
+        newScenario.rightWallScenario = leftWallScenario.Select(x => x).ToList();
+
+        return newScenario;
+    }
 }
 
 [System.Serializable]
@@ -65,12 +75,17 @@ public class ScenariosList
 
     private int weightSum;
 
-    public ScenariosList(int scenariolLength)
+    public ScenariosList(int scenarioLength)
     {
         listOfScenarios = new List<WallSpawnScenario>
         {
-            new WallSpawnScenario(scenariolLength)
+            new WallSpawnScenario(scenarioLength)
         };
+
+        for(int i = 0; i < listOfScenarios.Count(); i++)
+        { 
+            listOfScenarios.Add(listOfScenarios[i].CopyWithSideSwap());
+        }
     }
     /// <summary>
     /// Rolls new scenario based on wieghts
@@ -81,7 +96,6 @@ public class ScenariosList
         weightSum = listOfScenarios.Aggregate(0, (acc, x) => acc + x.weight);
 
         System.Random rnd = new System.Random();
-        //WallSpawnScenario scenario = new WallSpawnScenario();
         var number = rnd.Next(weightSum);
         foreach( WallSpawnScenario scenario in listOfScenarios)
         {
@@ -90,5 +104,10 @@ public class ScenariosList
                 return scenario.Copy();
         }
         return listOfScenarios[0];
+    }
+
+    public int GetScenariosCount()
+    {
+        return listOfScenarios.Count();
     }
 }
