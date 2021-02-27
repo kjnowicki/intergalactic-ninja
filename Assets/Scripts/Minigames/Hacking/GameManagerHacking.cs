@@ -43,7 +43,6 @@ public class GameManagerHacking : MonoBehaviour
     [Header("Game mechanics")]
     public float maxTime;
     private float currentTime;
-    public float bubbleMultiplier;
     public float comboMultiplier;
     public float timeMultiplier;
     private float currentScore;
@@ -133,7 +132,7 @@ public class GameManagerHacking : MonoBehaviour
     /// <param name="combo"></param>
     public void AddCurrentScore(int points, int combo)
     {
-        float pointsValue = points * bubbleMultiplier * combo * comboMultiplier;
+        float pointsValue = points  * combo * comboMultiplier;
         currentScore += pointsValue;
         currentScoreText.text = String.Format(currentScoreTemplate, currentScore.ToString());
         currentTime = currentTime > 0 ? currentTime + (pointsValue * timeMultiplier) : 0;
