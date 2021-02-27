@@ -46,11 +46,23 @@ public class GameArea : MonoBehaviour
     }
     
     /// <summary>
+    /// Destroys objects from previous game.
+    /// </summary>
+    public void DestroyObjectsFromPreviousGame()
+    {
+        List<Transform> children = new List<Transform>(movableObjectsContainer.GetComponentsInChildren<Transform>());
+        children.Remove(movableObjectsContainer.transform);
+        foreach (Transform child in children)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+    
+    /// <summary>
     /// Restarts GameArea part of the game.
     /// </summary>
     public void Restart()
     {
-        DestroyObjectsFromPreviousGame();
         backgroundGenerator.Restart();
         wallGenerator.Restart();
     }
@@ -124,18 +136,5 @@ public class GameArea : MonoBehaviour
         Vector2 restrictedAreaPosition = gameAreaRectTransform.position;
         Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
         cameraRubberBand.Initialize(wallJumpingGameManager, restrictedAreaPosition, restrictedAreaSize);
-    }
-
-    /// <summary>
-    /// Destroys objects from previous game.
-    /// </summary>
-    private void DestroyObjectsFromPreviousGame()
-    {
-        List<Transform> children = new List<Transform>(movableObjectsContainer.GetComponentsInChildren<Transform>());
-        children.Remove(movableObjectsContainer.transform);
-        foreach (Transform child in children)
-        {
-            Destroy(child.gameObject);
-        }
     }
 }

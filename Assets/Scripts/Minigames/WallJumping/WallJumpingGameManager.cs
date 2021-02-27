@@ -36,6 +36,7 @@ public class WallJumpingGameManager : MonoBehaviour
     public void Replay()
     {
         RestartUi();
+        gameArea.DestroyObjectsFromPreviousGame();
         gameArea.Restart();
         InitializePlayer();
         gameReplayObject.SetActive(false);
