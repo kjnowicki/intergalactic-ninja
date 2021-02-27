@@ -2,7 +2,10 @@
 
 public class MovableObjectsContainer : MonoBehaviour
 {
+    private const string WALL_JUMPING_PLAYER_PREFAB_PATH = "Minigames/WallJumping/Prefabs/Player";
+    
     RectTransform movableObjectsContainerRectTransform;
+    private WallJumpingPlayer wallJumpingPlayerPrefab;
 
     /// <summary>
     /// Initializes MovableObjectsContainer.
@@ -10,9 +13,22 @@ public class MovableObjectsContainer : MonoBehaviour
     /// <param name="gameAreaRectTransform"></param>
     public void Initialize(RectTransform gameAreaRectTransform)
     {
+        wallJumpingPlayerPrefab = Resources.Load<WallJumpingPlayer>(WALL_JUMPING_PLAYER_PREFAB_PATH);
         transform.position = gameAreaRectTransform.position;
         movableObjectsContainerRectTransform = GetComponent<RectTransform>();
         movableObjectsContainerRectTransform.sizeDelta = gameAreaRectTransform.sizeDelta;
         movableObjectsContainerRectTransform.position = gameAreaRectTransform.position;
+    }
+
+    /// <summary>
+    /// Initializes Player.
+    /// </summary>
+    /// <param name="playerForceScale"></param>
+    /// <param name="wallJumpingGameManager"></param>
+    public void InitializePlayer(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
+    {
+        Vector2 playerInitialPosition = Vector2.zero;
+        WallJumpingPlayer player = Instantiate(wallJumpingPlayerPrefab, playerInitialPosition, Quaternion.identity, transform);
+        player.Initialize(playerForceScale, wallJumpingGameManager);
     }
 }

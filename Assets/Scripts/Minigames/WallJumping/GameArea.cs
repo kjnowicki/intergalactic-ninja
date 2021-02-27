@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class GameArea : MonoBehaviour
@@ -13,23 +16,55 @@ public class GameArea : MonoBehaviour
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
+    /// <param name="wallJumpingGameManager"></param>
     /// <param name="heightRatio"></param>
-    public void Initialize(float heightRatio, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
+    /// <param name="wallHeightAdditional"></param>
+    /// <param name="garbageCollectorHeight"></param>
+    /// <param name="slimeEffectDuration"></param>
+    public void Initialize(WallJumpingGameManager wallJumpingGameManager, float heightRatio, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
     {
         gameAreaRectTransform = GetComponent<RectTransform>();
-        player = GetComponentInChildren<WallJumpingPlayer>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
         cameraRubberBand = FindObjectOfType<CameraRubberBand>();
         backgroundGenerator = GetComponentInChildren<BackgroundGenerator>();
 
         InitializePosition(heightRatio);
         InitializeMovableObjectsContainer();
-        InitializePlayerPosition();
         InitializeWallGenerator(wallHeightAdditional);
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
         InitializeBackgroundGenerator();
         InitializeSlimeGenerator(slimeEffectDuration);
-        InitializeRubberBandAreaSize();
+        InitializeRubberBandAreaSize(wallJumpingGameManager);
+    }
+
+    /// <summary>
+    /// Initializes Player.
+    /// </summary>
+    public void InitializePlayer(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
+    {
+        movableObjectsContainer.InitializePlayer(playerForceScale, wallJumpingGameManager);
+    }
+    
+    /// <summary>
+    /// Destroys objects from previous game.
+    /// </summary>
+    public void DestroyObjectsFromPreviousGame()
+    {
+        List<Transform> children = new List<Transform>(movableObjectsContainer.GetComponentsInChildren<Transform>());
+        children.Remove(movableObjectsContainer.transform);
+        foreach (Transform child in children)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+    
+    /// <summary>
+    /// Restarts GameArea part of the game.
+    /// </summary>
+    public void Restart()
+    {
+        backgroundGenerator.Restart();
+        wallGenerator.Restart();
     }
 
     /// <summary>
@@ -51,16 +86,6 @@ public class GameArea : MonoBehaviour
     private void InitializeMovableObjectsContainer()
     {
         movableObjectsContainer.Initialize(gameAreaRectTransform);
-    }
-
-    /// <summary>
-    /// Initializes Player position.
-    /// </summary>
-    private void InitializePlayerPosition()
-    {
-        float playerInitialYCoord = 3; // this will be removed when floor is added (it is only for testing)
-        Vector2 playerInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, playerInitialYCoord);
-        player.InitializePosition(playerInitialPosition);
     }
 
     /// <summary>
@@ -105,10 +130,11 @@ public class GameArea : MonoBehaviour
     /// <summary>
     /// Initializes size of the trigger that is responsible for rubber banding camera
     /// </summary>
-    private void InitializeRubberBandAreaSize()
+    /// <param name="wallJumpingGameManager"></param>
+    private void InitializeRubberBandAreaSize(WallJumpingGameManager wallJumpingGameManager)
     {
         Vector2 restrictedAreaPosition = gameAreaRectTransform.position;
         Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
-        cameraRubberBand.Initialize(restrictedAreaPosition, restrictedAreaSize);
+        cameraRubberBand.Initialize(wallJumpingGameManager, restrictedAreaPosition, restrictedAreaSize);
     }
 }

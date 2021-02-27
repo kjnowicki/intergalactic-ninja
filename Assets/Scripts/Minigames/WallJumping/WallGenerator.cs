@@ -13,6 +13,10 @@ public class WallGenerator : MonoBehaviour
     public NormalWallBlock normalWallBlockPrefab;
     public SpikeWallBlock spikeWallBlockPrefab;
     public SlimeWallBlock slimeWallBlockPrefab;
+    private float wallBlockWidth;
+    private Transform movableObjectsContainerTransform;
+    private Vector2 leftWallInitialPosition;
+    private Vector2 rightWallInitialPosition;
 
     private SpawnScenarios spawnScenarios;
     private WallSpawnScenario scenario = new WallSpawnScenario();
@@ -31,6 +35,16 @@ public class WallGenerator : MonoBehaviour
         InitializeWalls();
         RollScenario();
     }
+    
+    /// <summary>
+    /// Restarts WallGenerator.
+    /// </summary>
+    public void Restart()
+    {
+        leftWall = Wall.Initialize(leftWallInitialPosition, wallBlockWidth, movableObjectsContainerTransform, DIRECTION_LEFT, normalWallBlockPrefab);
+        rightWall = Wall.Initialize(rightWallInitialPosition, wallBlockWidth, movableObjectsContainerTransform, DIRECTION_RIGHT, normalWallBlockPrefab);
+        GenerateInitialWall(wallHeight);
+    }
 
     /// <summary>
     /// Initializes Walls position.
@@ -38,10 +52,10 @@ public class WallGenerator : MonoBehaviour
     /// <param name="gameAreaRectTransform"></param>
     private void InitializeWallsPosition(RectTransform gameAreaRectTransform)
     {
-        var wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
+        wallBlockWidth = normalWallBlockPrefab.GetComponent<SpriteRenderer>().bounds.size.x;
         float bottomWallYCoord = gameAreaRectTransform.anchoredPosition.y + wallBlockWidth / 2;
-        Vector2 leftWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + wallBlockWidth / 2, bottomWallYCoord);
-        Vector2 rightWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + gameAreaRectTransform.rect.width - wallBlockWidth / 2, bottomWallYCoord);
+        leftWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + wallBlockWidth / 2, bottomWallYCoord);
+        rightWallInitialPosition = new Vector2(gameAreaRectTransform.anchoredPosition.x + gameAreaRectTransform.rect.width - wallBlockWidth / 2, bottomWallYCoord);
 
         Transform movableObjectsContainer = GetComponent<MovableObjectsContainer>().transform;
         leftWall = Wall.Initialize(leftWallInitialPosition, wallBlockWidth, movableObjectsContainer, DIRECTION_LEFT, normalWallBlockPrefab);

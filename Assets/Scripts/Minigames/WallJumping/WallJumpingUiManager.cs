@@ -23,7 +23,7 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             currentScore = value;
-            currentScoreText.SetText(string.Format(currentScoreTemplate, value));
+            currentScoreText.SetText(string.Format(currentScoreTemplate, value.ToString("0000")));
         }
     }
 
@@ -36,7 +36,7 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             bestScore = value;
-            bestScoreText.SetText(string.Format(bestScoreTemplate, value));
+            bestScoreText.SetText(string.Format(bestScoreTemplate, value.ToString("0000")));
         }
     }
 
@@ -49,7 +49,13 @@ public class WallJumpingUiManager : MonoBehaviour
     public void Initialize(float initialCurrentScore, float initialBestScore, float uiLayoutRatio)
     {
         InitializePosition(uiLayoutRatio);
-        InitializeText(initialCurrentScore, initialBestScore);
+        InitializeText();
+        InitializeValues(initialCurrentScore, initialBestScore);
+    }
+
+    public void Restart(float initialCurrentScore, float initialBestScore)
+    {
+        InitializeValues(initialCurrentScore, initialBestScore);
     }
 
     /// <summary>
@@ -64,16 +70,23 @@ public class WallJumpingUiManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Initializes text templates and values.
+    /// Initializes values.
     /// </summary>
     /// <param name="initialCurrentScore"></param>
     /// <param name="initialBestScore"></param>
-    private void InitializeText(float initialCurrentScore, float initialBestScore)
+    private void InitializeValues(float initialCurrentScore, float initialBestScore)
+    {
+        CurrentScore = initialCurrentScore;
+        BestScore = initialBestScore;
+    }
+
+    /// <summary>
+    /// Initializes text templates.
+    /// </summary>
+    private void InitializeText()
     {
         stringsModel = StringsModelsModel.WallJumpingStringsModel;
         currentScoreTemplate = stringsModel.CurrentScore;
         bestScoreTemplate = stringsModel.BestScore;
-        CurrentScore = initialCurrentScore;
-        BestScore = initialBestScore;
     }
 }
