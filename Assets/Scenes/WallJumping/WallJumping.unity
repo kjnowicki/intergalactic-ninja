@@ -1273,6 +1273,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MovableObjectsContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 7192839142478545449, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+        type: 3}
+      propertyPath: playerPositionY
+      value: -7
+      objectReference: {fileID: 0}
     - target: {fileID: 7338369698871833256, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}
       propertyPath: wallHeightAdditional
