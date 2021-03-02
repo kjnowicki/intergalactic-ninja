@@ -152,16 +152,25 @@ public class WallJumpingGameManager : MonoBehaviour
         gameReplayObject.SetActive(true);
     }
 
-
+    /// <summary>
+    /// Generates new wall blocks form current scenario
+    /// </summary>
     public void GenerateNewWallsOnTop()
     {
         wallGenerator.GenerateNextWallFromScenario();
     }
 
+    /// <summary>
+    /// Enables camera movement game object
+    /// </summary>
     public void EnableEnviromentMovement()
     {
         cameraMovement.gameObject.SetActive(true);
     }
+
+    /// <summary>
+    /// Disables camera movement game object
+    /// </summary>
     public void DisableEnviromentMovement()
     {
         cameraMovement.gameObject.SetActive(false);
