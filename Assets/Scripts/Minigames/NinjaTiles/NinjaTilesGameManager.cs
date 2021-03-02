@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using Assets.Scripts.Minigames.NinjaTiles;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-
-using static ColumnTile;
 
 public class NinjaTilesGameManager : MonoBehaviour
 {
@@ -30,23 +26,39 @@ public class NinjaTilesGameManager : MonoBehaviour
     #endregion
 
     [Header("Ninja")]
-    public float ninja_position_y;
-    public float ninja_position_z;
+    [SerializeField] private float ninja_position_y;
+    [SerializeField] private float ninja_position_z;
 
     [Header("Main objects")]
-    public GameObject tilesContainerPrefab;
-    public GameObject ninjaPrefab;
-    public GameObject mainCamera;
-    public GameObject gameObjectsContainer;
+    [SerializeField] private GameObject tilesContainerPrefab;
+    [SerializeField] private GameObject ninjaPrefab;
+    [SerializeField] private GameObject mainCamera;
+    [SerializeField] private GameObject gameObjectsContainer;
+    [SerializeField] private GameObject spaceshipPrefab;
 
     private GameObject tilesContainer;
-    private GameObject ninja;
+    private Ninja ninja;
+    private List<Spaceship> spaceshipList;
+    private Vector2 screenScale;
 
     private const float UNCHANGED_SCALE_FACTOR = 1;
 
     void Start()
     {
         InitializeData();
+        StartGame();
+    }
+
+    private void StartGame()
+    {
+        StartSpaceshipAboveTileAtIndex(0);
+    }
+
+    private void StartSpaceshipAboveTileAtIndex(int tileIndex)
+    {
+        Spaceship spaceship = Instantiate(spaceshipPrefab).GetComponent<Spaceship>();
+        spaceship.transform.position = new Vector2(tileIndex - 2, 0);
+        spaceship.transform.SetParent(gameObjectsContainer.transform);
     }
 
     /// <summary>
@@ -61,7 +73,7 @@ public class NinjaTilesGameManager : MonoBehaviour
     private void SetData()
     {
         tilesContainer = Instantiate(tilesContainerPrefab);
-        ninja = Instantiate(ninjaPrefab);
+        ninja = Instantiate(ninjaPrefab).GetComponent<Ninja>();
     }
 
     /// <summary>
@@ -73,11 +85,11 @@ public class NinjaTilesGameManager : MonoBehaviour
         ninja.transform.parent = gameObjectsContainer.transform;
 
         float widthScaleForTilesContainer = mainCamera.GetComponent<Camera>().orthographicSize * 2 / tilesContainer.GetComponentInChildren<SpriteRenderer>().size.x;
-        Vector2 scale = new Vector2(widthScaleForTilesContainer * Screen.width / Screen.height, UNCHANGED_SCALE_FACTOR);
+        screenScale = new Vector2(widthScaleForTilesContainer * Screen.width / Screen.height, UNCHANGED_SCALE_FACTOR);
         
-        gameObjectsContainer.transform.localScale = new Vector3(scale.x, scale.y, UNCHANGED_SCALE_FACTOR);
-        ninja.transform.position = new Vector3(ninja.transform.position.x, ninja_position_y + (scale.x - ninja.transform.localScale.y) * ninja.GetComponent<SpriteRenderer>().bounds.size.y / 2, ninja_position_z);
-        ninja.transform.localScale = new Vector3(UNCHANGED_SCALE_FACTOR, scale.x, UNCHANGED_SCALE_FACTOR);
+        gameObjectsContainer.transform.localScale = new Vector3(screenScale.x, screenScale.y, UNCHANGED_SCALE_FACTOR);
+        ninja.transform.position = new Vector3(ninja.transform.position.x, ninja_position_y + (screenScale.x - ninja.transform.localScale.y) * ninja.GetComponent<SpriteRenderer>().bounds.size.y / 2, ninja_position_z);
+        ninja.transform.localScale = new Vector3(UNCHANGED_SCALE_FACTOR, screenScale.x, UNCHANGED_SCALE_FACTOR);
     }
 
     /// <summary>
