@@ -12,11 +12,36 @@ public class WallJumpingGameManager : MonoBehaviour
     public float garbageCollectorYCoord;
     public float slimeEffectDuration;
 
-    private float currentScore;
-    private float bestScore;
+    [Header("References")]
+    public GameObject gameReplayObject;
+
     WallJumpingUiManager wallJumpingUiManager;
     private SlimeGenerator slimeGenerator;
     private GameArea gameArea;
+    private WallGenerator wallGenerator;
+
+    #region singleton
+    private static WallJumpingGameManager instance;
+
+    public static WallJumpingGameManager Instance { get { return instance; } }
+
+    private void CheckForInstanceDuplicate()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+    #endregion
+    private void Awake()
+    {
+        CheckForInstanceDuplicate();
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,13 +57,24 @@ public class WallJumpingGameManager : MonoBehaviour
         InitializePlayer();
     }
 
+    public void Replay()
+    {
+        RestartUi();
+        gameArea.DestroyObjectsFromPreviousGame();
+        gameArea.Restart();
+        InitializePlayer();
+        gameReplayObject.SetActive(false);
+    }
+
     /// <summary>
     /// Initializes game parameters.
     /// </summary>
     private void SetUp()
     {
+        gameReplayObject.SetActive(false);
         wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
         slimeGenerator = FindObjectOfType<SlimeGenerator>();
+        wallGenerator = FindObjectOfType<WallGenerator>();
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
@@ -50,8 +86,8 @@ public class WallJumpingGameManager : MonoBehaviour
     /// <param name="weightSum"></param>
     private void InitializeUi(float weightSum)
     {
-        currentScore = 0;
-        bestScore = PlayerPrefsWrapper.GetWallJumpingBestScore();
+        float currentScore = 0.0f;
+        float bestScore = PlayerPrefsWrapper.GetWallJumpingBestScore();
         float uiLayoutRatio = uiLayoutWeight / weightSum;
         wallJumpingUiManager.Initialize(currentScore, bestScore, uiLayoutRatio);
     }
@@ -75,6 +111,19 @@ public class WallJumpingGameManager : MonoBehaviour
         gameArea.InitializePlayer(playerForceScale, this);
     }
 
+    private void RestartUi()
+    {
+        float currentScore = wallJumpingUiManager.CurrentScore;
+        float bestScore = wallJumpingUiManager.BestScore;
+        if (currentScore > bestScore)
+        {
+            bestScore = currentScore;
+            PlayerPrefsWrapper.SetWallJupmingBestScoreAndSave((int) bestScore);
+        }
+        currentScore = 0.0f;
+        wallJumpingUiManager.Restart(currentScore, bestScore);
+    }
+
     /// <summary>
     /// Generates slime effect.
     /// </summary>
@@ -90,5 +139,20 @@ public class WallJumpingGameManager : MonoBehaviour
     public void AddScore(float score)
     {
         wallJumpingUiManager.CurrentScore += score;
+    }
+
+    /// <summary>
+    /// Invokes GameOver
+    /// </summary>
+    public void OnGameOver()
+    {
+        Time.timeScale = 0;
+        gameReplayObject.SetActive(true);
+    }
+
+
+    public void GenerateNewWallsOnTop()
+    {
+        wallGenerator.GenerateNextWallFromScenario();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class WallJumpingPlayer : MonoBehaviour
+public class WallJumpingPlayer : MonoBehaviour, ICollectable
 {
     private const float HALF_WALL_WIDTH = 0.5f;
     private float forceScale;
@@ -28,16 +28,7 @@ public class WallJumpingPlayer : MonoBehaviour
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
         playerControls.Initialize(this);
     }
-
-    /// <summary>
-    /// Initializes Player position.
-    /// </summary>
-    /// <param name="playerInitialPosition"></param>
-    public void InitializePosition(Vector2 playerInitialPosition)
-    {
-        transform.localPosition = playerInitialPosition;
-    }
-
+    
     /// <summary>
     /// Adds force to players rigid body, resets time scale
     /// </summary>
@@ -73,10 +64,10 @@ public class WallJumpingPlayer : MonoBehaviour
     /// <summary>
     /// Obliterates the Player mercilessly.
     /// </summary>
-    public void Die()
+    public void OnCollected()
     {
         Destroy(gameObject);
-        // GameOver screen in future
+        wallJumpingGameManager.OnGameOver();
     }
 
     private void OnTriggerEnter2D(Collider2D collision) => collision.gameObject.GetComponent<BaseWallBlock>()?.OnPlayerTouch(this);
