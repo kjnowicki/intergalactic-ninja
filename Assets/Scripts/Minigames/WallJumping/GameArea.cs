@@ -10,6 +10,8 @@ public class GameArea : MonoBehaviour
     private BackgroundGenerator backgroundGenerator;
     private CameraRubberBand cameraRubberBand;
 
+    [SerializeField] private GameObject floor;
+
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
@@ -32,7 +34,9 @@ public class GameArea : MonoBehaviour
         InitializeBackgroundGenerator();
         InitializeSlimeGenerator(slimeEffectDuration);
         InitializeRubberBandAreaSize(wallJumpingGameManager);
+        InitializeFloor();
     }
+
 
     /// <summary>
     /// Initializes Player.
@@ -111,5 +115,10 @@ public class GameArea : MonoBehaviour
         Vector2 restrictedAreaPosition = gameAreaRectTransform.position;
         Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
         cameraRubberBand.Initialize(wallJumpingGameManager, restrictedAreaPosition, restrictedAreaSize);
+    }
+    private void InitializeFloor()
+    {
+        GameObject ground = Instantiate(floor, movableObjectsContainer.transform);
+        //ground.transform.position = new Vector2(0,0);
     }
 }
