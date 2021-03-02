@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class BaseWallBlock : MonoBehaviour
+public abstract class BaseWallBlock : MonoBehaviour, ICollectable
 {
     public int Direction { get; set; }
 
@@ -9,4 +9,13 @@ public abstract class BaseWallBlock : MonoBehaviour
     /// </summary>
     /// <param name="wallJumpingPlayer"></param>
     public virtual void OnPlayerTouch(WallJumpingPlayer wallJumpingPlayer) => wallJumpingPlayer.State.OnTouchTheWall(Direction, transform.localPosition);
+
+    public void OnCollected()
+    {
+        if(Direction == 1)
+        {
+            WallJumpingGameManager.Instance.GenerateNewWallsOnTop();
+        }
+        Destroy(gameObject);
+    }
 }

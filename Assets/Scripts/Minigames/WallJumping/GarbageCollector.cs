@@ -13,6 +13,6 @@ public class GarbageCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.gameObject.GetComponent<WallJumpingPlayer>()?.Die();
+        collision.gameObject.GetComponent<ICollectable>()?.OnCollected();
     }
 }

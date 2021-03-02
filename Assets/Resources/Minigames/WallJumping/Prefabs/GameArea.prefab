@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 7192839142478545449}
   - component: {fileID: 8456167839507210973}
   - component: {fileID: 6338150360202169406}
+  - component: {fileID: 170714922980853543}
   m_Layer: 0
   m_Name: MovableObjectsContainer
   m_TagString: Untagged
@@ -230,6 +231,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9783ca8a03efe14e9900f9b4505ae23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &170714922980853543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4961981376659684248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c11abb352b29da743ba1b03442a2cb13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scenarios:
+    listOfScenarios:
+    - leftWallScenario: 00000000000000000000000000000000
+      rightWallScenario: 00000000000000000000000000000000
 --- !u!1 &7338369698871833263
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 853c5f7c2dc5fc94ab7f0af13d485b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restrictedAreaHeight: 0
 --- !u!114 &3050912482924226483
 MonoBehaviour:
   m_ObjectHideFlags: 0

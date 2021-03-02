@@ -18,6 +18,30 @@ public class WallJumpingGameManager : MonoBehaviour
     WallJumpingUiManager wallJumpingUiManager;
     private SlimeGenerator slimeGenerator;
     private GameArea gameArea;
+    private WallGenerator wallGenerator;
+
+    #region singleton
+    private static WallJumpingGameManager instance;
+
+    public static WallJumpingGameManager Instance { get { return instance; } }
+
+    private void CheckForInstanceDuplicate()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+    #endregion
+    private void Awake()
+    {
+        CheckForInstanceDuplicate();
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +74,7 @@ public class WallJumpingGameManager : MonoBehaviour
         gameReplayObject.SetActive(false);
         wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
         slimeGenerator = FindObjectOfType<SlimeGenerator>();
+        wallGenerator = FindObjectOfType<WallGenerator>();
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
@@ -123,5 +148,11 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         gameReplayObject.SetActive(true);
+    }
+
+
+    public void GenerateNewWallsOnTop()
+    {
+        wallGenerator.GenerateNextWallFromScenario();
     }
 }
