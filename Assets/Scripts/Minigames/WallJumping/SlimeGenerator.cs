@@ -73,7 +73,7 @@ public class SlimeGenerator : MonoBehaviour
     /// <summary>
     /// Disables slime effect.
     /// </summary>
-    private void DisableSlimeEffect()
+    public void DisableSlimeEffect()
     {
         slimeEffect.SetActive(false);
         isSlimeActive = false;

@@ -148,6 +148,7 @@ public class WallJumpingGameManager : MonoBehaviour
     public void OnGameOver()
     {
         Time.timeScale = 0;
+        slimeGenerator.DisableSlimeEffect();
         gameReplayObject.SetActive(true);
     }
 
