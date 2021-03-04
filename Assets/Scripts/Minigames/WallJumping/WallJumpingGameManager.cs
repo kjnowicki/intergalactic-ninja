@@ -19,6 +19,7 @@ public class WallJumpingGameManager : MonoBehaviour
     private SlimeGenerator slimeGenerator;
     private GameArea gameArea;
     private WallGenerator wallGenerator;
+    [SerializeField] private CameraRubberBand cameraMovement;
 
     #region singleton
     private static WallJumpingGameManager instance;
@@ -147,12 +148,31 @@ public class WallJumpingGameManager : MonoBehaviour
     public void OnGameOver()
     {
         Time.timeScale = 0;
+        slimeGenerator.DisableSlimeEffect();
         gameReplayObject.SetActive(true);
     }
 
-
+    /// <summary>
+    /// Generates new wall blocks form current scenario
+    /// </summary>
     public void GenerateNewWallsOnTop()
     {
         wallGenerator.GenerateNextWallFromScenario();
+    }
+
+    /// <summary>
+    /// Enables camera movement game object
+    /// </summary>
+    public void EnableEnviromentMovement()
+    {
+        cameraMovement.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Disables camera movement game object
+    /// </summary>
+    public void DisableEnviromentMovement()
+    {
+        cameraMovement.gameObject.SetActive(false);
     }
 }

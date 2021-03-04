@@ -11,7 +11,9 @@ public class GameArea : MonoBehaviour
     private MovableObjectsContainer movableObjectsContainer;
     private WallJumpingPlayer player;
     private BackgroundGenerator backgroundGenerator;
-    private CameraRubberBand cameraRubberBand;
+    [SerializeField] private CameraRubberBand cameraRubberBand;
+
+    [SerializeField] private GameObject floor;
 
     /// <summary>
     /// Initializes WallGenerator.
@@ -25,7 +27,6 @@ public class GameArea : MonoBehaviour
     {
         gameAreaRectTransform = GetComponent<RectTransform>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
-        cameraRubberBand = FindObjectOfType<CameraRubberBand>();
         backgroundGenerator = GetComponentInChildren<BackgroundGenerator>();
 
         InitializePosition(heightRatio);
@@ -35,7 +36,9 @@ public class GameArea : MonoBehaviour
         InitializeBackgroundGenerator();
         InitializeSlimeGenerator(slimeEffectDuration);
         InitializeRubberBandAreaSize(wallJumpingGameManager);
+        InitializeFloor();
     }
+
 
     /// <summary>
     /// Initializes Player.
@@ -65,6 +68,7 @@ public class GameArea : MonoBehaviour
     {
         backgroundGenerator.Restart();
         wallGenerator.Restart();
+        InitializeFloor();
     }
 
     /// <summary>
@@ -136,5 +140,10 @@ public class GameArea : MonoBehaviour
         Vector2 restrictedAreaPosition = gameAreaRectTransform.position;
         Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
         cameraRubberBand.Initialize(wallJumpingGameManager, restrictedAreaPosition, restrictedAreaSize);
+    }
+    private void InitializeFloor()
+    {
+        WallJumpingGameManager.Instance.DisableEnviromentMovement();
+        Instantiate(floor, movableObjectsContainer.transform);
     }
 }
