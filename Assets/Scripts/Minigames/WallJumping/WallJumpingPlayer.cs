@@ -70,5 +70,8 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         wallJumpingGameManager.OnGameOver();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) => collision.gameObject.GetComponent<BaseWallBlock>()?.OnPlayerTouch(this);
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        collision.gameObject.GetComponent<BaseWallBlock>()?.OnPlayerTouch(this);
+    }
 }

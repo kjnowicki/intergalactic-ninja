@@ -9,5 +9,8 @@ public class JumpingPlayerState : PlayerState
     /// </summary>
     /// <param name="direction"></param>
     /// <param name="wallBlockPosition"></param>
-    public override void OnTouchTheWall(int direction, Vector2 wallBlockPosition) => player.TouchTheWall(direction, wallBlockPosition);
+    public override void OnTouchTheWall(int direction, Vector2 wallBlockPosition)
+    {
+        player.TouchTheWall(direction, wallBlockPosition);
+    }
 }
