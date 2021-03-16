@@ -8,7 +8,10 @@ public abstract class BaseWallBlock : MonoBehaviour, ICollectable
     /// Abstract method called when the player touches the block.
     /// </summary>
     /// <param name="wallJumpingPlayer"></param>
-    public virtual void OnPlayerTouch(WallJumpingPlayer wallJumpingPlayer) => wallJumpingPlayer.State.OnTouchTheWall(Direction, transform.localPosition);
+    public virtual void OnPlayerTouch(WallJumpingPlayer wallJumpingPlayer)
+    {
+        wallJumpingPlayer.State.OnTouchTheWall(Direction, transform.localPosition);
+    }
 
     public void OnCollected()
     {
