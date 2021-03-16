@@ -166,9 +166,9 @@ public class WallJumpingGameManager : MonoBehaviour
     /// Adds single background block on top.
     /// </summary>
     /// <param name="backgroundBlockPositionY">Position of previous background block.</param>
-    public void GenerateNewBackgroundOnTop(float backgroundBlockPositionY)
+    public void GenerateNewBackgroundOnTop()
     {
-        backgroundGenerator.AddBackgroundBlockOnTop(backgroundBlockPositionY);
+        backgroundGenerator.AddBackgroundBlockOnTop();
     }
 
     /// <summary>

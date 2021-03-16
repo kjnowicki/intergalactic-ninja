@@ -6,7 +6,7 @@ public class BackgroundGenerator : MonoBehaviour
     private const string BACKGROUND_BLOCK_PREFAB_PATH = "Minigames/WallJumping/Prefabs/WallJumpingBackground";
     private const int BACKGROUND_WALL_HEIGHT = 2;
 
-    private Queue<GameObject> backgroundBlocks = new Queue<GameObject>();
+    private GameObject topBackgroundBlock;
     private Vector2 newBlockPosition;
     private GameObject backgroundBlockPrefab;
     private float backgroundBlockHeight;
@@ -54,29 +54,21 @@ public class BackgroundGenerator : MonoBehaviour
     /// </summary>
     private void GenerateInitialBackground()
     {
+        topBackgroundBlock = new GameObject("InitialBackgroundBlock");
+        topBackgroundBlock.transform.position = new Vector2(0, gameAreaRectTransform.localPosition.y - backgroundBlockHeight / 2);
         for (int _ = 0; _ < BACKGROUND_WALL_HEIGHT; _++)
         {
             AddBackgroundBlockOnTop();
-            newBlockPosition.y += backgroundBlockHeight;
-        }
-    }
 
-    /// <summary>
-    /// Corrects position for a new block and adds it on top. 
-    /// </summary>
-    /// <param name="prevBackgroundBlockPositionY"></param>
-    public void AddBackgroundBlockOnTop(float prevBackgroundBlockPositionY)
-    {
-        newBlockPosition.y = prevBackgroundBlockPositionY + (BACKGROUND_WALL_HEIGHT * backgroundBlockHeight);
-        AddBackgroundBlockOnTop();
+        }
     }
 
     /// <summary>
     /// Adds single background block on top.
     /// </summary>
-    private void AddBackgroundBlockOnTop()
+    public void AddBackgroundBlockOnTop()
     {
-        GameObject newBackgroundBlock = Instantiate(backgroundBlockPrefab, newBlockPosition, Quaternion.identity, transform);
-        backgroundBlocks.Enqueue(newBackgroundBlock);
+        newBlockPosition.y = topBackgroundBlock.transform.position.y + backgroundBlockHeight;
+        topBackgroundBlock = Instantiate(backgroundBlockPrefab, newBlockPosition, Quaternion.identity, transform);
     }
 }

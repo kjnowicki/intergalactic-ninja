@@ -11,6 +11,6 @@ public class WallJumpingBackground : MonoBehaviour, ICollectable, IAfterCollecta
 
     public void OnCollected()
     {
-        WallJumpingGameManager.Instance.GenerateNewBackgroundOnTop(transform.position.y);
+        WallJumpingGameManager.Instance.GenerateNewBackgroundOnTop();
     }
 }
