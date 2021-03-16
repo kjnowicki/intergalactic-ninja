@@ -77,7 +77,6 @@ public class GameArea : MonoBehaviour
     /// <param name="heightRatio"></param>
     private void InitializePosition(float heightRatio)
     {
-        
         Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         Vector2 gameAreaBounds = new Vector2(screenBounds.x, screenBounds.y * heightRatio);
         gameAreaRectTransform.sizeDelta = gameAreaBounds * 2;

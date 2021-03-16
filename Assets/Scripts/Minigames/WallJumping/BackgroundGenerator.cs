@@ -57,7 +57,18 @@ public class BackgroundGenerator : MonoBehaviour
         for (int _ = 0; _ < BACKGROUND_WALL_HEIGHT; _++)
         {
             AddBackgroundBlockOnTop();
+            newBlockPosition.y += backgroundBlockHeight;
         }
+    }
+
+    /// <summary>
+    /// Corrects position for a new block and adds it on top. 
+    /// </summary>
+    /// <param name="prevBackgroundBlockPositionY"></param>
+    public void AddBackgroundBlockOnTop(float prevBackgroundBlockPositionY)
+    {
+        newBlockPosition.y = prevBackgroundBlockPositionY + (BACKGROUND_WALL_HEIGHT * backgroundBlockHeight);
+        AddBackgroundBlockOnTop();
     }
 
     /// <summary>
@@ -67,6 +78,5 @@ public class BackgroundGenerator : MonoBehaviour
     {
         GameObject newBackgroundBlock = Instantiate(backgroundBlockPrefab, newBlockPosition, Quaternion.identity, transform);
         backgroundBlocks.Enqueue(newBackgroundBlock);
-        newBlockPosition.y += backgroundBlockHeight;
     }
 }
