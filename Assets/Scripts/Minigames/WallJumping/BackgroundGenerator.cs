@@ -59,7 +59,6 @@ public class BackgroundGenerator : MonoBehaviour
         for (int _ = 0; _ < BACKGROUND_WALL_HEIGHT; _++)
         {
             AddBackgroundBlockOnTop();
-
         }
     }
 
