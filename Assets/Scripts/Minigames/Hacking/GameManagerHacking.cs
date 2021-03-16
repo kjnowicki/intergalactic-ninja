@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
@@ -123,7 +124,8 @@ public class GameManagerHacking : MonoBehaviour
             TimeLeft -= Time.deltaTime;
             yield return null;
         }
-        GameOver();
+        Task gameOverTask = GameOver();
+        while (!gameOverTask.IsCompleted) yield return null;
     }
 
     /// <summary>
@@ -149,14 +151,17 @@ public class GameManagerHacking : MonoBehaviour
     /// <summary>
     /// Game over
     /// </summary>
-    private void GameOver()
+    public async Task GameOver()
     {
-        if (CurrentScore > BestScore)
+        while (!ControlEnabled)
+            await Task.Delay(1);
+        DisableControl();
+
+        if (currentScore > bestScore)
         {
             BestScore = CurrentScore;
             PlayerPrefsWrapper.SetHackingBestScoreAndSave(BestScore);
         }
-        ControlEnabled = false;
         resetWindow.SetActive(true);
     }
 
@@ -177,8 +182,7 @@ public class GameManagerHacking : MonoBehaviour
     /// </summary>
     public void EnableControl()
     {
-        if (TimeLeft > 0)
-            ControlEnabled = true;
+        ControlEnabled = true;
     }
     /// <summary>
     /// Forbid player to moves bubbles.
