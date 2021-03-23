@@ -62,6 +62,24 @@ MonoBehaviour:
     m_Localized: Gravity direction
     m_Metadata:
       m_Items: []
+  - m_Id: 4393671480537088
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4679467487948800
+    m_Localized: 'Hacking
+
+      control'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9664406310580224
+    m_Localized: Swipe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9664422542536704
+    m_Localized: Click
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
     00000000:
