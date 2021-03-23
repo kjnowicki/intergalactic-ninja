@@ -19,6 +19,7 @@ public class WallJumpingGameManager : MonoBehaviour
     private SlimeGenerator slimeGenerator;
     private GameArea gameArea;
     private WallGenerator wallGenerator;
+    private BackgroundGenerator backgroundGenerator;
     [SerializeField] private CameraRubberBand cameraMovement;
 
     #region singleton
@@ -76,6 +77,7 @@ public class WallJumpingGameManager : MonoBehaviour
         wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
         slimeGenerator = FindObjectOfType<SlimeGenerator>();
         wallGenerator = FindObjectOfType<WallGenerator>();
+        backgroundGenerator = FindObjectOfType<BackgroundGenerator>();
         float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
         InitializeUi(weightSum);
         InitializeGameArea(weightSum);
@@ -119,7 +121,7 @@ public class WallJumpingGameManager : MonoBehaviour
         if (currentScore > bestScore)
         {
             bestScore = currentScore;
-            PlayerPrefsWrapper.SetWallJupmingBestScoreAndSave((int) bestScore);
+            PlayerPrefsWrapper.SetWallJupmingBestScoreAndSave((int)bestScore);
         }
         currentScore = 0.0f;
         wallJumpingUiManager.Restart(currentScore, bestScore);
@@ -158,6 +160,15 @@ public class WallJumpingGameManager : MonoBehaviour
     public void GenerateNewWallsOnTop()
     {
         wallGenerator.GenerateNextWallFromScenario();
+    }
+
+    /// <summary>
+    /// Adds single background block on top.
+    /// </summary>
+    /// <param name="backgroundBlockPositionY">Position of previous background block.</param>
+    public void GenerateNewBackgroundOnTop()
+    {
+        backgroundGenerator.AddBackgroundBlockOnTop();
     }
 
     /// <summary>
