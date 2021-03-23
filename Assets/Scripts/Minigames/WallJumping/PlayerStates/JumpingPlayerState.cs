@@ -13,4 +13,16 @@ public class JumpingPlayerState : PlayerState
     {
         player.TouchTheWall(direction, wallBlockPosition);
     }
+    
+    #region Infinite jumping
+    // /// <summary>
+    // /// For testing purposes. Uncomment it for your own responsibility.
+    // /// </summary>
+    // /// <param name="swipeStartPosition"></param>
+    // /// <param name="swipeEndPosition"></param>
+    // public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
+    // {
+    //     player.Jump(swipeStartPosition, swipeEndPosition);
+    // }
+    #endregion
 }
