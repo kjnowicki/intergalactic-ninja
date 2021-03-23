@@ -7,7 +7,6 @@ public class BackgroundGenerator : MonoBehaviour
     private const int BACKGROUND_WALL_HEIGHT = 2;
 
     private GameObject topBackgroundBlock;
-    private Vector2 newBlockPosition;
     private GameObject backgroundBlockPrefab;
     private float backgroundBlockHeight;
     private RectTransform gameAreaRectTransform;
@@ -23,7 +22,6 @@ public class BackgroundGenerator : MonoBehaviour
         Vector2 backgroundBlockSize = backgroundBlockPrefab.GetComponent<SpriteRenderer>().bounds.size;
         backgroundBlockHeight = backgroundBlockSize.y;
         this.gameAreaRectTransform = gameAreaRectTransform;
-        newBlockPosition = new Vector2(0, gameAreaRectTransform.localPosition.y + backgroundBlockHeight / 2);
 
         RescaleBackgroundBlock(gameAreaRectTransform.sizeDelta.x, backgroundBlockSize.x);
         GenerateInitialBackground();
@@ -34,7 +32,6 @@ public class BackgroundGenerator : MonoBehaviour
     /// </summary>
     public void Restart()
     {
-        newBlockPosition = new Vector2(0, gameAreaRectTransform.localPosition.y + backgroundBlockHeight / 2);
         GenerateInitialBackground();
     }
 
@@ -54,9 +51,10 @@ public class BackgroundGenerator : MonoBehaviour
     /// </summary>
     private void GenerateInitialBackground()
     {
-        topBackgroundBlock = new GameObject("InitialBackgroundBlock");
-        topBackgroundBlock.transform.position = new Vector2(0, gameAreaRectTransform.localPosition.y - backgroundBlockHeight / 2);
-        for (int _ = 0; _ < BACKGROUND_WALL_HEIGHT; _++)
+        Vector2 newBlockPosition = new Vector2(0, gameAreaRectTransform.localPosition.y - backgroundBlockHeight / 2);
+        topBackgroundBlock = Instantiate(backgroundBlockPrefab, newBlockPosition, Quaternion.identity, transform);
+
+        for (int _ = 0; _ < BACKGROUND_WALL_HEIGHT - 1; _++)
         {
             AddBackgroundBlockOnTop();
         }
@@ -67,7 +65,7 @@ public class BackgroundGenerator : MonoBehaviour
     /// </summary>
     public void AddBackgroundBlockOnTop()
     {
-        newBlockPosition.y = topBackgroundBlock.transform.position.y + backgroundBlockHeight;
+        Vector2 newBlockPosition = new Vector2(0, topBackgroundBlock.transform.position.y + backgroundBlockHeight);
         topBackgroundBlock = Instantiate(backgroundBlockPrefab, newBlockPosition, Quaternion.identity, transform);
     }
 }
