@@ -55,6 +55,22 @@ MonoBehaviour:
     m_Key: GRAVITY_DIRECTION
     m_Metadata:
       m_Items: []
+  - m_Id: 4393671480537088
+    m_Key: LANGUAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4679467487948800
+    m_Key: HACKING_CONTROL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9664406310580224
+    m_Key: SWIPE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9664422542536704
+    m_Key: CLICK
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

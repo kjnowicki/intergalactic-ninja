@@ -64,6 +64,24 @@ MonoBehaviour:
     m_Localized: Kierunek
     m_Metadata:
       m_Items: []
+  - m_Id: 4393671480537088
+    m_Localized: "J\u0119zyk"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4679467487948800
+    m_Localized: 'Sterowanie w
+
+      hackowaniu'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9664406310580224
+    m_Localized: "Przesuni\u0119cie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9664422542536704
+    m_Localized: "Klikni\u0119cie"
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
     00000000:
