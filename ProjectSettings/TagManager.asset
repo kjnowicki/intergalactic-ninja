@@ -5,7 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Target
-  - ColumnTile
+  - Symbol
   layers:
   - Default
   - TransparentFX

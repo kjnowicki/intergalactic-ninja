@@ -4,5 +4,18 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
-  m_configObjects: {}
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/CockPitActionHub.unity
+    guid: c0891c132863aa44ca03d01de58aa3bb
+  - enabled: 1
+    path: Assets/Scenes/Hacking/Hacking.unity
+    guid: eee2e947197562b4bb07c5c96df626e5
+  - enabled: 1
+    path: Assets/Scenes/Killer/Killer.unity
+    guid: 43467f6c37dc0404f8a835ed05fbf673
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: ac436db5fbb42864da77e18f160e4c55,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 3cd1804c043083943b7e5945917c5be9,
+      type: 2}
