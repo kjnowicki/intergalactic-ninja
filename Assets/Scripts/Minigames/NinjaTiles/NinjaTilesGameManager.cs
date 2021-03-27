@@ -34,14 +34,16 @@ public class NinjaTilesGameManager : MonoBehaviour
     [SerializeField] private GameObject ninjaPrefab;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject gameObjectsContainer;
+    [SerializeField] private GameObject scalableGameObjectsContainer;
     [SerializeField] private GameObject spaceshipPrefab;
 
     private GameObject tilesContainer;
     private Ninja ninja;
-    private List<Spaceship> spaceshipList;
     private Vector2 screenScale;
 
     private const float UNCHANGED_SCALE_FACTOR = 1;
+    private const int START_TILE_INDEX = 2;
+    private const int TILE_INDEX_SHIFT = 2;
 
     void Start()
     {
@@ -51,14 +53,18 @@ public class NinjaTilesGameManager : MonoBehaviour
 
     private void StartGame()
     {
-        StartSpaceshipAboveTileAtIndex(0);
+        StartSpaceshipAboveTileAtIndex(START_TILE_INDEX);
     }
 
+    /// <summary>
+    /// First spaceship on mission to spot the ninja initialized above him in the middle (lucky spaceship)
+    /// </summary>
+    /// <param name="tileIndex"></param>
     private void StartSpaceshipAboveTileAtIndex(int tileIndex)
     {
         Spaceship spaceship = Instantiate(spaceshipPrefab).GetComponent<Spaceship>();
-        spaceship.transform.position = new Vector2(tileIndex - 2, 0);
         spaceship.transform.SetParent(gameObjectsContainer.transform);
+        spaceship.transform.position = new Vector2((tileIndex - TILE_INDEX_SHIFT) * screenScale.x, 0);
     }
 
     /// <summary>
@@ -81,15 +87,14 @@ public class NinjaTilesGameManager : MonoBehaviour
     /// </summary>
     private void SetTransformForGameObjects()
     {
-        tilesContainer.transform.SetParent(gameObjectsContainer.transform);
+        tilesContainer.transform.SetParent(scalableGameObjectsContainer.transform);
         ninja.transform.parent = gameObjectsContainer.transform;
 
         float widthScaleForTilesContainer = mainCamera.GetComponent<Camera>().orthographicSize * 2 / tilesContainer.GetComponentInChildren<SpriteRenderer>().size.x;
         screenScale = new Vector2(widthScaleForTilesContainer * Screen.width / Screen.height, UNCHANGED_SCALE_FACTOR);
-        
-        gameObjectsContainer.transform.localScale = new Vector3(screenScale.x, screenScale.y, UNCHANGED_SCALE_FACTOR);
-        ninja.transform.position = new Vector3(ninja.transform.position.x, ninja_position_y + (screenScale.x - ninja.transform.localScale.y) * ninja.GetComponent<SpriteRenderer>().bounds.size.y / 2, ninja_position_z);
-        ninja.transform.localScale = new Vector3(UNCHANGED_SCALE_FACTOR, screenScale.x, UNCHANGED_SCALE_FACTOR);
+
+        scalableGameObjectsContainer.transform.localScale = new Vector3(screenScale.x, screenScale.y, UNCHANGED_SCALE_FACTOR);
+        ninja.transform.position = new Vector3(ninja.transform.position.x, ninja_position_y, ninja_position_z);
     }
 
     /// <summary>
