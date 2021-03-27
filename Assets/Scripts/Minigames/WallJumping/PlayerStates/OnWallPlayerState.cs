@@ -14,6 +14,7 @@ public class OnWallPlayerState : PlayerState
         if ((swipeStartPosition.x - swipeEndPosition.x) * direction < 0)
         {
             player.Jump(swipeStartPosition, swipeEndPosition);
+            player.State = new JumpingPlayerState(player, WallJumpingGameManager.Instance.maximumNumberOfJumps);
         }
     }
 }

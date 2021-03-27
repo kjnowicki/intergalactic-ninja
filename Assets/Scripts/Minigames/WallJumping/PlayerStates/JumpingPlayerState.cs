@@ -2,7 +2,12 @@
 
 public class JumpingPlayerState : PlayerState
 {
-    public JumpingPlayerState(WallJumpingPlayer player) : base(player) { }
+    private int remainingNumberOfJumps;
+
+    public JumpingPlayerState(WallJumpingPlayer player, int maximumNumberOfJumps) : base(player)
+    {
+        remainingNumberOfJumps = maximumNumberOfJumps;
+    }
 
     /// <summary>
     /// Action caused when Player touches the wall while jumping.
@@ -12,17 +17,20 @@ public class JumpingPlayerState : PlayerState
     public override void OnTouchTheWall(int direction, Vector2 wallBlockPosition)
     {
         player.TouchTheWall(direction, wallBlockPosition);
+        player.State = new OnWallPlayerState(player, direction);
     }
-    
-    #region Infinite jumping
-    // /// <summary>
-    // /// For testing purposes. Uncomment it for your own responsibility.
-    // /// </summary>
-    // /// <param name="swipeStartPosition"></param>
-    // /// <param name="swipeEndPosition"></param>
-    // public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
-    // {
-    //     player.Jump(swipeStartPosition, swipeEndPosition);
-    // }
-    #endregion
+
+    /// <summary>
+    /// For testing purposes. Uncomment it for your own responsibility.
+    /// </summary>
+    /// <param name="swipeStartPosition"></param>
+    /// <param name="swipeEndPosition"></param>
+    public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
+    {
+        remainingNumberOfJumps--;
+        if (remainingNumberOfJumps > 0)
+        {
+            player.Jump(swipeStartPosition, swipeEndPosition);
+        }
+    }
 }

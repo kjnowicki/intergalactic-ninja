@@ -12,5 +12,6 @@ public class InitialPlayerState : PlayerState
     public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
         player.Jump(swipeStartPosition, swipeEndPosition);
+        player.State = new JumpingPlayerState(player, WallJumpingGameManager.Instance.maximumNumberOfJumps);
     }
 }
