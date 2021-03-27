@@ -1,13 +1,14 @@
 ﻿using static UnityEngine.Mathf;
 using UnityEngine;
 using System;
+using TMPro;
 
 public class Bubble : MonoBehaviour
 {
 
     public int column;
     public int row;
-    public BubbleColor color;
+    public Color color;
     public Matrix BubbleMatrix { get; private set; }
 
     public Bubble LeftNeighbour => GetNeighbour(-1, 0, () => column > 0);
@@ -18,12 +19,18 @@ public class Bubble : MonoBehaviour
 
     public Bubble DownNeighbour => GetNeighbour(0, -1, () => row > 0);
 
+    public int points = 1;
+    public TextMeshPro pointsTMP;
+    private const float DESTROY_DELAY = 0.3f;
+
     // Start is called before the first frame update
     void Awake()
     {
         BubbleMatrix = FindObjectOfType<Matrix>();
         column = (int)transform.position.x;
         row = (int)transform.position.y;
+        SpriteRenderer sr = this.gameObject.FindFirstComponentInChildWithTag<SpriteRenderer>("Symbol");
+        sr.color = color;
     }
 
     private void OnMouseDown()
@@ -67,4 +74,17 @@ public class Bubble : MonoBehaviour
             return BubbleMatrix.MatrixBubbles[column + nextColumn, row + nextRow].GetComponent<Bubble>();
         return null;
     }
+
+    /// <summary>
+    /// Method which shows points
+    /// </summary>
+    /// <param name="multiplier"></param>
+    public void ShowPoints(in int multiplier)
+    {
+        pointsTMP.text = (points * multiplier).ToString();
+        pointsTMP.color = color;
+        GameObject gm = Instantiate(pointsTMP.gameObject, this.transform.position, this.transform.rotation, null);
+        GameObject.Destroy(gm, DESTROY_DELAY);
+    }
+
 }

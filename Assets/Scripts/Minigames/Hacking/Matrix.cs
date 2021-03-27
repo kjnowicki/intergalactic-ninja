@@ -155,35 +155,32 @@ public class Matrix : MonoBehaviour
     public void SwapBubbles(Bubble bubble1, Bubble bubble2)
     {
         Task swappingTask = new Task(async () =>
-        {
-            await BubbleMover.SwapBubbles(bubble1, bubble2);
-            MatrixBubbles[bubble1.column, bubble1.row] = bubble1.gameObject;
-            MatrixBubbles[bubble2.column, bubble2.row] = bubble2.gameObject;
+         {
+             GameManagerHacking.Instance.DisableControl();
+             await BubbleMover.SwapBubbles(bubble1, bubble2);
+             MatrixBubbles[bubble1.column, bubble1.row] = bubble1.gameObject;
+             MatrixBubbles[bubble2.column, bubble2.row] = bubble2.gameObject;
 
-            int numberOfMatchedBubble1 = MatchFinder.RemoveBubbleAndMatchesIfExist(bubble1);
-            int numberOfMatchedBubble2 = 0;
+             int numberOfMatchedBubble1 = MatchFinder.RemoveBubbleAndMatchesIfExist(bubble1, ref comboMultiplier);
+             int numberOfMatchedBubble2 = 0;
 
-            bool isBubble1Matched = numberOfMatchedBubble1 != 0;
-            bool isBubble2Matched = false;
-            if (!emptyPositionsBufferList.Contains(bubble2.transform.position))
-            {
-                numberOfMatchedBubble2 = MatchFinder.RemoveBubbleAndMatchesIfExist(bubble2);
-                isBubble2Matched = numberOfMatchedBubble2 != 0;
-            }
-            if (!isBubble1Matched && !isBubble2Matched)
-            {
-                await BubbleMover.SwapBubbles(bubble1, bubble2);
-                MatrixBubbles[bubble1.column, bubble1.row] = bubble1.gameObject;
-                MatrixBubbles[bubble2.column, bubble2.row] = bubble2.gameObject;
-                GameManagerHacking.Instance.EnableControl();
-                return;
-            }
-            comboMultiplier = Convert.ToInt32(isBubble1Matched);
-            GameManagerHacking.Instance.AddCurrentScore(numberOfMatchedBubble1, comboMultiplier);
-            comboMultiplier += Convert.ToInt32(isBubble2Matched);
-            GameManagerHacking.Instance.AddCurrentScore(numberOfMatchedBubble2, comboMultiplier);
-            FillEmptySpace();
-        });
+             bool isBubble1Matched = numberOfMatchedBubble1 != 0;
+             bool isBubble2Matched = false;
+             if (!emptyPositionsBufferList.Contains(bubble2.transform.position))
+             {
+                 numberOfMatchedBubble2 = MatchFinder.RemoveBubbleAndMatchesIfExist(bubble2, ref comboMultiplier);
+                 isBubble2Matched = numberOfMatchedBubble2 != 0;
+             }
+             if (!isBubble1Matched && !isBubble2Matched)
+             {
+                 await BubbleMover.SwapBubbles(bubble1, bubble2);
+                 MatrixBubbles[bubble1.column, bubble1.row] = bubble1.gameObject;
+                 MatrixBubbles[bubble2.column, bubble2.row] = bubble2.gameObject;
+                 GameManagerHacking.Instance.EnableControl();
+                 return;
+             }
+             FillEmptySpace();
+         });
         swappingTask.RunSynchronously();
     }
 
@@ -302,12 +299,10 @@ public class Matrix : MonoBehaviour
         {
             if (bubble != null)
             {
-                int NumberOfMatched = MatchFinder.RemoveBubbleAndMatchesIfExist(bubble);
+                int NumberOfMatched = MatchFinder.RemoveBubbleAndMatchesIfExist(bubble, ref comboMultiplier);
 
                 if (NumberOfMatched != 0)
                 {
-                    comboMultiplier++;
-                    GameManagerHacking.Instance.AddCurrentScore(NumberOfMatched, comboMultiplier);
                     FillEmptySpace();
                     return;
                 }
@@ -315,7 +310,6 @@ public class Matrix : MonoBehaviour
             unmatchedBubbles.Add(bubble);
         }
         recentlyMovedBubblesBufferList.RemoveAll(bubble => unmatchedBubbles.Contains(bubble));
-        Debug.Log("Points multiplied by: " + comboMultiplier);
         comboMultiplier = 1;
         CheckMatrixDeadlock();
     }
