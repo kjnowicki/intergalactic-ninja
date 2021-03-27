@@ -21,7 +21,7 @@ public class JumpingPlayerState : PlayerState
     }
 
     /// <summary>
-    /// For testing purposes. Uncomment it for your own responsibility.
+    /// Performs an air jump it is possible (total number of jumps since last wall contact is lower than limit).  
     /// </summary>
     /// <param name="swipeStartPosition"></param>
     /// <param name="swipeEndPosition"></param>
