@@ -2,19 +2,35 @@
 
 public class JumpingPlayerState : PlayerState
 {
-    public JumpingPlayerState(WallJumpingPlayer player) : base(player) { }
+    private int remainingNumberOfJumps;
 
-    /// <summary>
-    /// Action caused when player tries to jump while jumping.
-    /// </summary>
-    /// <param name="swipeStartPosition"></param>
-    /// <param name="swipeEndPosition"></param>
-    public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition) => player.Jump(swipeStartPosition, swipeEndPosition); // double jumps will be removed in future
+    public JumpingPlayerState(WallJumpingPlayer player, int maximumNumberOfJumps) : base(player)
+    {
+        remainingNumberOfJumps = maximumNumberOfJumps;
+    }
 
     /// <summary>
     /// Action caused when Player touches the wall while jumping.
     /// </summary>
     /// <param name="direction"></param>
     /// <param name="wallBlockPosition"></param>
-    public override void OnTouchTheWall(int direction, Vector2 wallBlockPosition) => player.TouchTheWall(direction, wallBlockPosition);
+    public override void OnTouchTheWall(int direction, Vector2 wallBlockPosition)
+    {
+        player.TouchTheWall(direction, wallBlockPosition);
+        player.State = new OnWallPlayerState(player, direction);
+    }
+
+    /// <summary>
+    /// Performs an air jump it is possible (total number of jumps since last wall contact is lower than limit).  
+    /// </summary>
+    /// <param name="swipeStartPosition"></param>
+    /// <param name="swipeEndPosition"></param>
+    public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
+    {
+        remainingNumberOfJumps--;
+        if (remainingNumberOfJumps > 0)
+        {
+            player.Jump(swipeStartPosition, swipeEndPosition);
+        }
+    }
 }

@@ -36,7 +36,6 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     {
         Drag = 5;
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
-        State = new JumpingPlayerState(this);
     }
 
     /// <summary>
@@ -49,7 +48,6 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         Drag = 20;
         playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
         playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction, playerRigidbody.transform.localPosition.y);
-        State = new OnWallPlayerState(this, direction);
     }
 
     /// <summary>
@@ -70,5 +68,8 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         wallJumpingGameManager.OnGameOver();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) => collision.gameObject.GetComponent<BaseWallBlock>()?.OnPlayerTouch(this);
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        collision.gameObject.GetComponent<BaseWallBlock>()?.OnPlayerTouch(this);
+    }
 }
