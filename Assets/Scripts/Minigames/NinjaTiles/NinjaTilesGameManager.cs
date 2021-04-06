@@ -103,6 +103,6 @@ public class NinjaTilesGameManager : MonoBehaviour
     /// <param name="columnTile"></param>
     public void MoveNinjaToTile(GameObject columnTile)
     {
-        ninja.GetComponent<Ninja>().MoveNinja(columnTile.transform.position);
+        ninja.MoveNinja(columnTile.transform.position);
     }
 }

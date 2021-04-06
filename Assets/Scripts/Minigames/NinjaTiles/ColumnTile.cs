@@ -6,11 +6,6 @@ using UnityEngine;
 
 public class ColumnTile : MonoBehaviour
 {
-    void Start()
-    {
-
-    }
-
     private void OnMouseDown()
     {
         MoveToTouchedColumn(gameObject);

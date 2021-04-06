@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class Ninja : MonoBehaviour
 {
-    private void Start()
-    {
-
-    }
-
     /// <summary>
     /// Move ninja object among tiles
     /// </summary>
     /// <param name="columnTile"></param>
     public void MoveNinja(Vector2 position)
     {
-        this.transform.position = new Vector3(position.x, this.transform.position.y, this.transform.position.z);
+        Vector3 currentPosition = transform.position;
+        transform.position = new Vector3(position.x, currentPosition.y, currentPosition.z);
     }
 }
