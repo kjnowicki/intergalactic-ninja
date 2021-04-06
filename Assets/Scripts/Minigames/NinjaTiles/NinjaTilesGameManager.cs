@@ -63,8 +63,9 @@ public class NinjaTilesGameManager : MonoBehaviour
     private void StartSpaceshipAboveTileAtIndex(int tileIndex)
     {
         Spaceship spaceship = Instantiate(spaceshipPrefab).GetComponent<Spaceship>();
-        spaceship.transform.SetParent(gameObjectsContainer.transform);
-        spaceship.transform.position = new Vector2((tileIndex - TILE_INDEX_SHIFT) * screenScale.x, 0);
+        Transform spaceshipTransform = spaceship.transform;
+        spaceshipTransform.SetParent(gameObjectsContainer.transform);
+        spaceshipTransform.position = new Vector2((tileIndex - TILE_INDEX_SHIFT) * screenScale.x, 0);
     }
 
     /// <summary>
@@ -87,14 +88,16 @@ public class NinjaTilesGameManager : MonoBehaviour
     /// </summary>
     private void SetTransformForGameObjects()
     {
+        Transform ninjaTransform = ninja.transform;
+
         tilesContainer.transform.SetParent(scalableGameObjectsContainer.transform);
-        ninja.transform.parent = gameObjectsContainer.transform;
+        ninjaTransform.SetParent(gameObjectsContainer.transform);
 
         float widthScaleForTilesContainer = mainCamera.GetComponent<Camera>().orthographicSize * 2 / tilesContainer.GetComponentInChildren<SpriteRenderer>().size.x;
         screenScale = new Vector2(widthScaleForTilesContainer * Screen.width / Screen.height, UNCHANGED_SCALE_FACTOR);
 
         scalableGameObjectsContainer.transform.localScale = new Vector3(screenScale.x, screenScale.y, UNCHANGED_SCALE_FACTOR);
-        ninja.transform.position = new Vector3(ninja.transform.position.x, ninja_position_y, ninja_position_z);
+        ninjaTransform.position = new Vector3(ninjaTransform.position.x, ninja_position_y, ninja_position_z);
     }
 
     /// <summary>
