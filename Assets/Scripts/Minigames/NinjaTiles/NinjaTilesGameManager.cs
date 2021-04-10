@@ -37,13 +37,23 @@ public class NinjaTilesGameManager : MonoBehaviour
     [SerializeField] private GameObject scalableGameObjectsContainer;
     [SerializeField] private GameObject spaceshipPrefab;
 
+    
+
     private GameObject tilesContainer;
     private Ninja ninja;
-    private Vector2 screenScale;
 
     private const float UNCHANGED_SCALE_FACTOR = 1;
     private const int START_TILE_INDEX = 2;
-    private const int TILE_INDEX_SHIFT = 2;
+
+    public static int TileIndexShift {
+        get;
+    }
+
+    public static Vector2 ScreenScale
+    {
+        get;
+        private set;
+    }
 
     void Start()
     {
@@ -63,9 +73,8 @@ public class NinjaTilesGameManager : MonoBehaviour
     private void StartSpaceshipAboveTileAtIndex(int tileIndex)
     {
         Spaceship spaceship = Instantiate(spaceshipPrefab).GetComponent<Spaceship>();
-        Transform spaceshipTransform = spaceship.transform;
-        spaceshipTransform.SetParent(gameObjectsContainer.transform);
-        spaceshipTransform.position = new Vector2((tileIndex - TILE_INDEX_SHIFT) * screenScale.x, 0);
+        spaceship.transform.SetParent(gameObjectsContainer.transform);
+        spaceship.MoveSpaceshipAboveTileAtIndex(tileIndex);
     }
 
     /// <summary>
