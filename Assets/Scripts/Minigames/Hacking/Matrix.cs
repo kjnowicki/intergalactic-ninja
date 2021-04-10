@@ -295,14 +295,34 @@ public class Matrix : MonoBehaviour
     private void CheckMatchesForRecentlyMovedBubbles()
     {
         List<Bubble> unmatchedBubbles = new List<Bubble>();
+        List<Bubble> matchedBubbles = new List<Bubble>();
         foreach (Bubble bubble in recentlyMovedBubblesBufferList)
         {
             if (bubble != null)
             {
-                int NumberOfMatched = MatchFinder.RemoveBubbleAndMatchesIfExist(bubble, ref comboMultiplier);
+                matchedBubbles.AddRange(MatchFinder.HorizontalMatchesForBubble(bubble));
+                matchedBubbles.AddRange(MatchFinder.VerticalMatchesForBubble(bubble));
+                int numberOfMatched = matchedBubbles.Count;
 
-                if (NumberOfMatched != 0)
+                if (numberOfMatched > 0)
                 {
+                    matchedBubbles.Add(bubble);
+                    List<Bubble> temp = new List<Bubble>();
+                    foreach (Bubble matchedBubble in matchedBubbles)
+                    {
+                        temp.AddRange(MatchFinder.HorizontalMatchesForBubble(matchedBubble));
+                        temp.AddRange(MatchFinder.VerticalMatchesForBubble(matchedBubble));
+                    }
+                    matchedBubbles.AddRange(temp);
+                    foreach (Bubble matchedBubble in matchedBubbles.Distinct())
+                    {
+                        matchedBubble.ShowPoints(comboMultiplier);
+                        AddEmptyPositionToBuffer(matchedBubble.column, matchedBubble.row);
+                        MatrixBubbles[matchedBubble.column, matchedBubble.row] = null;
+                        GameObject.Destroy(matchedBubble.gameObject);
+                    }
+                    comboMultiplier++;
+                    GameManagerHacking.Instance.AddCurrentScore(numberOfMatched, comboMultiplier);
                     FillEmptySpace();
                     return;
                 }
