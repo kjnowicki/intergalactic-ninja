@@ -103,9 +103,9 @@ public class NinjaTilesGameManager : MonoBehaviour
         ninjaTransform.SetParent(gameObjectsContainer.transform);
 
         float widthScaleForTilesContainer = mainCamera.GetComponent<Camera>().orthographicSize * 2 / tilesContainer.GetComponentInChildren<SpriteRenderer>().size.x;
-        screenScale = new Vector2(widthScaleForTilesContainer * Screen.width / Screen.height, UNCHANGED_SCALE_FACTOR);
+        ScreenScale = new Vector2(widthScaleForTilesContainer * Screen.width / Screen.height, UNCHANGED_SCALE_FACTOR);
 
-        scalableGameObjectsContainer.transform.localScale = new Vector3(screenScale.x, screenScale.y, UNCHANGED_SCALE_FACTOR);
+        scalableGameObjectsContainer.transform.localScale = new Vector3(ScreenScale.x, ScreenScale.y, UNCHANGED_SCALE_FACTOR);
         ninjaTransform.position = new Vector3(ninjaTransform.position.x, ninja_position_y, ninja_position_z);
     }
 
