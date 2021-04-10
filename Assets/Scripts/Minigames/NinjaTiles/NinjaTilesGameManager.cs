@@ -73,11 +73,11 @@ public class NinjaTilesGameManager : MonoBehaviour
     /// </summary>
     private void InitializeData()
     {
-        SetData();
-        SetTransformForGameObjects();
+        SetupData();
+        SetupTransformForGameObjects();
     }
 
-    private void SetData()
+    private void SetupData()
     {
         tilesContainer = Instantiate(tilesContainerPrefab);
         ninja = Instantiate(ninjaPrefab).GetComponent<Ninja>();
@@ -86,7 +86,7 @@ public class NinjaTilesGameManager : MonoBehaviour
     /// <summary>
     /// Set objects' width on the scene based on the device resolution
     /// </summary>
-    private void SetTransformForGameObjects()
+    private void SetupTransformForGameObjects()
     {
         Transform ninjaTransform = ninja.transform;
 
