@@ -30,13 +30,14 @@ public static class MatchFinder
     /// </summary>
     /// <param name="bubble"></param>
     /// <returns></returns>
-    private static List<Bubble> HorizontalMatchesForBubble(Bubble bubble)
+    public static List<Bubble> HorizontalMatchesForBubble(Bubble bubble)
     {
         Color searchedColor = bubble.color;
         List<Bubble> horizontalMatches = new List<Bubble>();
         horizontalMatches.AddRange(MatchesForBubbleInDirection(bubble, searchedColor, (Bubble b) => b.LeftNeighbour));
         horizontalMatches.AddRange(MatchesForBubbleInDirection(bubble, searchedColor, (Bubble b) => b.RightNeighbour));
-        return horizontalMatches;
+        if (horizontalMatches.Count > 1) return horizontalMatches;
+        return new List<Bubble>();
     }
 
     /// <summary>
@@ -44,13 +45,14 @@ public static class MatchFinder
     /// </summary>
     /// <param name="bubble"></param>
     /// <returns></returns>
-    private static List<Bubble> VerticalMatchesForBubble(Bubble bubble)
+    public static List<Bubble> VerticalMatchesForBubble(Bubble bubble)
     {
         Color searchedColor = bubble.color;
         List<Bubble> verticalMaches = new List<Bubble>();
         verticalMaches.AddRange(MatchesForBubbleInDirection(bubble, searchedColor, (Bubble b) => b.UpNeighbour));
         verticalMaches.AddRange(MatchesForBubbleInDirection(bubble, searchedColor, (Bubble b) => b.DownNeighbour));
-        return verticalMaches;
+        if(verticalMaches.Count > 1) return verticalMaches;
+        return new List<Bubble>();
     }
 
     /// <summary>
