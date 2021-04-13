@@ -75,11 +75,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9664406310580224
-    m_Localized: "Przesuni\u0119cie"
+    m_Localized: "Przez przesuni\u0119cie"
     m_Metadata:
       m_Items: []
   - m_Id: 9664422542536704
-    m_Localized: "Klikni\u0119cie"
+    m_Localized: "Przez klikni\u0119cie"
     m_Metadata:
       m_Items: []
   references:
