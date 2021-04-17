@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6514654069853851373}
   - component: {fileID: 3009870583828575907}
   - component: {fileID: 7231057225529569182}
-  - component: {fileID: 1082343035503732225}
+  - component: {fileID: 8304584463120765940}
   m_Layer: 0
   m_Name: GarbageCollector
   m_TagString: Untagged
@@ -33,10 +33,10 @@ RectTransform:
   m_Father: {fileID: 7338369698871833257}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -5, y: -3}
+  m_SizeDelta: {x: 50, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &3009870583828575907
 MonoBehaviour:
@@ -72,7 +72,7 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!50 &1082343035503732225
+--- !u!50 &8304584463120765940
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -206,10 +206,10 @@ RectTransform:
   m_Father: {fileID: 7338369698871833257}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -10}
-  m_SizeDelta: {x: 10, y: 10}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &7192839142478545449
 MonoBehaviour:
@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a475941f504b5884cbacb22e63912fc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPositionY: -5
 --- !u!114 &8456167839507210973
 MonoBehaviour:
   m_ObjectHideFlags: 0

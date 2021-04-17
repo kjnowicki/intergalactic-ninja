@@ -393,33 +393,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1151375457 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 920454322245167654, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
-    type: 3}
-  m_PrefabInstance: {fileID: 7338369697551993364}
-  m_PrefabAsset: {fileID: 0}
---- !u!50 &1151375461
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151375457}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!850595691 &1177220247
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1218,36 +1191,6 @@ PrefabInstance:
       propertyPath: rubberBandStrength
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 1908482546327863251, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
-        type: 3}
-      propertyPath: cameraRubberBand
-      value: 
-      objectReference: {fileID: 795810497}
-    - target: {fileID: 2532366984591086047, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2532366984591086047, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2532366984591086047, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2532366984591086047, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2532366984591086047, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3832744484719757719, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}
       propertyPath: m_Mass
@@ -1369,6 +1312,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftWall
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1071254722384253235, guid: 7d52ca37da9516541b9eb30f7c12c0f8, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d52ca37da9516541b9eb30f7c12c0f8, type: 3}

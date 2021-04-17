@@ -28,14 +28,11 @@ public class GameArea : MonoBehaviour
         gameAreaRectTransform = GetComponent<RectTransform>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
         backgroundGenerator = GetComponentInChildren<BackgroundGenerator>();
-
-        // InitializePosition(heightRatio);
-        InitializeMovableObjectsContainer();
+        
         InitializeWallGenerator(wallHeightAdditional);
-        InitializeGarbageCollectorPosition(garbageCollectorHeight);
         InitializeBackgroundGenerator();
         InitializeSlimeGenerator(slimeEffectDuration);
-        // InitializeRubberBandAreaSize(wallJumpingGameManager);
+        InitializeRubberBandAreaSize(wallJumpingGameManager);
         InitializeFloor();
     }
 
@@ -72,14 +69,6 @@ public class GameArea : MonoBehaviour
     }
 
     /// <summary>
-    /// Initializes MovableObjectsContainer.
-    /// </summary>
-    private void InitializeMovableObjectsContainer()
-    {
-        movableObjectsContainer.Initialize(gameAreaRectTransform);
-    }
-
-    /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
     /// <param name="wallHeightAdditional"></param>
@@ -87,17 +76,6 @@ public class GameArea : MonoBehaviour
     {
         wallGenerator = GetComponentInChildren<WallGenerator>();
         wallGenerator.Initialize(wallHeightAdditional, gameAreaRectTransform);
-    }
-
-    /// <summary>
-    /// Initializes GarbageCollector position.
-    /// </summary>
-    /// <param name="garbageCollectorHeight"></param>
-    private void InitializeGarbageCollectorPosition(float garbageCollectorHeight)
-    {
-        GarbageCollector garbageCollector = GetComponentInChildren<GarbageCollector>();
-        Vector2 garbageCollectorInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, garbageCollectorHeight);
-        garbageCollector.InitializePosition(garbageCollectorInitialPosition);
     }
 
     /// <summary>
