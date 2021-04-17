@@ -29,13 +29,13 @@ public class GameArea : MonoBehaviour
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
         backgroundGenerator = GetComponentInChildren<BackgroundGenerator>();
 
-        InitializePosition(heightRatio);
+        // InitializePosition(heightRatio);
         InitializeMovableObjectsContainer();
         InitializeWallGenerator(wallHeightAdditional);
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
         InitializeBackgroundGenerator();
         InitializeSlimeGenerator(slimeEffectDuration);
-        InitializeRubberBandAreaSize(wallJumpingGameManager);
+        // InitializeRubberBandAreaSize(wallJumpingGameManager);
         InitializeFloor();
     }
 
@@ -69,18 +69,6 @@ public class GameArea : MonoBehaviour
         backgroundGenerator.Restart();
         wallGenerator.Restart();
         InitializeFloor();
-    }
-
-    /// <summary>
-    /// Initializes GameArea position.
-    /// </summary>
-    /// <param name="heightRatio"></param>
-    private void InitializePosition(float heightRatio)
-    {
-        Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        Vector2 gameAreaBounds = new Vector2(screenBounds.x, screenBounds.y * heightRatio);
-        gameAreaRectTransform.sizeDelta = gameAreaBounds * 2;
-        gameAreaRectTransform.anchoredPosition = new Vector2(-gameAreaBounds.x, -screenBounds.y);
     }
 
     /// <summary>

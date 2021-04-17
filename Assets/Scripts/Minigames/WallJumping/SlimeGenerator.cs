@@ -22,7 +22,7 @@ public class SlimeGenerator : MonoBehaviour
         this.gameAreaRectTransform = gameAreaRectTransform;
         this.slimeEffectDuration = slimeEffectDuration;
         InstantiateSlimeEffect();
-        RescaleSlimeEffect();
+        // RescaleSlimeEffect();
         DisableSlimeEffect();
     }
 

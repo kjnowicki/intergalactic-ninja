@@ -14,10 +14,10 @@ public class MovableObjectsContainer : MonoBehaviour
     public void Initialize(RectTransform gameAreaRectTransform)
     {
         wallJumpingPlayerPrefab = Resources.Load<WallJumpingPlayer>(WALL_JUMPING_PLAYER_PREFAB_PATH);
-        transform.position = gameAreaRectTransform.position;
-        movableObjectsContainerRectTransform = GetComponent<RectTransform>();
-        movableObjectsContainerRectTransform.sizeDelta = gameAreaRectTransform.sizeDelta;
-        movableObjectsContainerRectTransform.position = gameAreaRectTransform.position;
+        // transform.position = gameAreaRectTransform.position;
+        // movableObjectsContainerRectTransform = GetComponent<RectTransform>();
+        // movableObjectsContainerRectTransform.sizeDelta = gameAreaRectTransform.sizeDelta;
+        // movableObjectsContainerRectTransform.position = gameAreaRectTransform.position;
     }
 
     /// <summary>

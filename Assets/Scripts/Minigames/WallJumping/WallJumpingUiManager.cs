@@ -48,7 +48,7 @@ public class WallJumpingUiManager : MonoBehaviour
     /// <param name="uiLayoutRatio"></param>
     public void Initialize(float initialCurrentScore, float initialBestScore, float uiLayoutRatio)
     {
-        InitializePosition(uiLayoutRatio);
+        // InitializePosition(uiLayoutRatio);
         InitializeText();
         InitializeValues(initialCurrentScore, initialBestScore);
     }

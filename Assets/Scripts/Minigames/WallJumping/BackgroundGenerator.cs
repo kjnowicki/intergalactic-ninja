@@ -23,7 +23,7 @@ public class BackgroundGenerator : MonoBehaviour
         backgroundBlockHeight = backgroundBlockSize.y;
         this.gameAreaRectTransform = gameAreaRectTransform;
 
-        RescaleBackgroundBlock(gameAreaRectTransform.sizeDelta.x, backgroundBlockSize.x);
+        // RescaleBackgroundBlock(gameAreaRectTransform.sizeDelta.x, backgroundBlockSize.x);
         GenerateInitialBackground();
     }
 
