@@ -45,9 +45,10 @@ public class NinjaTilesGameManager : MonoBehaviour
     private const float UNCHANGED_SCALE_FACTOR = 1;
     private const int START_TILE_INDEX = 2;
 
-    public static int TileIndexShift {
+    public static int TileIndexShift
+    {
         get;
-    }
+    } = 2;
 
     public static Vector2 ScreenScale
     {

@@ -4,6 +4,8 @@ namespace Assets.Scripts.Minigames.NinjaTiles
 {
     public class Spaceship : MonoBehaviour
     {
+        private Animator animator;
+
         public void MoveSpaceshipAboveTileAtIndex(int tileIndex)
         {
             Vector3 currentPosition = transform.position;
