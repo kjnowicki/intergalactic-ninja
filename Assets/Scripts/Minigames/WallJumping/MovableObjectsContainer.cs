@@ -3,7 +3,6 @@
 public class MovableObjectsContainer : MonoBehaviour
 {
     private const string WALL_JUMPING_PLAYER_PREFAB_PATH = "Minigames/WallJumping/Prefabs/Player";
-    [SerializeField] private int playerPositionY = -5;
     RectTransform movableObjectsContainerRectTransform;
     private WallJumpingPlayer wallJumpingPlayerPrefab;
 
@@ -15,7 +14,9 @@ public class MovableObjectsContainer : MonoBehaviour
     public void InitializePlayer(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
     {
         wallJumpingPlayerPrefab = Resources.Load<WallJumpingPlayer>(WALL_JUMPING_PLAYER_PREFAB_PATH);
-        Vector2 playerInitialPosition = new Vector2(0, playerPositionY);
+        Floor floor = FindObjectOfType<Floor>();
+        float playerInitialYPosition = floor.transform.position.y + WallJumpingGameManager.Instance.playerInitialYPosition;
+        Vector2 playerInitialPosition = new Vector2(0, playerInitialYPosition);
         WallJumpingPlayer player = Instantiate(wallJumpingPlayerPrefab, playerInitialPosition, Quaternion.identity, transform);
         player.Initialize(playerForceScale, wallJumpingGameManager);
     }

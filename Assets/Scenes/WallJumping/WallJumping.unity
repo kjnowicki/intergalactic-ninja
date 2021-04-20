@@ -377,6 +377,7 @@ MonoBehaviour:
   garbageCollectorYCoord: -3
   slimeEffectDuration: 5
   maximumNumberOfJumps: 2
+  playerInitialYPosition: 0.2
   gameReplayObject: {fileID: 2092010818463751588}
   cameraMovement: {fileID: 795810497}
 --- !u!4 &1023769666
@@ -652,7 +653,7 @@ PrefabInstance:
     - target: {fileID: 2092010817999501416, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
       propertyPath: m_ReferenceResolution.x
-      value: 2160
+      value: 1920
       objectReference: {fileID: 0}
     - target: {fileID: 2092010817999501416, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
