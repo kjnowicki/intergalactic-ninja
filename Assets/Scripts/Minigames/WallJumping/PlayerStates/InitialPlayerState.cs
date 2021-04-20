@@ -13,5 +13,6 @@ public class InitialPlayerState : PlayerState
     {
         player.Jump(swipeStartPosition, swipeEndPosition);
         player.State = new JumpingPlayerState(player, WallJumpingGameManager.Instance.maximumNumberOfJumps);
+        WallJumpingGameManager.Instance.EnableEnviromentMovement();
     }
 }
