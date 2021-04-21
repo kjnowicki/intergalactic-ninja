@@ -19,10 +19,11 @@ public class SlimeGenerator : MonoBehaviour
     public void Initialize(RectTransform gameAreaRectTransform, float slimeEffectDuration)
     {
         slimeEffectPrefab = Resources.Load(SLIME_EFFECT_PREFAB_PATH) as GameObject;
+        slimeEffectPrefab.transform.localScale = new Vector2(1, 1);
         this.gameAreaRectTransform = gameAreaRectTransform;
         this.slimeEffectDuration = slimeEffectDuration;
         InstantiateSlimeEffect();
-        // RescaleSlimeEffect();
+        RescaleSlimeEffect();
         DisableSlimeEffect();
     }
 
@@ -52,8 +53,9 @@ public class SlimeGenerator : MonoBehaviour
     /// </summary>
     private void RescaleSlimeEffect()
     {
-        float gameAreaWidth = gameAreaRectTransform.sizeDelta.x;
-        float gameAreaHeight = gameAreaRectTransform.sizeDelta.y;
+        Vector2 gameAreaSizeDelta = gameAreaRectTransform.sizeDelta;
+        float gameAreaWidth = gameAreaSizeDelta.x;
+        float gameAreaHeight = gameAreaSizeDelta.y;
         Vector2 slimeEffectSize = slimeEffectPrefab.GetComponent<SpriteRenderer>().bounds.size;
         float slimeEffectScaleX = gameAreaWidth / slimeEffectSize.x;
         float slimeEffectScaleY = gameAreaHeight / slimeEffectSize.y;
