@@ -19,11 +19,12 @@ public class BackgroundGenerator : MonoBehaviour
     public void Initialize(RectTransform gameAreaRectTransform)
     {
         backgroundBlockPrefab = Resources.Load<GameObject>(BACKGROUND_BLOCK_PREFAB_PATH);
+        backgroundBlockPrefab.transform.localScale = new Vector2(1, 1);
         Vector2 backgroundBlockSize = backgroundBlockPrefab.GetComponent<SpriteRenderer>().bounds.size;
         backgroundBlockHeight = backgroundBlockSize.y;
         this.gameAreaRectTransform = gameAreaRectTransform;
 
-        // RescaleBackgroundBlock(gameAreaRectTransform.sizeDelta.x, backgroundBlockSize.x);
+        RescaleBackgroundBlock(gameAreaRectTransform.sizeDelta.x, backgroundBlockSize.x);
         GenerateInitialBackground();
     }
 
