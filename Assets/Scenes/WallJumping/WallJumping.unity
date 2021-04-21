@@ -370,8 +370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c7a19c8db5f614bbae27d7bb770c15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiLayoutWeight: 1
-  gameAreaLayoutWeight: 10
   wallHeightAdditional: 3
   playerForceScale: 500
   garbageCollectorYCoord: -3
@@ -720,21 +718,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2092010817999501416, guid: d7a80942b13d24c4082d83b2b9fc0edc,
-        type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2092010817999501416, guid: d7a80942b13d24c4082d83b2b9fc0edc,
-        type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 1920
-      objectReference: {fileID: 0}
-    - target: {fileID: 2092010817999501416, guid: d7a80942b13d24c4082d83b2b9fc0edc,
-        type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 1080
-      objectReference: {fileID: 0}
     - target: {fileID: 2092010817999501419, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
       propertyPath: m_Name
@@ -865,16 +848,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 897800217}
-    - target: {fileID: 2092010817999501423, guid: d7a80942b13d24c4082d83b2b9fc0edc,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2092010817999501423, guid: d7a80942b13d24c4082d83b2b9fc0edc,
-        type: 3}
-      propertyPath: m_PlaneDistance
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2092010818226210851, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
       propertyPath: m_fontSize
@@ -1163,7 +1136,7 @@ PrefabInstance:
     - target: {fileID: 4685510545258701473, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 300
+      value: 234.13647
       objectReference: {fileID: 0}
     - target: {fileID: 5052571843457100718, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
@@ -1417,6 +1390,18 @@ PrefabInstance:
       propertyPath: rubberBandStrength
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1908482546327863251, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+        type: 3}
+      propertyPath: floor
+      value: 
+      objectReference: {fileID: 2756586670720120866, guid: 006151a07efeb0d40ac7acaf91c40301,
+        type: 3}
+    - target: {fileID: 1908482546327863251, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
+        type: 3}
+      propertyPath: floorPrefab
+      value: 
+      objectReference: {fileID: 2756586670720120866, guid: 006151a07efeb0d40ac7acaf91c40301,
+        type: 3}
     - target: {fileID: 3832744484719757719, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}
       propertyPath: m_Mass
@@ -1486,12 +1471,12 @@ PrefabInstance:
     - target: {fileID: 7338369698871833257, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7338369698871833257, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 18
+      value: 18.6
       objectReference: {fileID: 0}
     - target: {fileID: 7338369698871833257, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}
@@ -1506,7 +1491,7 @@ PrefabInstance:
     - target: {fileID: 7338369698871833257, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -5
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 7338369698871833257, guid: 7d52ca37da9516541b9eb30f7c12c0f8,
         type: 3}

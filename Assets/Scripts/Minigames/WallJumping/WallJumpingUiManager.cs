@@ -45,10 +45,8 @@ public class WallJumpingUiManager : MonoBehaviour
     /// </summary>
     /// <param name="initialCurrentScore"></param>
     /// <param name="initialBestScore"></param>
-    /// <param name="uiLayoutRatio"></param>
-    public void Initialize(float initialCurrentScore, float initialBestScore, float uiLayoutRatio)
+    public void Initialize(float initialCurrentScore, float initialBestScore)
     {
-        // InitializePosition(uiLayoutRatio);
         InitializeText();
         InitializeValues(initialCurrentScore, initialBestScore);
     }
@@ -56,17 +54,6 @@ public class WallJumpingUiManager : MonoBehaviour
     public void Restart(float initialCurrentScore, float initialBestScore)
     {
         InitializeValues(initialCurrentScore, initialBestScore);
-    }
-
-    /// <summary>
-    /// Initializes UI position.
-    /// </summary>
-    /// <param name="uiLayoutRatio"></param>
-    private void InitializePosition(float uiLayoutRatio)
-    {
-        RectTransform uiLayoutTransform = uiContainer.GetComponent<RectTransform>();
-        float fixedUiLayoutHeight = uiLayoutRatio * Screen.height;
-        uiLayoutTransform.sizeDelta = new Vector2(0, fixedUiLayoutHeight);
     }
 
     /// <summary>
