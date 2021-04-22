@@ -3,7 +3,6 @@
 public class MovableObjectsContainer : MonoBehaviour
 {
     private const string WALL_JUMPING_PLAYER_PREFAB_PATH = "Minigames/WallJumping/Prefabs/Player";
-    RectTransform movableObjectsContainerRectTransform;
     private WallJumpingPlayer wallJumpingPlayerPrefab;
 
     /// <summary>
