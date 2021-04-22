@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Floor : MonoBehaviour, ICollectable
+public class DestroyCollectable : MonoBehaviour, ICollectable
 {
     public void OnCollected()
     {

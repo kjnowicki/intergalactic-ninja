@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a475941f504b5884cbacb22e63912fc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPositionY: -5
+  floor: {fileID: 2756586670720120866, guid: 006151a07efeb0d40ac7acaf91c40301, type: 3}
 --- !u!114 &8456167839507210973
 MonoBehaviour:
   m_ObjectHideFlags: 0

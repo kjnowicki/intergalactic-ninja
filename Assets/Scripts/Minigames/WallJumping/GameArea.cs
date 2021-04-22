@@ -11,9 +11,10 @@ public class GameArea : MonoBehaviour
     private MovableObjectsContainer movableObjectsContainer;
     private WallJumpingPlayer player;
     private BackgroundGenerator backgroundGenerator;
-    [SerializeField] private CameraRubberBand cameraRubberBand;
+    private GameObject floorGameObject;
 
-    [SerializeField] private GameObject floor;
+    [SerializeField] private CameraRubberBand cameraRubberBand;
+    [SerializeField] private GameObject floorPrefab;
 
     /// <summary>
     /// Initializes WallGenerator.
@@ -34,6 +35,7 @@ public class GameArea : MonoBehaviour
         InitializeSlimeGenerator(slimeEffectDuration);
         InitializeRubberBandAreaSize(wallJumpingGameManager);
         InitializeFloor();
+        InitializeMovableObjectsContainer();
     }
 
     /// <summary>
@@ -119,6 +121,11 @@ public class GameArea : MonoBehaviour
 
     private void InitializeFloor()
     {
-        Instantiate(floor, movableObjectsContainer.transform);
+        floorGameObject = Instantiate(floorPrefab, movableObjectsContainer.transform);
+    }
+    
+    private void InitializeMovableObjectsContainer()
+    {
+        movableObjectsContainer.Initialize(floorGameObject);
     }
 }
