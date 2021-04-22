@@ -52,6 +52,9 @@ MonoBehaviour:
   column: 0
   row: 0
   color: {r: 1, g: 0, b: 0.4117647, a: 1}
+  targetPosition: {x: 0.6, y: -2.3, z: 0}
+  destroySlerpAttribute: 0
+  TileSpriteRenderer: {fileID: 6305864563855472940}
   points: 1
   pointsTMP: {fileID: 9190269834808755061, guid: 54028b57b4a14214c87f3a0064012d4a,
     type: 3}
@@ -277,6 +280,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile
       objectReference: {fileID: 0}
+    - target: {fileID: 4837724423416850888, guid: 4d03cfbd6cfbea44b8496b9111f86f18,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7535153896212595896, guid: 4d03cfbd6cfbea44b8496b9111f86f18,
         type: 3}
       propertyPath: m_RootOrder
@@ -337,6 +345,12 @@ PrefabInstance:
 --- !u!4 &1619087923577029831 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7535153896212595896, guid: 4d03cfbd6cfbea44b8496b9111f86f18,
+    type: 3}
+  m_PrefabInstance: {fileID: 9145149931274109055}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6305864563855472940 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2983906341046466899, guid: 4d03cfbd6cfbea44b8496b9111f86f18,
     type: 3}
   m_PrefabInstance: {fileID: 9145149931274109055}
   m_PrefabAsset: {fileID: 0}

@@ -71,9 +71,7 @@ public static class MatchFinder
         {
             matches.ForEach(b =>
             {
-                GameManagerHacking.Instance.matrix.AddEmptyPositionToBuffer(b.column, b.row);
-                b.ShowPoints(multiplier);
-                GameObject.Destroy(b.gameObject);
+                b.DestroyAndShowPoints(multiplier);
             });
             return matches.Count;
         }
@@ -93,11 +91,9 @@ public static class MatchFinder
         int numberOfVerticalyMatched = RemoveMatchesIfExist(VerticalMatchesForBubble(bubble), multiplier);
         if (numberOfHorizontalyMatched != 0 || numberOfVerticalyMatched != 0)
         {
-            GameManagerHacking.Instance.matrix.AddEmptyPositionToBuffer(bubble.column, bubble.row);
             int numberOfAllMatched = numberOfHorizontalyMatched + numberOfVerticalyMatched + 1;
             GameManagerHacking.Instance.AddCurrentScore(numberOfAllMatched * bubble.points, multiplier);
-            bubble.ShowPoints(multiplier);
-            GameObject.Destroy(bubble.gameObject);
+            bubble.DestroyAndShowPoints(multiplier);
             multiplier++;
             return numberOfAllMatched;
         }
