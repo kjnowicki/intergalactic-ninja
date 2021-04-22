@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameArea : MonoBehaviour
@@ -9,7 +6,6 @@ public class GameArea : MonoBehaviour
     private RectTransform gameAreaRectTransform;
     private WallGenerator wallGenerator;
     private MovableObjectsContainer movableObjectsContainer;
-    private WallJumpingPlayer player;
     private BackgroundGenerator backgroundGenerator;
     private GameObject floorGameObject;
 
@@ -67,6 +63,7 @@ public class GameArea : MonoBehaviour
         backgroundGenerator.Restart();
         wallGenerator.Restart();
         InitializeFloor();
+        movableObjectsContainer.Initialize(floorGameObject);
     }
 
     /// <summary>
