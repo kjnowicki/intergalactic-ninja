@@ -75,8 +75,7 @@ public class GameArea : MonoBehaviour
         Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         Vector2 gameAreaBounds = new Vector2(screenBounds.x * 2, gameAreaRectTransform.sizeDelta.y);
         gameAreaRectTransform.sizeDelta = gameAreaBounds;
-        var a = new Vector2(-screenBounds.x, gameAreaRectTransform.localPosition.y);
-        gameAreaRectTransform.localPosition = a;
+        gameAreaRectTransform.localPosition = new Vector2(-screenBounds.x, gameAreaRectTransform.localPosition.y);;
     }
 
     /// <summary>
