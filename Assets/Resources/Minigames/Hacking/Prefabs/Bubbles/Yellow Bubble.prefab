@@ -154,6 +154,9 @@ MonoBehaviour:
   column: 0
   row: 0
   color: {r: 1, g: 0.89411765, b: 0.23137255, a: 1}
+  targetPosition: {x: 0.6, y: -2.3, z: 0}
+  destroySlerpAttribute: 0
+  TileSpriteRenderer: {fileID: 5376682815511844076}
   points: 1
   pointsTMP: {fileID: 9190269834808755061, guid: 54028b57b4a14214c87f3a0064012d4a,
     type: 3}
@@ -272,10 +275,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6321276558657275604}
     m_Modifications:
+    - target: {fileID: 2983906341046466899, guid: 4d03cfbd6cfbea44b8496b9111f86f18,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4837724423416850888, guid: 4d03cfbd6cfbea44b8496b9111f86f18,
         type: 3}
       propertyPath: m_Name
       value: Tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837724423416850888, guid: 4d03cfbd6cfbea44b8496b9111f86f18,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7535153896212595896, guid: 4d03cfbd6cfbea44b8496b9111f86f18,
         type: 3}
@@ -337,6 +350,12 @@ PrefabInstance:
 --- !u!4 &821652957597329671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7535153896212595896, guid: 4d03cfbd6cfbea44b8496b9111f86f18,
+    type: 3}
+  m_PrefabInstance: {fileID: 7202706649849261503}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5376682815511844076 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2983906341046466899, guid: 4d03cfbd6cfbea44b8496b9111f86f18,
     type: 3}
   m_PrefabInstance: {fileID: 7202706649849261503}
   m_PrefabAsset: {fileID: 0}

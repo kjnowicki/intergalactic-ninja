@@ -294,9 +294,8 @@ public class Matrix : MonoBehaviour
     /// </summary>
     private void CheckMatchesForRecentlyMovedBubbles()
     {
-        List<Bubble> unmatchedBubbles = new List<Bubble>();
         List<Bubble> matchedBubbles = new List<Bubble>();
-        foreach (Bubble bubble in recentlyMovedBubblesBufferList)
+        foreach (Bubble bubble in recentlyMovedBubblesBufferList.ToList())
         {
             if (bubble != null)
             {
@@ -316,10 +315,8 @@ public class Matrix : MonoBehaviour
                     matchedBubbles.AddRange(temp);
                     foreach (Bubble matchedBubble in matchedBubbles.Distinct())
                     {
-                        matchedBubble.ShowPoints(comboMultiplier);
-                        AddEmptyPositionToBuffer(matchedBubble.column, matchedBubble.row);
-                        MatrixBubbles[matchedBubble.column, matchedBubble.row] = null;
-                        GameObject.Destroy(matchedBubble.gameObject);
+                        matchedBubble.DestroyAndShowPoints(comboMultiplier);
+                        recentlyMovedBubblesBufferList.RemoveAll(b => matchedBubbles.Contains(b));
                     }
                     comboMultiplier++;
                     GameManagerHacking.Instance.AddCurrentScore(numberOfMatched, comboMultiplier);
@@ -327,11 +324,16 @@ public class Matrix : MonoBehaviour
                     return;
                 }
             }
-            unmatchedBubbles.Add(bubble);
         }
-        recentlyMovedBubblesBufferList.RemoveAll(bubble => unmatchedBubbles.Contains(bubble));
+        recentlyMovedBubblesBufferList.Clear();
         comboMultiplier = 1;
         CheckMatrixDeadlock();
+    }
+
+    public void ClearPosition(int column, int row)
+    {
+        MatrixBubbles[column, row] = null;
+        AddEmptyPositionToBuffer(column, row);
     }
 }
 
