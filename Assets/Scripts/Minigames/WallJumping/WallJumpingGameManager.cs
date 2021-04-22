@@ -2,6 +2,8 @@
 
 public class WallJumpingGameManager : MonoBehaviour
 {
+    private int REFERENCE_SCREEN_WIDTH = 1024; 
+    
     [Header("Layout weights")]
     public int uiLayoutWeight;
     public int gameAreaLayoutWeight;
@@ -112,7 +114,9 @@ public class WallJumpingGameManager : MonoBehaviour
     /// </summary>
     private void InitializePlayer()
     {
-        gameArea.InitializePlayer(playerForceScale, this);
+        float forceRatio = (float) REFERENCE_SCREEN_WIDTH / Screen.width;
+        float scaledPlayerForceScale = playerForceScale * forceRatio; 
+        gameArea.InitializePlayer(scaledPlayerForceScale, this);
     }
 
     private void RestartUi()
