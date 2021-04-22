@@ -5,7 +5,6 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     private const float HALF_WALL_WIDTH = 0.5f;
     private float forceScale;
     private float playerToWallOffset;
-    private WallJumpingGameManager wallJumpingGameManager;
 
     public Rigidbody2D playerRigidbody;
 
@@ -16,13 +15,12 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     /// Initializes Player parameters
     /// </summary>
     /// <param name="playerForceScale"></param>
-    public void Initialize(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
+    public void Initialize(float playerForceScale)
     {
         forceScale = playerForceScale;
         playerRigidbody = GetComponent<Rigidbody2D>();
         CircleCollider2D circleCollider = GetComponent<CircleCollider2D>();
         playerToWallOffset = HALF_WALL_WIDTH + circleCollider.radius;
-        this.wallJumpingGameManager = wallJumpingGameManager;
         State = new InitialPlayerState(this);
 
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
@@ -55,7 +53,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     /// </summary>
     public void GenerateSlimeEffect()
     {
-        wallJumpingGameManager.GenerateSlimeEffect();
+        WallJumpingGameManager.Instance.GenerateSlimeEffect();
     }
 
 
@@ -65,7 +63,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     public void OnCollected()
     {
         Destroy(gameObject);
-        wallJumpingGameManager.OnGameOver();
+        WallJumpingGameManager.Instance.OnGameOver();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

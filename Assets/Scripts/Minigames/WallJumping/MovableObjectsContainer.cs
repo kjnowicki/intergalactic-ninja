@@ -24,11 +24,10 @@ public class MovableObjectsContainer : MonoBehaviour
     /// Initializes Player.
     /// </summary>
     /// <param name="playerForceScale"></param>
-    /// <param name="wallJumpingGameManager"></param>
-    public void InitializePlayer(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
+    public void InitializePlayer(float playerForceScale)
     {
         Vector2 playerInitialPosition = new Vector2(0, playerPositionY);
         WallJumpingPlayer player = Instantiate(wallJumpingPlayerPrefab, playerInitialPosition, Quaternion.identity, transform);
-        player.Initialize(playerForceScale, wallJumpingGameManager);
+        player.Initialize(playerForceScale);
     }
 }

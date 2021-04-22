@@ -18,12 +18,11 @@ public class GameArea : MonoBehaviour
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
-    /// <param name="wallJumpingGameManager"></param>
     /// <param name="heightRatio"></param>
     /// <param name="wallHeightAdditional"></param>
     /// <param name="garbageCollectorHeight"></param>
     /// <param name="slimeEffectDuration"></param>
-    public void Initialize(WallJumpingGameManager wallJumpingGameManager, float heightRatio, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
+    public void Initialize(float heightRatio, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
     {
         gameAreaRectTransform = GetComponent<RectTransform>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
@@ -35,7 +34,7 @@ public class GameArea : MonoBehaviour
         InitializeGarbageCollectorPosition(garbageCollectorHeight);
         InitializeBackgroundGenerator();
         InitializeSlimeGenerator(slimeEffectDuration);
-        InitializeRubberBandAreaSize(wallJumpingGameManager);
+        InitializeRubberBandAreaSize();
         InitializeFloor();
     }
 
@@ -43,9 +42,9 @@ public class GameArea : MonoBehaviour
     /// <summary>
     /// Initializes Player.
     /// </summary>
-    public void InitializePlayer(float playerForceScale, WallJumpingGameManager wallJumpingGameManager)
+    public void InitializePlayer(float playerForceScale)
     {
-        movableObjectsContainer.InitializePlayer(playerForceScale, wallJumpingGameManager);
+        movableObjectsContainer.InitializePlayer(playerForceScale);
     }
     
     /// <summary>
@@ -133,12 +132,11 @@ public class GameArea : MonoBehaviour
     /// <summary>
     /// Initializes size of the trigger that is responsible for rubber banding camera
     /// </summary>
-    /// <param name="wallJumpingGameManager"></param>
-    private void InitializeRubberBandAreaSize(WallJumpingGameManager wallJumpingGameManager)
+    private void InitializeRubberBandAreaSize()
     {
         Vector2 restrictedAreaPosition = gameAreaRectTransform.position;
         Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
-        cameraRubberBand.Initialize(wallJumpingGameManager, restrictedAreaPosition, restrictedAreaSize);
+        cameraRubberBand.Initialize(restrictedAreaPosition, restrictedAreaSize);
     }
     private void InitializeFloor()
     {
