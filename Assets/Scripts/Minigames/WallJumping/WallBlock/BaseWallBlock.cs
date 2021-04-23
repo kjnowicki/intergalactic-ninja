@@ -2,7 +2,18 @@
 
 public abstract class BaseWallBlock : MonoBehaviour, ICollectable
 {
-    public int Direction { get; set; }
+    private int Direction { get; set; }
+
+    public virtual void Initialize(int direction)
+    {
+        Direction = direction;
+        if (Direction == 1)
+        {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.flipX = true;
+        }
+            
+    }
 
     /// <summary>
     /// Abstract method called when the player touches the block.

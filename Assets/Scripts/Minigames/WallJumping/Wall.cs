@@ -27,14 +27,14 @@ public class Wall
     {
         var newPosition = new Vector2( topBlock.transform.position.x, topBlock.transform.position.y + blockHeight);
         BaseWallBlock newWallBlock = GameObject.Instantiate(wallBlockPrefab, newPosition, Quaternion.identity, movableObjectsContainer);
-        newWallBlock.Direction = direction;
+        newWallBlock.Initialize(direction);
         topBlock = newWallBlock;
     }
 
     private void AddInitialBlock(BaseWallBlock wallBlockPrefab)
     {
         BaseWallBlock newWallBlock = GameObject.Instantiate(wallBlockPrefab, newBlockPosition, Quaternion.identity, movableObjectsContainer);
-        newWallBlock.Direction = direction;
+        newWallBlock.Initialize(direction);
         topBlock = newWallBlock;
     }
 
