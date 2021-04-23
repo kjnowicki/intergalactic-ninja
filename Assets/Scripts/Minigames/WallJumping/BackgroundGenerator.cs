@@ -5,6 +5,7 @@ public class BackgroundGenerator : MonoBehaviour
 {
     private const string BACKGROUND_BLOCK_PREFAB_PATH = "Minigames/WallJumping/Prefabs/WallJumpingBackground";
     private const int BACKGROUND_WALL_HEIGHT = 2;
+    private const int WALL_BLOCK_WIDTH = 1;
 
     private GameObject topBackgroundBlock;
     private GameObject backgroundBlockPrefab;
@@ -43,7 +44,8 @@ public class BackgroundGenerator : MonoBehaviour
     /// <param name="backgroundBlockWidth"></param>
     private void RescaleBackgroundBlock(float gameAreaWidth, float backgroundBlockWidth)
     {
-        float backgroundBlockScale = gameAreaWidth / backgroundBlockWidth;
+        float gameAreaWidthWithoutWallBlocks = gameAreaWidth - 2 * WALL_BLOCK_WIDTH;
+        float backgroundBlockScale = gameAreaWidthWithoutWallBlocks / backgroundBlockWidth;
         backgroundBlockPrefab.transform.localScale = new Vector2(backgroundBlockScale, 1);
     }
 
