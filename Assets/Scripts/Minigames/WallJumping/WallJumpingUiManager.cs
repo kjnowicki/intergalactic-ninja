@@ -12,7 +12,6 @@ public class WallJumpingUiManager : MonoBehaviour
     [Header("References")]
     public TextMeshProUGUI currentScoreText;
     public TextMeshProUGUI bestScoreText;
-    public GameObject uiContainer;
 
     public float CurrentScore
     {
