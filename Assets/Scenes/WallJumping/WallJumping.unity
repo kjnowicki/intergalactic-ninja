@@ -375,7 +375,7 @@ MonoBehaviour:
   garbageCollectorYCoord: -3
   slimeEffectDuration: 5
   maximumNumberOfJumps: 2
-  playerInitialYPosition: 0.2
+  playerInitialYPosition: 1
   gameReplayObject: {fileID: 2092010818463751588}
   cameraMovement: {fileID: 795810497}
 --- !u!4 &1023769666

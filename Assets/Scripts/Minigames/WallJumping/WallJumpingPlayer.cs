@@ -13,8 +13,13 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     public Rigidbody2D playerRigidbody;
 
     public PlayerState State { get; set; }
-    public float Drag { get => playerRigidbody.drag; set => playerRigidbody.drag = value; }
-    
+
+    public float Drag
+    {
+        get => playerRigidbody.drag;
+        set => playerRigidbody.drag = value;
+    }
+
     public int Direction
     {
         get => direction;
@@ -33,8 +38,8 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     {
         forceScale = playerForceScale;
         playerRigidbody = GetComponent<Rigidbody2D>();
-        CircleCollider2D circleCollider = GetComponent<CircleCollider2D>();
-        playerToWallOffset = HALF_WALL_WIDTH + circleCollider.radius;
+        CapsuleCollider2D circleCollider = GetComponent<CapsuleCollider2D>();
+        playerToWallOffset = HALF_WALL_WIDTH + circleCollider.size.x / 2;
         this.wallJumpingGameManager = wallJumpingGameManager;
         State = new InitialPlayerState(this);
         ninjaAnimator = GetComponent<NinjaAnimator>();
@@ -43,7 +48,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
         playerControls.Initialize(this);
     }
-    
+
     /// <summary>
     /// Adds force to players rigid body, resets time scale
     /// </summary>
@@ -59,6 +64,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         {
             Direction = 1;
         }
+
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
         ninjaAnimator.Jump();
     }
@@ -72,7 +78,8 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     {
         Drag = 20;
         playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
-        playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction, playerRigidbody.transform.localPosition.y);
+        playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction,
+            playerRigidbody.transform.localPosition.y);
         ninjaAnimator.StickToTheWall();
     }
 
