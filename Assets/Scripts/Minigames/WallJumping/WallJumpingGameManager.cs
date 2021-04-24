@@ -2,7 +2,7 @@
 
 public class WallJumpingGameManager : MonoBehaviour
 {
-    private int REFERENCE_SCREEN_WIDTH = 1024; 
+    private int REFERENCE_SCREEN_WIDTH = 1080; 
     
     [Header("Layout weights")]
     public int uiLayoutWeight;
