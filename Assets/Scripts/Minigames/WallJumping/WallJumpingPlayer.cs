@@ -66,7 +66,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         }
 
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
-        ninjaAnimator.Jump();
+        ninjaAnimator.TriggerJumpAnimation();
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
         playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction,
             playerRigidbody.transform.localPosition.y);
-        ninjaAnimator.StickToTheWall();
+        ninjaAnimator.TriggerTouchTheWallAnimation();
     }
 
     /// <summary>

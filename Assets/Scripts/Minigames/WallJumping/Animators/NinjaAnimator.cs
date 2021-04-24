@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NinjaAnimator : MonoBehaviour
 {
+    private const string ON_JUMP_ANIMATION_TRIGGER_NAME = "OnJump";
+    private const string ON_TOUCH_THE_WALL_ANIMATION_TRIGGER_NAME = "OnTouchTheWall";
+    
     private Animator animator;
     
     // Start is called before the first frame update
@@ -12,13 +13,13 @@ public class NinjaAnimator : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void Jump()
+    public void TriggerJumpAnimation()
     {
-        animator.SetTrigger("OnJump");
+        animator.SetTrigger(ON_JUMP_ANIMATION_TRIGGER_NAME);
     }
     
-    public void StickToTheWall()
+    public void TriggerTouchTheWallAnimation()
     {
-        animator.SetTrigger("OnTouchTheWall");
+        animator.SetTrigger(ON_TOUCH_THE_WALL_ANIMATION_TRIGGER_NAME);
     }
 }
