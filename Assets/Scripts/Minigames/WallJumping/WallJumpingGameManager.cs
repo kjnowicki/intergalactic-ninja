@@ -2,11 +2,7 @@
 
 public class WallJumpingGameManager : MonoBehaviour
 {
-    private int REFERENCE_SCREEN_WIDTH = 1080; 
-    
-    [Header("Layout weights")]
-    public int uiLayoutWeight;
-    public int gameAreaLayoutWeight;
+    private int REFERENCE_SCREEN_WIDTH = 1080;
 
     [Header("Game attributes")]
     public int wallHeightAdditional;
@@ -14,6 +10,7 @@ public class WallJumpingGameManager : MonoBehaviour
     public float garbageCollectorYCoord;
     public float slimeEffectDuration;
     public int maximumNumberOfJumps;
+    public float playerInitialYPosition;
 
     [Header("References")]
     public GameObject gameReplayObject;
@@ -65,6 +62,7 @@ public class WallJumpingGameManager : MonoBehaviour
     public void Replay()
     {
         RestartUi();
+        DisableEnvironmentMovement();
         gameArea.DestroyObjectsFromPreviousGame();
         gameArea.Restart();
         InitializePlayer();
@@ -76,37 +74,33 @@ public class WallJumpingGameManager : MonoBehaviour
     /// </summary>
     private void SetUp()
     {
+        DisableEnvironmentMovement();
         gameReplayObject.SetActive(false);
         wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
         slimeGenerator = FindObjectOfType<SlimeGenerator>();
         wallGenerator = FindObjectOfType<WallGenerator>();
         backgroundGenerator = FindObjectOfType<BackgroundGenerator>();
-        float weightSum = uiLayoutWeight + gameAreaLayoutWeight;
-        InitializeUi(weightSum);
-        InitializeGameArea(weightSum);
+        InitializeUi();
+        InitializeGameArea();
     }
 
     /// <summary>
     /// Initializes UI.
     /// </summary>
-    /// <param name="weightSum"></param>
-    private void InitializeUi(float weightSum)
+    private void InitializeUi()
     {
         float currentScore = 0.0f;
         float bestScore = PlayerPrefsWrapper.GetWallJumpingBestScore();
-        float uiLayoutRatio = uiLayoutWeight / weightSum;
-        wallJumpingUiManager.Initialize(currentScore, bestScore, uiLayoutRatio);
+        wallJumpingUiManager.Initialize(currentScore, bestScore);
     }
 
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
-    /// <param name="weightSum"></param>
-    private void InitializeGameArea(float weightSum)
+    private void InitializeGameArea()
     {
         gameArea = FindObjectOfType<GameArea>();
-        float gameAreaHeightRatio = gameAreaLayoutWeight / weightSum;
-        gameArea.Initialize(gameAreaHeightRatio, wallHeightAdditional, garbageCollectorYCoord, slimeEffectDuration);
+        gameArea.Initialize(wallHeightAdditional, garbageCollectorYCoord, slimeEffectDuration);
     }
 
     /// <summary>
@@ -170,7 +164,6 @@ public class WallJumpingGameManager : MonoBehaviour
     /// <summary>
     /// Adds single background block on top.
     /// </summary>
-    /// <param name="backgroundBlockPositionY">Position of previous background block.</param>
     public void GenerateNewBackgroundOnTop()
     {
         backgroundGenerator.AddBackgroundBlockOnTop();
@@ -179,7 +172,7 @@ public class WallJumpingGameManager : MonoBehaviour
     /// <summary>
     /// Enables camera movement game object
     /// </summary>
-    public void EnableEnviromentMovement()
+    public void EnableEnvironmentMovement()
     {
         cameraMovement.gameObject.SetActive(true);
     }
@@ -187,7 +180,7 @@ public class WallJumpingGameManager : MonoBehaviour
     /// <summary>
     /// Disables camera movement game object
     /// </summary>
-    public void DisableEnviromentMovement()
+    private void DisableEnvironmentMovement()
     {
         cameraMovement.gameObject.SetActive(false);
     }

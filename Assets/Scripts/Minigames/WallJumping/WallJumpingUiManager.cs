@@ -12,7 +12,6 @@ public class WallJumpingUiManager : MonoBehaviour
     [Header("References")]
     public TextMeshProUGUI currentScoreText;
     public TextMeshProUGUI bestScoreText;
-    public GameObject uiContainer;
 
     public float CurrentScore
     {
@@ -23,7 +22,7 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             currentScore = value;
-            currentScoreText.SetText(string.Format(currentScoreTemplate, value.ToString("0000")));
+            currentScoreText.SetText(string.Format(currentScoreTemplate, value.ToString("00000")));
         }
     }
 
@@ -36,7 +35,7 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             bestScore = value;
-            bestScoreText.SetText(string.Format(bestScoreTemplate, value.ToString("0000")));
+            bestScoreText.SetText(string.Format(bestScoreTemplate, value.ToString("00000")));
         }
     }
 
@@ -45,10 +44,8 @@ public class WallJumpingUiManager : MonoBehaviour
     /// </summary>
     /// <param name="initialCurrentScore"></param>
     /// <param name="initialBestScore"></param>
-    /// <param name="uiLayoutRatio"></param>
-    public void Initialize(float initialCurrentScore, float initialBestScore, float uiLayoutRatio)
+    public void Initialize(float initialCurrentScore, float initialBestScore)
     {
-        InitializePosition(uiLayoutRatio);
         InitializeText();
         InitializeValues(initialCurrentScore, initialBestScore);
     }
@@ -56,17 +53,6 @@ public class WallJumpingUiManager : MonoBehaviour
     public void Restart(float initialCurrentScore, float initialBestScore)
     {
         InitializeValues(initialCurrentScore, initialBestScore);
-    }
-
-    /// <summary>
-    /// Initializes UI position.
-    /// </summary>
-    /// <param name="uiLayoutRatio"></param>
-    private void InitializePosition(float uiLayoutRatio)
-    {
-        RectTransform uiLayoutTransform = uiContainer.GetComponent<RectTransform>();
-        float fixedUiLayoutHeight = uiLayoutRatio * Screen.height;
-        uiLayoutTransform.sizeDelta = new Vector2(0, fixedUiLayoutHeight);
     }
 
     /// <summary>
