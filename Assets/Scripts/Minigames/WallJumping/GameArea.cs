@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameArea : MonoBehaviour
@@ -9,36 +6,33 @@ public class GameArea : MonoBehaviour
     private RectTransform gameAreaRectTransform;
     private WallGenerator wallGenerator;
     private MovableObjectsContainer movableObjectsContainer;
-    private WallJumpingPlayer player;
     private BackgroundGenerator backgroundGenerator;
-    [SerializeField] private CameraRubberBand cameraRubberBand;
+    private GameObject floorGameObject;
 
-    [SerializeField] private GameObject floor;
+    [SerializeField] private CameraRubberBand cameraRubberBand;
+    [SerializeField] private GameObject floorPrefab;
 
     /// <summary>
     /// Initializes WallGenerator.
     /// </summary>
     /// <param name="wallJumpingGameManager"></param>
-    /// <param name="heightRatio"></param>
     /// <param name="wallHeightAdditional"></param>
     /// <param name="garbageCollectorHeight"></param>
     /// <param name="slimeEffectDuration"></param>
-    public void Initialize(WallJumpingGameManager wallJumpingGameManager, float heightRatio, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
+    public void Initialize(WallJumpingGameManager wallJumpingGameManager, int wallHeightAdditional, float garbageCollectorHeight, float slimeEffectDuration)
     {
         gameAreaRectTransform = GetComponent<RectTransform>();
         movableObjectsContainer = GetComponentInChildren<MovableObjectsContainer>();
         backgroundGenerator = GetComponentInChildren<BackgroundGenerator>();
 
-        InitializePosition(heightRatio);
-        InitializeMovableObjectsContainer();
+        InitializePosition();
         InitializeWallGenerator(wallHeightAdditional);
-        InitializeGarbageCollectorPosition(garbageCollectorHeight);
         InitializeBackgroundGenerator();
         InitializeSlimeGenerator(slimeEffectDuration);
         InitializeRubberBandAreaSize(wallJumpingGameManager);
         InitializeFloor();
+        InitializeMovableObjectsContainer();
     }
-
 
     /// <summary>
     /// Initializes Player.
@@ -47,7 +41,7 @@ public class GameArea : MonoBehaviour
     {
         movableObjectsContainer.InitializePlayer(playerForceScale, wallJumpingGameManager);
     }
-    
+
     /// <summary>
     /// Destroys objects from previous game.
     /// </summary>
@@ -60,7 +54,7 @@ public class GameArea : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    
+
     /// <summary>
     /// Restarts GameArea part of the game.
     /// </summary>
@@ -69,26 +63,18 @@ public class GameArea : MonoBehaviour
         backgroundGenerator.Restart();
         wallGenerator.Restart();
         InitializeFloor();
+        movableObjectsContainer.Initialize(floorGameObject);
     }
 
     /// <summary>
     /// Initializes GameArea position.
     /// </summary>
-    /// <param name="heightRatio"></param>
-    private void InitializePosition(float heightRatio)
+    private void InitializePosition()
     {
         Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        Vector2 gameAreaBounds = new Vector2(screenBounds.x, screenBounds.y * heightRatio);
-        gameAreaRectTransform.sizeDelta = gameAreaBounds * 2;
-        gameAreaRectTransform.anchoredPosition = new Vector2(-gameAreaBounds.x, -screenBounds.y);
-    }
-
-    /// <summary>
-    /// Initializes MovableObjectsContainer.
-    /// </summary>
-    private void InitializeMovableObjectsContainer()
-    {
-        movableObjectsContainer.Initialize(gameAreaRectTransform);
+        Vector2 gameAreaBounds = new Vector2(screenBounds.x * 2, gameAreaRectTransform.sizeDelta.y);
+        gameAreaRectTransform.sizeDelta = gameAreaBounds;
+        gameAreaRectTransform.localPosition = new Vector2(-screenBounds.x, gameAreaRectTransform.localPosition.y);;
     }
 
     /// <summary>
@@ -99,17 +85,6 @@ public class GameArea : MonoBehaviour
     {
         wallGenerator = GetComponentInChildren<WallGenerator>();
         wallGenerator.Initialize(wallHeightAdditional, gameAreaRectTransform);
-    }
-
-    /// <summary>
-    /// Initializes GarbageCollector position.
-    /// </summary>
-    /// <param name="garbageCollectorHeight"></param>
-    private void InitializeGarbageCollectorPosition(float garbageCollectorHeight)
-    {
-        GarbageCollector garbageCollector = GetComponentInChildren<GarbageCollector>();
-        Vector2 garbageCollectorInitialPosition = new Vector2(gameAreaRectTransform.sizeDelta.x / 2, garbageCollectorHeight);
-        garbageCollector.InitializePosition(garbageCollectorInitialPosition);
     }
 
     /// <summary>
@@ -140,9 +115,14 @@ public class GameArea : MonoBehaviour
         Vector2 restrictedAreaSize = gameAreaRectTransform.sizeDelta;
         cameraRubberBand.Initialize(wallJumpingGameManager, restrictedAreaPosition, restrictedAreaSize);
     }
+
     private void InitializeFloor()
     {
-        WallJumpingGameManager.Instance.DisableEnviromentMovement();
-        Instantiate(floor, movableObjectsContainer.transform);
+        floorGameObject = Instantiate(floorPrefab, movableObjectsContainer.transform);
+    }
+    
+    private void InitializeMovableObjectsContainer()
+    {
+        movableObjectsContainer.Initialize(floorGameObject);
     }
 }

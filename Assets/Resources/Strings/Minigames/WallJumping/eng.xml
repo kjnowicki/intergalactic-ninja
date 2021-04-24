@@ -1,4 +1,6 @@
 <root>
-  <BestScore>Top score: {0}</BestScore>
-  <CurrentScore>Score: {0}</CurrentScore>
+  <BestScore>Best score: 
+{0}</BestScore>
+  <CurrentScore>Score:
+{0}</CurrentScore>
 </root>
