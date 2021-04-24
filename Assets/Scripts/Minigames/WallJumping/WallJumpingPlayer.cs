@@ -6,6 +6,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     private float forceScale;
     private float playerToWallOffset;
     private WallJumpingGameManager wallJumpingGameManager;
+    private NinjaAnimator ninjaAnimator;
 
     public Rigidbody2D playerRigidbody;
 
@@ -24,6 +25,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         playerToWallOffset = HALF_WALL_WIDTH + circleCollider.radius;
         this.wallJumpingGameManager = wallJumpingGameManager;
         State = new InitialPlayerState(this);
+        ninjaAnimator = GetComponent<NinjaAnimator>();
 
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
         playerControls.Initialize(this);
@@ -36,6 +38,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     {
         Drag = 5;
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
+        ninjaAnimator.Jump();
     }
 
     /// <summary>
@@ -48,6 +51,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         Drag = 20;
         playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
         playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction, playerRigidbody.transform.localPosition.y);
+        ninjaAnimator.StickToTheWall();
     }
 
     /// <summary>
