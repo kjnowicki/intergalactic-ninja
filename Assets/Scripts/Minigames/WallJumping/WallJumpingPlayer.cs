@@ -38,8 +38,8 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     {
         forceScale = playerForceScale;
         playerRigidbody = GetComponent<Rigidbody2D>();
-        CapsuleCollider2D circleCollider = GetComponent<CapsuleCollider2D>();
-        playerToWallOffset = HALF_WALL_WIDTH + circleCollider.size.x / 2;
+        CapsuleCollider2D capsuleCollider = GetComponent<CapsuleCollider2D>();
+        playerToWallOffset = HALF_WALL_WIDTH + capsuleCollider.size.x / 2;
         this.wallJumpingGameManager = wallJumpingGameManager;
         State = new InitialPlayerState(this);
         ninjaAnimator = GetComponent<NinjaAnimator>();
