@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class WallJumpingGameManager : MonoBehaviour
 {
-    private int REFERENCE_SCREEN_WIDTH = 1080;
-
     [Header("Game attributes")]
     public int wallHeightAdditional;
     public float playerForceScale;
@@ -14,6 +13,7 @@ public class WallJumpingGameManager : MonoBehaviour
 
     [Header("References")]
     public GameObject gameReplayObject;
+    public CanvasScaler canvasScaler;
 
     WallJumpingUiManager wallJumpingUiManager;
     private SlimeGenerator slimeGenerator;
@@ -21,6 +21,7 @@ public class WallJumpingGameManager : MonoBehaviour
     private WallGenerator wallGenerator;
     private BackgroundGenerator backgroundGenerator;
     [SerializeField] private CameraRubberBand cameraMovement;
+    private float referenceScreenWidth;
 
     #region singleton
     private static WallJumpingGameManager instance;
@@ -80,6 +81,7 @@ public class WallJumpingGameManager : MonoBehaviour
         slimeGenerator = FindObjectOfType<SlimeGenerator>();
         wallGenerator = FindObjectOfType<WallGenerator>();
         backgroundGenerator = FindObjectOfType<BackgroundGenerator>();
+        this.referenceScreenWidth = canvasScaler.referenceResolution.x;
         InitializeUi();
         InitializeGameArea();
     }
@@ -108,7 +110,7 @@ public class WallJumpingGameManager : MonoBehaviour
     /// </summary>
     private void InitializePlayer()
     {
-        float forceRatio = (float) REFERENCE_SCREEN_WIDTH / Screen.width;
+        float forceRatio = referenceScreenWidth / Screen.width;
         float scaledPlayerForceScale = playerForceScale * forceRatio; 
         gameArea.InitializePlayer(scaledPlayerForceScale);
     }
