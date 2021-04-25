@@ -1,14 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    public SpriteRenderer image;
     public Animator animator;
-
-    [Range(0.0f, 1.0f)]
-    public float fadeingPercentagePerStep;
 
     public float LifeTime { get; set; }
 
@@ -44,7 +38,7 @@ public class Target : MonoBehaviour
             if (gameObject.GetComponent<CircleCollider2D>().OverlapPoint(touchPosition))
             {
                 Destroy(gameObject);
-                GameManagerKiller.Instance.AddScore();
+                GameManagerKiller.Instance.CurrentScore++;
             }
         }
     }

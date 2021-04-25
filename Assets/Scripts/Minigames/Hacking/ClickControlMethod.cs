@@ -11,7 +11,6 @@ public class ClickControlMethod : BaseControlMethod
     {
         if (FirstFocusedBubble.IsNeighbourOfBubble(SecondFocusedBubble))
         {
-            GameManagerHacking.Instance.DisableControl();
             matrix.SwapBubbles(FirstFocusedBubble, SecondFocusedBubble);
         }
         ClearData();
