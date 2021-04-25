@@ -7,7 +7,6 @@ public class CameraRubberBand : MonoBehaviour
     private string PLAYER_TAG = "Player";
 
     private GameObject movableObjectsColection;
-    private WallJumpingGameManager wallJumpingGameManager;
 
     [SerializeField] private BoxCollider2D restrictedArea;
 
@@ -31,9 +30,8 @@ public class CameraRubberBand : MonoBehaviour
         CameraMovement();
     }
 
-    public void Initialize(WallJumpingGameManager wallJumpingGameManager, Vector2 restrictedAreaPosition, Vector2 restrictedAreaSize)
+    public void Initialize(Vector2 restrictedAreaPosition, Vector2 restrictedAreaSize)
     {
-        this.wallJumpingGameManager = wallJumpingGameManager;
         restrictedArea.transform.position = new Vector2(restrictedAreaPosition.x + (restrictedAreaSize.x / 2), -restrictedAreaPosition.y * restrictedAreaHeight);
         restrictedArea.size = new Vector2(restrictedAreaSize.x * 2f, restrictedAreaSize.y);
     }
@@ -46,7 +44,7 @@ public class CameraRubberBand : MonoBehaviour
         float deltaTime = Time.deltaTime;
         float moveValue = downwardForce * deltaTime;
         Vector3 positionChange = Vector3.down * moveValue;
-        wallJumpingGameManager.AddScore(moveValue);
+        WallJumpingGameManager.Instance.AddScore(moveValue);
 
         foreach (Transform movablePosition in movableObjectsColection.GetComponentsInChildren<Transform>())
         {
@@ -71,7 +69,7 @@ public class CameraRubberBand : MonoBehaviour
     private void RubberBand()
     {
         float bandStrength = downwardForce * rubberBandStrength;
-        wallJumpingGameManager.AddScore(bandStrength * Time.deltaTime);
+        WallJumpingGameManager.Instance.AddScore(bandStrength * Time.deltaTime);
         foreach (Transform movablePosition in movableObjectsColection.GetComponentsInChildren<Transform>())
         {
             Vector2 position = movablePosition.position;
