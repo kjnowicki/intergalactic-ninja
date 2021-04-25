@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Ninja : MonoBehaviour
 {
+    public int CurrentTile;
+
     /// <summary>
     /// Move ninja object among tiles
     /// </summary>

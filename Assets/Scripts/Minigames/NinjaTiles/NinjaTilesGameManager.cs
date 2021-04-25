@@ -37,7 +37,14 @@ public class NinjaTilesGameManager : MonoBehaviour
     [SerializeField] private GameObject scalableGameObjectsContainer;
     [SerializeField] private GameObject spaceshipPrefab;
 
-    
+    [Header("Game mechanics")]
+    public float startSpeed;
+    public float startAcceleration;
+    public float accelerationLoss;
+    public int numberOfSpaceships;
+    private float currentScore;
+    private float bestScore;
+    private bool gameOver;
 
     private GameObject tilesContainer;
     private Ninja ninja;
