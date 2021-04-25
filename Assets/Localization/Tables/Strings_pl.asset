@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Strings_pl
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pl
+  m_SharedData: {fileID: 11400000, guid: e883b3dedee7e3a4c96af2b2b07a0f81, type: 2}
+  m_Metadata:
+    m_Items:
+    - id: 0
+  m_TableData:
+  - m_Id: 8835002368
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26937618432
+    m_Localized: Koniec gry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67588812800
+    m_Localized: 'Zagraj
+
+      ponownie'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 103328477184
+    m_Localized: "Wyjd\u017A"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 273264898048
+    m_Localized: 'Rekord: {BestScore}'
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 293804404736
+    m_Localized: 'Wynik: {CurrentScore}'
+    m_Metadata:
+      m_Items:
+      - id: 1
+  - m_Id: 807996715008
+    m_Localized: Ustawienia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 975945035776
+    m_Localized: "Pozosta\u0142y czas: {TimeLeft:#0.00}"
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 1341151473664
+    m_Localized: "Naci\u015Bnij przycisk powrotu aby si\u0119 podda\u0107"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1416292743213056
+    m_Localized: Kierunek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4393671480537088
+    m_Localized: "J\u0119zyk"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4679467487948800
+    m_Localized: 'Sterowanie w
+
+      hackowaniu'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9664406310580224
+    m_Localized: "Przez przesuni\u0119cie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9664422542536704
+    m_Localized: "Przez klikni\u0119cie"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1
+    00000000:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0070db9f3f00000000701b68440000000070db3ae3000000
+    00000001:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0070db9f3f00000000701b6844000000

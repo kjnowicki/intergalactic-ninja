@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Localization;
+
 public class PlayerPrefsWrapper
 {
     private const string LANGUAGE_KEY = "lang";
+    private const string LOCALE_KEY = "localeCode";
     private const string KILLER_BEST_SCORE = "killerBestScore";
     private const string HACKING_BEST_SCORE = "hackingBestScore";
     private const string HACKING_CONTROL_METHOD = "hackingControlMethod";
@@ -15,6 +18,25 @@ public class PlayerPrefsWrapper
         }
         int languageValue = PlayerPrefs.GetInt(LANGUAGE_KEY);
         return (Language)languageValue;
+    }
+
+    public static Locale GetLocale()
+    {
+        string defaultLanguageCode = LocaleCodesModel.ENGLISH;
+        LocalizationService localizationService = new LocalizationService();
+        Locale defaultValue = localizationService.GetLocaleByCode(defaultLanguageCode);
+        if (!PlayerPrefs.HasKey(LOCALE_KEY))
+        {
+            SetLocaleAndSave(defaultValue);
+        }
+        string localeName = PlayerPrefs.GetString(LOCALE_KEY);
+        return localizationService.GetLocaleByCode(localeName);
+    }
+    
+    public static void SetLocaleAndSave(Locale value)
+    {
+        PlayerPrefs.SetString(LOCALE_KEY, value.Identifier.Code);
+        PlayerPrefs.Save();
     }
 
     public static int GetKillerBestScore()

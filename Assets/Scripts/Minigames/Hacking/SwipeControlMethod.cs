@@ -36,7 +36,6 @@ public class SwipeControlMethod : BaseControlMethod
 
         if (newColumn >= 0 && newColumn < matrix.width && newRow >= 0 && newRow < matrix.height)
         {
-            GameManagerHacking.Instance.DisableControl();
             SecondFocusedBubble = matrix.MatrixBubbles[newColumn, newRow].GetComponent<Bubble>();
             matrix.SwapBubbles(FirstFocusedBubble, SecondFocusedBubble);
         }

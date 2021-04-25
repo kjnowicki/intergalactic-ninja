@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Localization.Components;
 
 public class GameManagerHacking : MonoBehaviour
 {
@@ -28,26 +26,51 @@ public class GameManagerHacking : MonoBehaviour
     }
     #endregion
 
-    private readonly HackingStringsModel stringsModel = StringsModelsModel.HackingStringsModel;
-    private string bestScoreTemplate;
-    private string currentScoreTemplate;
-    private string timeTemplate;
-
     [Header("UI")]
-    public TextMeshProUGUI currentScoreText;
-    public TextMeshProUGUI bestScoreText;
-    public TextMeshProUGUI timeText;
+    public LocalizeStringEvent currentScoreStringEvent;
+    public LocalizeStringEvent bestScoreStringEvent;
+    public LocalizeStringEvent timeLeftStringEvent;
     public GameObject gravityArrow;
     public GameObject resetWindow;
+    
 
     [Header("Game mechanics")]
     public float maxTime;
-    private float currentTime;
-    public float bubbleMultiplier;
+    private float timeLeft;
     public float comboMultiplier;
     public float timeMultiplier;
     private float currentScore;
     private float bestScore;
+
+    public float CurrentScore
+    {
+        get => currentScore;
+        set
+        {
+            currentScore = value;
+            currentScoreStringEvent.RefreshString();
+        }
+    }
+    
+    public float BestScore
+    {
+        get => bestScore;
+        set
+        {
+            bestScore = value;
+            bestScoreStringEvent.RefreshString();
+        }
+    }
+    
+    public float TimeLeft
+    {
+        get => timeLeft;
+        set
+        {
+            timeLeft = value;
+            timeLeftStringEvent.RefreshString();
+        }
+    }
 
     [Header("Prefabs")]
     public GameObject matrixPrefab;
@@ -75,30 +98,10 @@ public class GameManagerHacking : MonoBehaviour
     /// </summary>
     private void InitializeData()
     {
-        GetStrings();
-        bestScore = PlayerPrefsWrapper.GetHackingBestScore();
-        SetUI();
+        BestScore = PlayerPrefsWrapper.GetHackingBestScore();
         ResetCurrentScore();
         matrixGameObject = Instantiate(matrixPrefab);
         matrix = matrixGameObject.GetComponent<Matrix>();
-    }
-
-    /// <summary>
-    /// Get strings template.
-    /// </summary>
-    private void GetStrings()
-    {
-        bestScoreTemplate = stringsModel.BestScore;
-        currentScoreTemplate = stringsModel.CurrentScore;
-        timeTemplate = stringsModel.Time;
-    }
-
-    /// <summary>
-    /// Set User Interface
-    /// </summary>
-    private void SetUI()
-    {
-        bestScoreText.text = String.Format(bestScoreTemplate, bestScore);
     }
 
     /// <summary>
@@ -106,7 +109,7 @@ public class GameManagerHacking : MonoBehaviour
     /// </summary>
     public void StartTimer()
     {
-        currentTime = maxTime;
+        TimeLeft = maxTime;
         EnableControl();
         StartCoroutine(Timer());
     }
@@ -116,14 +119,13 @@ public class GameManagerHacking : MonoBehaviour
     /// </summary>
     public IEnumerator Timer()
     {
-        while (currentTime > 0)
+        while (TimeLeft > 0)
         {
-            currentTime -= Time.deltaTime;
-            timeText.text = currentTime.ToString(timeTemplate);
-
+            TimeLeft -= Time.deltaTime;
             yield return null;
         }
-        GameOver();
+        Task gameOverTask = GameOver();
+        while (!gameOverTask.IsCompleted) yield return null;
     }
 
     /// <summary>
@@ -133,10 +135,9 @@ public class GameManagerHacking : MonoBehaviour
     /// <param name="combo"></param>
     public void AddCurrentScore(int points, int combo)
     {
-        float pointsValue = points * bubbleMultiplier * combo * comboMultiplier;
-        currentScore += pointsValue;
-        currentScoreText.text = String.Format(currentScoreTemplate, currentScore.ToString());
-        currentTime = currentTime > 0 ? currentTime + (pointsValue * timeMultiplier) : 0;
+        float pointsValue = points  * combo * comboMultiplier;
+        CurrentScore += pointsValue;
+        TimeLeft = TimeLeft > 0 ? TimeLeft + (pointsValue * timeMultiplier) : 0;
     }
 
     /// <summary>
@@ -144,22 +145,23 @@ public class GameManagerHacking : MonoBehaviour
     /// </summary>
     public void ResetCurrentScore()
     {
-        currentScore = 0;
-        currentScoreText.text = String.Format(currentScoreTemplate, currentScore.ToString());
+        CurrentScore = 0;
     }
 
     /// <summary>
     /// Game over
     /// </summary>
-    public void GameOver()
+    public async Task GameOver()
     {
+        while (!ControlEnabled)
+            await Task.Delay(1);
+        DisableControl();
+
         if (currentScore > bestScore)
         {
-            bestScore = currentScore;
-            PlayerPrefsWrapper.SetHackingBestScoreAndSave(bestScore);
-            bestScoreText.text = String.Format(bestScoreTemplate, bestScore);
+            BestScore = CurrentScore;
+            PlayerPrefsWrapper.SetHackingBestScoreAndSave(BestScore);
         }
-        ControlEnabled = false;
         resetWindow.SetActive(true);
     }
 
@@ -180,8 +182,7 @@ public class GameManagerHacking : MonoBehaviour
     /// </summary>
     public void EnableControl()
     {
-        if (currentTime > 0)
-            ControlEnabled = true;
+        ControlEnabled = true;
     }
     /// <summary>
     /// Forbid player to moves bubbles.
@@ -219,5 +220,4 @@ public class GameManagerHacking : MonoBehaviour
         }
         gravityArrow.transform.rotation = prevArrowRotation;
     }
-
 }
