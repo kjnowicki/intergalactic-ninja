@@ -1,17 +1,16 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 
 public class WallJumpingUiManager : MonoBehaviour
 {
     private static WallJumpingStringsModel stringsModel;
     private float currentScore;
     private float bestScore;
-    private string currentScoreTemplate;
-    private string bestScoreTemplate;
 
     [Header("References")]
-    public TextMeshProUGUI currentScoreText;
-    public TextMeshProUGUI bestScoreText;
+    public LocalizeStringEvent currentScoreStringEvent;
+    public LocalizeStringEvent bestScoreStringEvent;
 
     public float CurrentScore
     {
@@ -22,7 +21,7 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             currentScore = value;
-            currentScoreText.SetText(string.Format(currentScoreTemplate, value.ToString("00000")));
+            currentScoreStringEvent.RefreshString();
         }
     }
 
@@ -35,7 +34,7 @@ public class WallJumpingUiManager : MonoBehaviour
         set
         {
             bestScore = value;
-            bestScoreText.SetText(string.Format(bestScoreTemplate, value.ToString("00000")));
+            bestScoreStringEvent.RefreshString();
         }
     }
 
@@ -72,7 +71,5 @@ public class WallJumpingUiManager : MonoBehaviour
     private void InitializeText()
     {
         stringsModel = StringsModelsModel.WallJumpingStringsModel;
-        currentScoreTemplate = stringsModel.CurrentScore;
-        bestScoreTemplate = stringsModel.BestScore;
     }
 }
