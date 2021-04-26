@@ -520,6 +520,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1526595134 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4916926463033190363, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+    type: 3}
+  m_PrefabInstance: {fileID: 2092010818463751587}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f5ef05a8ed40c48946e18c5ed633e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1708015242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,6 +1244,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 234.13647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916926463033190363, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: returnButtonEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916926463033190363, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: returnButtonEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916926463033190363, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: returnButtonEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1526595134}
+    - target: {fileID: 4916926463033190363, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: returnButtonEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916926463033190363, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: returnButtonEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadCocpitScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916926463033190363, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: returnButtonEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ReturnButtonObserver, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4916926463033190363, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: returnButtonEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5052571843457100718, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
