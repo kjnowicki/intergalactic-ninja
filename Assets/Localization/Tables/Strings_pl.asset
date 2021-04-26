@@ -94,13 +94,14 @@ MonoBehaviour:
 
       {BestScore:#00000}'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - id: 0
   references:
     version: 1
     00000000:
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0070db9f3f00000000701b68440000000070db3ae30000000080a8f6feac5300
+        m_Entries: 0070db9f3f00000000701b68440000000070db3ae30000000080a8f6feac53000080a8b04aad5300
     00000001:
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:

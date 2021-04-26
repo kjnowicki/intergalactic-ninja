@@ -1802,6 +1802,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1491598522825715924, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.49999973
+      objectReference: {fileID: 0}
+    - target: {fileID: 1491598522825715924, guid: 0c318065d8b2992498376389a27d088b,
+        type: 3}
       propertyPath: m_LocalScale.x
       value: 0.000019497515
       objectReference: {fileID: 0}
@@ -1809,6 +1814,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.0009784411
+      objectReference: {fileID: 0}
+    - target: {fileID: 1491598522825715924, guid: 0c318065d8b2992498376389a27d088b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.143
       objectReference: {fileID: 0}
     - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
