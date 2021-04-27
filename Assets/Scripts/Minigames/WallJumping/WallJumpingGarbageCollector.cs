@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GarbageCollector : MonoBehaviour
+public class WallJumpingGarbageCollector : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {

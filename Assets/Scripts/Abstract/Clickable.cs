@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Clicable : MonoBehaviour
+public abstract class Clickable : MonoBehaviour
 {
     public virtual void OnTouch() { }
     public virtual void OnTouchDown() { }

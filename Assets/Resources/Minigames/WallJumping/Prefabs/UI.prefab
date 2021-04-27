@@ -48,7 +48,6 @@ GameObject:
   - component: {fileID: 2092010817408308832}
   - component: {fileID: 2092010817408308834}
   - component: {fileID: 2697091551762547658}
-  - component: {fileID: 7633321051698918165}
   m_Layer: 5
   m_Name: CurrentScore_VALUE
   m_TagString: Untagged
@@ -233,42 +232,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7633321051698918165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092010817408308764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:e883b3dedee7e3a4c96af2b2b07a0f81
-    m_TableEntryReference:
-      m_KeyId: 23552634126893056
-      m_Key: 
-    m_FallbackState: 0
-  m_FormatArguments:
-  - {fileID: 2092010817999501418}
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2092010817408308832}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &2092010817999501419
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,7 +266,7 @@ RectTransform:
   - {fileID: 5266944785158221420}
   - {fileID: 1386112163469389692}
   - {fileID: 4685510545258701473}
-  - {fileID: 2115394676868976698}
+  - {fileID: 1060569632978238577}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -384,8 +347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44553f5604ee40459c899c3fbb25a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScoreStringEvent: {fileID: 0}
-  bestScoreStringEvent: {fileID: 0}
+  currentScoreText: {fileID: 2092010817408308832}
+  bestScoreText: {fileID: 2092010818226210851}
 --- !u!1 &2092010818226211038
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +362,6 @@ GameObject:
   - component: {fileID: 2092010818226210851}
   - component: {fileID: 2092010818226211036}
   - component: {fileID: 7313624308928891453}
-  - component: {fileID: 4813996558362764061}
   m_Layer: 5
   m_Name: BestScore_VALUE
   m_TagString: Untagged
@@ -584,42 +546,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4813996558362764061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092010818226211038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StringReference:
-    m_TableReference:
-      m_TableCollectionName: GUID:e883b3dedee7e3a4c96af2b2b07a0f81
-    m_TableEntryReference:
-      m_KeyId: 23552959370002432
-      m_Key: 
-    m_FallbackState: 0
-  m_FormatArguments:
-  - {fileID: 2092010817999501418}
-  m_UpdateString:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2092010818226210851}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &2092010818259608356
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,7 +795,7 @@ RectTransform:
   m_AnchoredPosition: {x: 499.11847, y: -117.06824}
   m_SizeDelta: {x: 120, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &523341338834691028
+--- !u!1001 &1490632217892229023
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -894,32 +820,32 @@ PrefabInstance:
     - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
@@ -988,11 +914,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c318065d8b2992498376389a27d088b, type: 3}
---- !u!224 &2115394676868976698 stripped
+--- !u!224 &1060569632978238577 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
     type: 3}
-  m_PrefabInstance: {fileID: 523341338834691028}
+  m_PrefabInstance: {fileID: 1490632217892229023}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3049090438656499521
 PrefabInstance:
