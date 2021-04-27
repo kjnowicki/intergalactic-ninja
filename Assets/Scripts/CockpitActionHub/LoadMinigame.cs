@@ -10,7 +10,7 @@ public class LoadMinigame : MonoBehaviour
     public int arrayIdx = 0;
 
     [HideInInspector]
-    public string[] SceneNames = { "Killer", "Hacking" };
+    public string[] SceneNames = { "Killer", "Hacking", "NinjaHero" };
     public void LoadMinigameScene()
     {
         Debug.Log(string.Format("Loading scene: {0}...", SceneNames[arrayIdx]));

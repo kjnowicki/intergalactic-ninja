@@ -1,88 +1,38 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public static class TouchHandler
 {
     /// <summary>
-    /// Performs OnTouch if clicable object was touchedS
+    /// Performs OnTouch if clicable object was touched
     /// </summary>
     public static void HandleTouches()
     {
+        Camera mainCam = Camera.main;
         foreach (Touch touch in Input.touches)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(touch.position), out hit))
-            {
-                if (hit.transform.gameObject.GetComponent<Collider2D>() != null)
-                {
-                    hit.transform.gameObject.GetComponent<Clicable>()?.OnTouch();
-                }
-            }
-        }
-    }
+            RaycastHit2D hit;
+            hit = Physics2D.Raycast(mainCam.ScreenToWorldPoint(touch.position), Vector2.zero);
+            Clickable target = hit.transform?.gameObject.GetComponent<Clickable>();
 
-    /// <summary>
-    /// Performs OnTouchDown if clicable object was touched
-    /// </summary>
-    public static void HandleTouchesDown()
-    {
-        foreach (Touch touch in Input.touches)
-        {
-            if (touch.phase == TouchPhase.Began)
+            switch (touch.phase)
             {
-                RaycastHit hit;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(touch.position), out hit))
-                {
-                    if (hit.transform.gameObject.GetComponent<Collider2D>() != null)
-                    {
-                        hit.transform.gameObject.GetComponent<Clicable>()?.OnTouchDown();
-                    }
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Performs OnTouchUp if clicable object was touched
-    /// </summary>
-    public static void HandleTouchesUp()
-    {
-        foreach (Touch touch in Input.touches)
-        {
-            if (touch.phase == TouchPhase.Ended)
-            {
-                RaycastHit hit;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(touch.position), out hit))
-                {
-                    if (hit.transform.gameObject.GetComponent<Collider2D>() != null)
-                    {
-                        hit.transform.gameObject.GetComponent<Clicable>()?.OnTouchUp();
-                    }
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Performs OnTouchDrag if clicable object was draged
-    /// </summary>
-    /// <param name="onClick"></param>
-    public static void HandleTouchesDrag()
-    {
-        foreach (Touch touch in Input.touches)
-        {
-            if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
-            {
-                RaycastHit hit;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(touch.position), out hit))
-                {
-                    if (hit.transform.gameObject.GetComponent<Collider2D>() != null)
-                    {
-                        hit.transform.gameObject.GetComponent<Clicable>()?.OnTouchDrag();
-                    }
-                }
+                case TouchPhase.Began:
+                    target?.OnTouchDown();
+                    break;
+                case TouchPhase.Ended:
+                    target?.OnTouchUp();
+                    break;
+                case TouchPhase.Moved:
+                case TouchPhase.Stationary:
+                    target?.OnTouchDrag();
+                    break;
+                default:
+                    target?.OnTouch();
+                    break;
             }
         }
     }
