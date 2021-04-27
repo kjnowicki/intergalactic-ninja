@@ -17,6 +17,7 @@ public class JumpingPlayerState : PlayerState
     public override void OnTouchTheWall(int direction, Vector2 wallBlockPosition)
     {
         player.TouchTheWall(direction, wallBlockPosition);
+        player.Direction = direction; 
         player.State = new OnWallPlayerState(player, direction);
     }
 

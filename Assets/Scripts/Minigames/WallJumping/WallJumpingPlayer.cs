@@ -5,11 +5,29 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     private const float HALF_WALL_WIDTH = 0.5f;
     private float forceScale;
     private float playerToWallOffset;
+    private NinjaAnimator ninjaAnimator;
+    private SpriteRenderer spriteRenderer;
+    private int direction;
 
     public Rigidbody2D playerRigidbody;
 
     public PlayerState State { get; set; }
-    public float Drag { get => playerRigidbody.drag; set => playerRigidbody.drag = value; }
+
+    public float Drag
+    {
+        get => playerRigidbody.drag;
+        set => playerRigidbody.drag = value;
+    }
+
+    public int Direction
+    {
+        get => direction;
+        set
+        {
+            direction = value;
+            spriteRenderer.flipX = direction == 1;
+        }
+    }
 
     /// <summary>
     /// Initializes Player parameters
@@ -19,21 +37,34 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     {
         forceScale = playerForceScale;
         playerRigidbody = GetComponent<Rigidbody2D>();
-        CircleCollider2D circleCollider = GetComponent<CircleCollider2D>();
-        playerToWallOffset = HALF_WALL_WIDTH + circleCollider.radius;
+        CapsuleCollider2D capsuleCollider = GetComponent<CapsuleCollider2D>();
+        playerToWallOffset = HALF_WALL_WIDTH + capsuleCollider.size.x / 2;
         State = new InitialPlayerState(this);
+        ninjaAnimator = GetComponent<NinjaAnimator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         WallJumpingPlayerControls playerControls = GetComponent<WallJumpingPlayerControls>();
         playerControls.Initialize(this);
     }
-    
+
     /// <summary>
     /// Adds force to players rigid body, resets time scale
     /// </summary>
     public void Jump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
         Drag = 5;
+        var xPositionDelta = swipeEndPosition.x - swipeStartPosition.x;
+        if (xPositionDelta > 0)
+        {
+            Direction = -1;
+        }
+        else
+        {
+            Direction = 1;
+        }
+
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
+        ninjaAnimator.TriggerJumpAnimation();
     }
 
     /// <summary>
@@ -45,7 +76,9 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     {
         Drag = 20;
         playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
-        playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction, playerRigidbody.transform.localPosition.y);
+        playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction,
+            playerRigidbody.transform.localPosition.y);
+        ninjaAnimator.TriggerTouchTheWallAnimation();
     }
 
     /// <summary>
