@@ -82,12 +82,26 @@ MonoBehaviour:
     m_Localized: "Przez klikni\u0119cie"
     m_Metadata:
       m_Items: []
+  - m_Id: 23552634126893056
+    m_Localized: 'Wynik:
+
+      {CurrentScore:#00000}'
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 23552959370002432
+    m_Localized: 'Rekord:
+
+      {BestScore:#00000}'
+    m_Metadata:
+      m_Items:
+      - id: 0
   references:
     version: 1
     00000000:
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0070db9f3f00000000701b68440000000070db3ae3000000
+        m_Entries: 0070db9f3f00000000701b68440000000070db3ae30000000080a8f6feac53000080a8b04aad5300
     00000001:
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:

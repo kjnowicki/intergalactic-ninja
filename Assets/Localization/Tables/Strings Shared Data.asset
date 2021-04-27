@@ -71,6 +71,14 @@ MonoBehaviour:
     m_Key: CLICK
     m_Metadata:
       m_Items: []
+  - m_Id: 23552634126893056
+    m_Key: SCORE_NEWLINE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23552959370002432
+    m_Key: BEST_SCORE_NEWLINE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
