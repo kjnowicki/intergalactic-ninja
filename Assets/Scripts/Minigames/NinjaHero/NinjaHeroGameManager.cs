@@ -34,7 +34,7 @@ public class NinjaHeroGameManager : MonoBehaviour
     public bool isGameOver;
     public GameObject GameOverUI;
     private CancellationTokenSource cancellationToken = new CancellationTokenSource();
-    private GarbageCollector garbageCollector;
+    private NinjaHeroGarbageCollector garbageCollector;
     public int ElementsToBeClicked { get; set; }
 
     [Header("UI")]
@@ -99,7 +99,7 @@ public class NinjaHeroGameManager : MonoBehaviour
     {
 
         paternTilesContainerManager.StartSpawn(cancellationToken.Token);
-        garbageCollector = FindObjectOfType<GarbageCollector>();
+        garbageCollector = FindObjectOfType<NinjaHeroGarbageCollector>();
         garbageCollector.cancellationToken = cancellationToken.Token;
     }
 
