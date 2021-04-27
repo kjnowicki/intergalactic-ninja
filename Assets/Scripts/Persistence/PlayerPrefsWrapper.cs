@@ -8,6 +8,7 @@ public class PlayerPrefsWrapper
     private const string KILLER_BEST_SCORE = "killerBestScore";
     private const string HACKING_BEST_SCORE = "hackingBestScore";
     private const string HACKING_CONTROL_METHOD = "hackingControlMethod";
+    private const string NINJA_HERO_BEST_SCORE_KEY = "ninjaHeroBestScore";
     private const string WALL_JUMPING_BEST_SCORE = "wallJumpingBestScore";
 
     public static Language GetLanguage(Language defaultLanguage = Language.English)
@@ -85,6 +86,22 @@ public class PlayerPrefsWrapper
     public static void SetHackingControlMethod(ControlMethod value)
     {
         PlayerPrefs.SetInt(HACKING_CONTROL_METHOD, (int)value);
+        PlayerPrefs.Save();
+    }
+
+    public static int GetNinjaHeroBestScore()
+    {
+        int defaultValue = 0;
+        if (!PlayerPrefs.HasKey(NINJA_HERO_BEST_SCORE_KEY))
+        {
+            SetKillerBestScoreAndSave(defaultValue);
+        }
+        return PlayerPrefs.GetInt(NINJA_HERO_BEST_SCORE_KEY);
+    }
+
+    public static void SetNinjaHeroBestScore(int value)
+    {
+        PlayerPrefs.SetInt(NINJA_HERO_BEST_SCORE_KEY, value);
         PlayerPrefs.Save();
     }
 

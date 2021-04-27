@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Killer/Killer.unity
     guid: 43467f6c37dc0404f8a835ed05fbf673
   - enabled: 1
+    path: Assets/Scenes/NinjaHero/NinjaHero.unity
+    guid: d0b19224b76b1644e94923a10895e677
+  - enabled: 1
     path: Assets/Scenes/WallJumping/WallJumping.unity
     guid: 19c88bc397d6ed0448599b1972d8e900
   m_configObjects:
