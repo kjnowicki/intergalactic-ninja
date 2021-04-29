@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NinjaHero/NinjaHero.unity
     guid: d0b19224b76b1644e94923a10895e677
+  - enabled: 1
+    path: Assets/Scenes/WallJumping/WallJumping.unity
+    guid: 19c88bc397d6ed0448599b1972d8e900
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: ac436db5fbb42864da77e18f160e4c55,
       type: 2}

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Localization;
 
 public class PlayerPrefsWrapper
@@ -10,7 +9,7 @@ public class PlayerPrefsWrapper
     private const string HACKING_BEST_SCORE = "hackingBestScore";
     private const string HACKING_CONTROL_METHOD = "hackingControlMethod";
     private const string NINJA_HERO_BEST_SCORE_KEY = "ninjaHeroBestScore";
-
+    private const string WALL_JUMPING_BEST_SCORE = "wallJumpingBestScore";
 
     public static Language GetLanguage(Language defaultLanguage = Language.English)
     {
@@ -103,6 +102,22 @@ public class PlayerPrefsWrapper
     public static void SetNinjaHeroBestScore(int value)
     {
         PlayerPrefs.SetInt(NINJA_HERO_BEST_SCORE_KEY, value);
+        PlayerPrefs.Save();
+    }
+
+    public static int GetWallJumpingBestScore()
+    {
+        int defaultValue = 0;
+        if (!PlayerPrefs.HasKey(WALL_JUMPING_BEST_SCORE))
+        {
+            SetWallJupmingBestScoreAndSave(defaultValue);
+        }
+        return PlayerPrefs.GetInt(WALL_JUMPING_BEST_SCORE);
+    }
+
+    public static void SetWallJupmingBestScoreAndSave(int value)
+    {
+        PlayerPrefs.SetInt(WALL_JUMPING_BEST_SCORE, value);
         PlayerPrefs.Save();
     }
 }

@@ -1527,8 +1527,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentScoreStringEvent: {fileID: 1655018151}
   bestScoreStringEvent: {fileID: 1164295626}
-  currentScoreText: {fileID: 0}
-  bestScoreText: {fileID: 0}
   target: {fileID: 1970727246997212141, guid: 449d92f97fdfe8649b90e3c78af3ad4b, type: 3}
   targetTag: Target
   targetContainer: {fileID: 849936487}
@@ -1572,12 +1570,12 @@ PrefabInstance:
     - target: {fileID: 1491598522825715924, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.019118413
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1491598522825715924, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.011608992
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
@@ -1586,8 +1584,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1880301690939503598, guid: 0c318065d8b2992498376389a27d088b,
+        type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1315
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2908276896130285261, guid: 0c318065d8b2992498376389a27d088b,
         type: 3}
