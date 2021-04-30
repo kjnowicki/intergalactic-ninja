@@ -51,17 +51,4 @@ public class NinjaHeroUiManager : MonoBehaviour
         CurrentScore = 0;
         BestScore = PlayerPrefsWrapper.GetNinjaHeroBestScore();
     }
-
-    /// <summary>
-    /// Check score and save to best score
-    /// </summary>
-    public void SaveScore()
-    {
-        if (CurrentScore > BestScore)
-        {
-            BestScore = CurrentScore;
-            PlayerPrefsWrapper.SetNinjaHeroBestScore(BestScore);
-        }
-        CurrentScore = 0;
-    }
 }

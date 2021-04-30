@@ -161,6 +161,8 @@ public class NinjaHeroGameManager : MonoBehaviour
         {
             Destroy(element.gameObject);
         }
+        SaveScore();
+
         GameOverUI.SetActive(true);
     }
     /// <summary>
@@ -184,7 +186,6 @@ public class NinjaHeroGameManager : MonoBehaviour
         GameOverUI.SetActive(false);
         paternTilesContainerManager.StartSpawn(cancellationToken.Token);
         Time.timeScale = 1f;
-        SaveScore();
         isGameOver = false;
     }
 

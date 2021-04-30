@@ -117,14 +117,8 @@ public class WallJumpingGameManager : MonoBehaviour
 
     private void RestartUi()
     {
-        float currentScore = wallJumpingUiManager.CurrentScore;
         float bestScore = wallJumpingUiManager.BestScore;
-        if (currentScore > bestScore)
-        {
-            bestScore = currentScore;
-            PlayerPrefsWrapper.SetWallJupmingBestScoreAndSave((int)bestScore);
-        }
-        currentScore = 0.0f;
+        float currentScore = 0.0f;
         wallJumpingUiManager.Restart(currentScore, bestScore);
     }
 
@@ -150,8 +144,17 @@ public class WallJumpingGameManager : MonoBehaviour
     /// </summary>
     public void OnGameOver()
     {
+        float currentScore = wallJumpingUiManager.CurrentScore; 
+        float bestScore = wallJumpingUiManager.BestScore;
         Time.timeScale = 0;
         slimeGenerator.DisableSlimeEffect();
+
+        if (currentScore > bestScore)
+        {
+            bestScore = currentScore;
+            PlayerPrefsWrapper.SetWallJupmingBestScoreAndSave((int)bestScore);
+        }
+
         gameReplayObject.SetActive(true);
     }
 
