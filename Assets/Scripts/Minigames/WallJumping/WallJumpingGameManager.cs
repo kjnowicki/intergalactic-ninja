@@ -151,8 +151,8 @@ public class WallJumpingGameManager : MonoBehaviour
 
         if (currentScore > bestScore)
         {
-            bestScore = currentScore;
-            PlayerPrefsWrapper.SetWallJupmingBestScoreAndSave((int)bestScore);
+            wallJumpingUiManager.BestScore = currentScore;
+            PlayerPrefsWrapper.SetWallJupmingBestScoreAndSave((int)currentScore);
         }
 
         gameReplayObject.SetActive(true);
