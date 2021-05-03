@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -7,7 +8,6 @@ public class ClickableArea : Clickable
 {
     public int elementLayerMask;
     private Collider2D clickableAreaCollider;
-    private bool tap;
     public CancellationToken cancellationToken;
     private void Start()
     {
@@ -15,9 +15,10 @@ public class ClickableArea : Clickable
     }
 
     /// <summary>
-    /// On click event instructions for patern tile
+    /// Score on first element in area
     /// </summary>
-    private async void TouchedClickableArea()
+    /// <param name="touchType">For scoring condition</param>
+    private void OnTouchedClickableArea(Touch touchType)
     {
         if (clickableAreaCollider.IsTouchingLayers())
         {
@@ -29,21 +30,39 @@ public class ClickableArea : Clickable
                 useTriggers = true
             };
             clickableAreaCollider.OverlapCollider(contactFilter, colliders);
-            foreach (Collider2D coll in colliders)
-            {
-                await coll.gameObject.GetComponent<Element>().HitElement(tap, cancellationToken);
+            Element element = colliders.First().gameObject.GetComponent<Element>();
+            if(element) switch (touchType) {
+                case Touch.Down:
+                    element.Score(true);
+                    break;
+                case Touch.Up:
+                case Touch.Drag:
+                default:
+                    element.Score(false);
+                    break;
             }
         }
     }
 
-    override public void OnTouchDown()
+    public override void OnTouchDown()
     {
-        tap = true;
+        OnTouchedClickableArea(Touch.Down);
     }
 
     public override void OnTouchDrag()
     {
-        TouchedClickableArea();
-        tap = false;
+        OnTouchedClickableArea(Touch.Drag);
+    }
+
+    public override void OnTouchUp()
+    {
+        OnTouchedClickableArea(Touch.Up);
+    }
+
+    public enum Touch
+    {
+        Drag,
+        Up,
+        Down
     }
 }
