@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ public abstract class Element : MonoBehaviour
 
     public ElementState elementState;
     public float Height { get; set; }
+    public bool scored = false;
 
     private const string SPAWNER_TAG = "Spawner";
     private const string CLIKABLE_AREA_TAG = "ClikableArea";
@@ -41,21 +43,9 @@ public abstract class Element : MonoBehaviour
         Destroy(gameObject);
     }
 
-    /// <summary>
-    /// Method invoke by clickable area when collider overlaping and player click that area.
-    /// </summary>
-    /// <param name="tap"></param>
-    /// <param name="cancellationToken">cancellation Token for async thread</param>
-    /// <returns></returns>
-    public virtual async Task HitElement(bool tap, CancellationToken cancellationToken)
+    public virtual void Score(bool startedScoring)
     {
-        if (!cancellationToken.IsCancellationRequested && elementState == ElementState.ActionStop && tap)
-        {
-            elementState = ElementState.CorrectHit;
-            CorrectHit();
-        }
-        await Task.Yield();
-
+        if (!scored && startedScoring) CorrectHit();
     }
 
     /// <summary>
@@ -72,7 +62,6 @@ public abstract class Element : MonoBehaviour
             case CLIKABLE_AREA_TAG:
                 if (elementState != ElementState.CorrectHit)
                 {
-                    elementState = ElementState.WrongHit;
                     WrongHit();
                 }
                 break;
@@ -88,6 +77,8 @@ public abstract class Element : MonoBehaviour
     /// </summary>
     protected virtual void CorrectHit()
     {
+        scored = true;
+        elementState = ElementState.CorrectHit;
         GetComponent<SpriteRenderer>().color = Color.green;
         NinjaHeroGameManager.Instance.IncrementScore();
     }
@@ -96,6 +87,7 @@ public abstract class Element : MonoBehaviour
     /// </summary>
     protected virtual void WrongHit()
     {
+        elementState = ElementState.WrongHit;
         GetComponent<SpriteRenderer>().color = Color.red;
         NinjaHeroGameManager.Instance.GameOver();
     }
