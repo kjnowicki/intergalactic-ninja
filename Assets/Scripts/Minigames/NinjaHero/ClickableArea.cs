@@ -30,7 +30,7 @@ public class ClickableArea : Clickable
             clickableAreaCollider.OverlapCollider(contactFilter, colliders);
 
             var element = colliders.First().gameObject.GetComponent<Element>();
-            element?.Score(touchType == Touch.Down);
+            if(element) element.Score(touchType == Touch.Down);
         }
     }
 
