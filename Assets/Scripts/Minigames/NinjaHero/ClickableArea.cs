@@ -6,9 +6,7 @@ using UnityEngine;
 
 public class ClickableArea : Clickable
 {
-    public int elementLayerMask;
     private Collider2D clickableAreaCollider;
-    public CancellationToken cancellationToken;
     private void Start()
     {
         clickableAreaCollider = GetComponent<Collider2D>();
@@ -32,17 +30,7 @@ public class ClickableArea : Clickable
             clickableAreaCollider.OverlapCollider(contactFilter, colliders);
 
             var element = colliders.First().gameObject.GetComponent<Element>();
-            if (element) switch (touchType)
-                {
-                    case Touch.Down:
-                        element.Score(true);
-                        break;
-                    case Touch.Up:
-                    case Touch.Drag:
-                    default:
-                        element.Score(false);
-                        break;
-                }
+            element?.Score(touchType == Touch.Down);
         }
     }
 

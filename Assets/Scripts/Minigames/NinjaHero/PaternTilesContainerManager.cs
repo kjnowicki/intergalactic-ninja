@@ -81,6 +81,5 @@ public class PaternTilesContainerManager : MonoBehaviour
             spawner.ResetSpawner();
             spawner.SpawningElements(cancellationToken);
         }
-        paternTiles.ForEach(x => x.ClickableArea.cancellationToken = cancellationToken);
     }
 }
