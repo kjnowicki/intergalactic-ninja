@@ -155,7 +155,6 @@ public class GameManagerKiller : MonoBehaviour
     /// </summary>
     public void GameOver()
     {
-        gameOverObejct.SetActive(true);
         gameOver = true;
         DestroyAllTargetsOnScene();
 
@@ -163,7 +162,8 @@ public class GameManagerKiller : MonoBehaviour
         {
             PlayerPrefsWrapper.SetKillerBestScoreAndSave(CurrentScore);
         }
-        
+
+        gameOverObejct.SetActive(true);
     }
     
     /// <summary>
