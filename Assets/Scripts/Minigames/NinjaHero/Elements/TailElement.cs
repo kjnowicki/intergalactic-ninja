@@ -27,13 +27,13 @@ public class TailElement : Element
 
     public override void Score(bool startedScoring)
     {
-        if(startedScoring && scored)
+        if (startedScoring)
         {
             WrongHit();
         }
-        else
+        else if (!scored)
         {
-            if(!scored) CorrectHit();
+            CorrectHit();
         }
     }
 }
