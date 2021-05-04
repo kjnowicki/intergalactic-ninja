@@ -31,21 +31,18 @@ public class ClickableArea : Clickable
             };
             clickableAreaCollider.OverlapCollider(contactFilter, colliders);
 
-            foreach(Collider2D collider in colliders)
-            {
-                var element = collider.gameObject.GetComponent<Element>();
-                if (element) switch (touchType)
-                    {
-                        case Touch.Down:
-                            element.Score(true);
-                            break;
-                        case Touch.Up:
-                        case Touch.Drag:
-                        default:
-                            element.Score(false);
-                            break;
-                    }
-            }
+            var element = colliders.First().gameObject.GetComponent<Element>();
+            if (element) switch (touchType)
+                {
+                    case Touch.Down:
+                        element.Score(true);
+                        break;
+                    case Touch.Up:
+                    case Touch.Drag:
+                    default:
+                        element.Score(false);
+                        break;
+                }
         }
     }
 
