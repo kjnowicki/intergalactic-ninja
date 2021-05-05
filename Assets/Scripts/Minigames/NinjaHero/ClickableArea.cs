@@ -28,9 +28,19 @@ public class ClickableArea : Clickable
                 useTriggers = true
             };
             clickableAreaCollider.OverlapCollider(contactFilter, colliders);
-
-            var element = colliders.First().gameObject.GetComponent<Element>();
-            if(element) element.Score(touchType == Touch.Down);
+            colliders.RemoveAll(collider => collider.tag.Contains(clickableAreaCollider.tag));
+            if(colliders.Count > 0)
+            {
+                var elements = colliders
+                    .OrderBy(collider => collider.transform.position.y)
+                    .Select(collider => collider.GetComponent<Element>())
+                    .Where(colliderElement => !colliderElement.scored);
+                if (elements.Count() > 0)
+                {
+                    var element = elements.FirstOrDefault();
+                    if(element) element.Score(touchType == Touch.Down);
+                }
+            }
         }
     }
 
