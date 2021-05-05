@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Localization.Components;
 
 public class GameManagerKiller : MonoBehaviour
 {
@@ -28,14 +25,16 @@ public class GameManagerKiller : MonoBehaviour
     }
     #endregion
 
-    private readonly KillerStringsModel stringsModel = StringsModelsModel.KillerStringsModel;
-    private string bestScoreTemplate;
-    private string currentScoreTemplate;
+    private float spawnTimer;
+    private float lifeTime;
+    private IEnumerator spawnTargetCoroutine;
+    private IEnumerator speedUpCoroutine;
 
     [Header("UI score display")]
-    public TextMeshPro currentScoreText;
+    public LocalizeStringEvent currentScoreStringEvent;
+    public LocalizeStringEvent bestScoreStringEvent;
     private int currentScore;
-    public TextMeshPro bestScoreText;
+    private int bestScore;
 
     [Header("Target")]
     public Target target;
@@ -43,8 +42,8 @@ public class GameManagerKiller : MonoBehaviour
     public GameObject targetContainer;
 
     [Header("Target parameters")]
-    public float spawnTimer;
-    public float lifeTime;
+    public float initialSpawnTimer;
+    public float initialLifeTime;
     [Range(0.0f, 1.0f)]
     public float lowerLifeTime;
     [Range(0.0f, 1.0f)]
@@ -68,29 +67,52 @@ public class GameManagerKiller : MonoBehaviour
     //TO DO:
     //Exp progres bar
 
-    void Start()
+    public int CurrentScore
+    {
+        get => currentScore;
+        set
+        {
+            currentScore = value;
+            currentScoreStringEvent.RefreshString();
+        }
+    }
+    
+    public int BestScore
+    {
+        get => bestScore;
+        set
+        {
+            bestScore = value;
+            bestScoreStringEvent.RefreshString();
+        }
+    }
+
+    public void Initialize()
     {
         InitializeData();
 
-        StartCoroutine(SpawnTarget());
-        StartCoroutine(SpeedUp());
+        StartCoroutine(spawnTargetCoroutine);
+        StartCoroutine(speedUpCoroutine);
     }
+    
     /// <summary>
     /// Initializes data on scene startup
     /// </summary>
     private void InitializeData()
     {
-        bestScoreTemplate = stringsModel.BestScore;
-        currentScoreTemplate = stringsModel.CurrentScore;
         gameOverObejct.SetActive(false);
         gameOver = false;
+        spawnTimer = initialSpawnTimer;
+        lifeTime = initialLifeTime;
         Time.timeScale = 1;
 
-        currentScore = 0;
-        currentScoreText.SetText(string.Format(currentScoreTemplate, currentScore));
+        CurrentScore = 0;
+        BestScore = PlayerPrefsWrapper.GetKillerBestScore();
 
-        bestScoreText.SetText(string.Format(bestScoreTemplate, PlayerPrefsWrapper.GetKillerBestScore()));
+        spawnTargetCoroutine = SpawnTarget();
+        speedUpCoroutine = SpeedUp();
     }
+    
     /// <summary>
     /// Makes the game harder by speeding up spawn time and lowering life time of targets
     /// </summary>
@@ -105,6 +127,7 @@ public class GameManagerKiller : MonoBehaviour
         }
         yield return null;
     }
+    
     /// <summary>
     /// Spawns next target while gameOver flag is set to false
     /// </summary>
@@ -126,29 +149,23 @@ public class GameManagerKiller : MonoBehaviour
         }
         yield return null;
     }
-    /// <summary>
-    /// Increments score in UI and in class
-    /// </summary>
-    public void AddScore()
-    {
-        currentScore++;
-        currentScoreText.SetText(string.Format(currentScoreTemplate, currentScore));
-    }
+
     /// <summary>
     /// GameOver sets gameOver flag to true and makes Game Over UI visible
     /// </summary>
     public void GameOver()
     {
-        gameOverObejct.SetActive(true);
         gameOver = true;
         DestroyAllTargetsOnScene();
 
-        if (currentScore > PlayerPrefsWrapper.GetKillerBestScore())
+        if (CurrentScore > BestScore)
         {
-            PlayerPrefsWrapper.SetKillerBestScoreAndSave(currentScore);
+            PlayerPrefsWrapper.SetKillerBestScoreAndSave(CurrentScore);
         }
-        
+
+        gameOverObejct.SetActive(true);
     }
+    
     /// <summary>
     /// Destroys all targets on scene
     /// </summary>
@@ -165,6 +182,8 @@ public class GameManagerKiller : MonoBehaviour
     /// </summary>
     public void Replay()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        StopCoroutine(spawnTargetCoroutine);
+        StopCoroutine(speedUpCoroutine);
+        Initialize();
     }
 }

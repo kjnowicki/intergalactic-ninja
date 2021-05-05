@@ -6,5 +6,9 @@
 
     public static HackingStringsModel HackingStringsModel => new HackingStringsModel();
 
+    public static NinjaHeroStringsModel NinjaHeroStringsModel => new NinjaHeroStringsModel();
+
+    public static WallJumpingStringsModel WallJumpingStringsModel => new WallJumpingStringsModel();
+
     public static ReturnPopupStringsModel ReturnStringsModel => new ReturnPopupStringsModel();
 }

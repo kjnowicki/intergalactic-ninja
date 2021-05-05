@@ -36,7 +36,6 @@ public class SwipeControlMethod : BaseControlMethod
 
         if (newColumn >= 0 && newColumn < matrix.width && newRow >= 0 && newRow < matrix.height)
         {
-            GameManagerHacking.Instance.DisableControl();
             SecondFocusedBubble = matrix.MatrixBubbles[newColumn, newRow].GetComponent<Bubble>();
             matrix.SwapBubbles(FirstFocusedBubble, SecondFocusedBubble);
         }
@@ -57,9 +56,13 @@ public class SwipeControlMethod : BaseControlMethod
         if (GameManagerHacking.Instance.ControlEnabled && SecondTouch == null && FirstTouch != null)
         {
             SecondTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (!AreTouchesOverTheSameBubble()) MovePieces();
-            else ClearData();
+            if (!AreTouchesOverTheSameBubble())
+            {
+                MovePieces();
+                return;
+            }
         }
+        ClearData();
     }
 
     private bool AreTouchesOverTheSameBubble()

@@ -15,10 +15,10 @@ public static class MatchFinder
     /// Function that retuns given neighbour of the bubble
     /// </param>
     /// <returns></returns>
-    private static List<Bubble> MatchesForBubbleInDirection(Bubble bubble, BubbleColor searchedColor, Func<Bubble, Bubble> nextBubbleAccessor)
+    private static List<Bubble> MatchesForBubbleInDirection(Bubble bubble, Color searchedColor, Func<Bubble, Bubble> nextBubbleAccessor)
     {
         List<Bubble> matches = new List<Bubble>();
-        for (Bubble currentBubble = nextBubbleAccessor(bubble); currentBubble && currentBubble.color == searchedColor; currentBubble = nextBubbleAccessor(currentBubble))
+        for (Bubble currentBubble = nextBubbleAccessor(bubble); currentBubble && currentBubble.color.Equals(searchedColor); currentBubble = nextBubbleAccessor(currentBubble))
         {
             matches.Add(currentBubble);
         }
@@ -30,13 +30,14 @@ public static class MatchFinder
     /// </summary>
     /// <param name="bubble"></param>
     /// <returns></returns>
-    private static List<Bubble> HorizontalMatchesForBubble(Bubble bubble)
+    public static List<Bubble> HorizontalMatchesForBubble(Bubble bubble)
     {
-        BubbleColor searchedColor = bubble.color;
+        Color searchedColor = bubble.color;
         List<Bubble> horizontalMatches = new List<Bubble>();
         horizontalMatches.AddRange(MatchesForBubbleInDirection(bubble, searchedColor, (Bubble b) => b.LeftNeighbour));
         horizontalMatches.AddRange(MatchesForBubbleInDirection(bubble, searchedColor, (Bubble b) => b.RightNeighbour));
-        return horizontalMatches;
+        if (horizontalMatches.Count > 1) return horizontalMatches;
+        return new List<Bubble>();
     }
 
     /// <summary>
@@ -44,13 +45,14 @@ public static class MatchFinder
     /// </summary>
     /// <param name="bubble"></param>
     /// <returns></returns>
-    private static List<Bubble> VerticalMatchesForBubble(Bubble bubble)
+    public static List<Bubble> VerticalMatchesForBubble(Bubble bubble)
     {
-        BubbleColor searchedColor = bubble.color;
+        Color searchedColor = bubble.color;
         List<Bubble> verticalMaches = new List<Bubble>();
         verticalMaches.AddRange(MatchesForBubbleInDirection(bubble, searchedColor, (Bubble b) => b.UpNeighbour));
         verticalMaches.AddRange(MatchesForBubbleInDirection(bubble, searchedColor, (Bubble b) => b.DownNeighbour));
-        return verticalMaches;
+        if(verticalMaches.Count > 1) return verticalMaches;
+        return new List<Bubble>();
     }
 
     /// <summary>
@@ -62,15 +64,14 @@ public static class MatchFinder
     /// <returns>
     /// true if there are at least MINIMAL_NUMBER_OF_MATCHED_BUBBLES in row, false otherwise
     /// </returns>
-    private static int RemoveMatchesIfExist(List<Bubble> matches)
+    private static int RemoveMatchesIfExist(List<Bubble> matches, int multiplier)
     {
         int bubbleNumberToAdd = 1;
         if (matches.Count + bubbleNumberToAdd >= MINIMAL_NUMBER_OF_MATCHED_BUBBLES)
         {
             matches.ForEach(b =>
             {
-                GameManagerHacking.Instance.matrix.AddEmptyPositionToBuffer(b.column, b.row);
-                GameObject.Destroy(b.gameObject);
+                b.DestroyAndShowPoints(multiplier);
             });
             return matches.Count;
         }
@@ -84,15 +85,17 @@ public static class MatchFinder
     /// <returns>
     /// true if there was a match, false otherwise
     /// </returns>
-    public static int RemoveBubbleAndMatchesIfExist(Bubble bubble)
+    public static int RemoveBubbleAndMatchesIfExist(Bubble bubble, ref int multiplier)
     {
-        int numberOfHorizontalyMatched = RemoveMatchesIfExist(HorizontalMatchesForBubble(bubble));
-        int numberOfVerticalyMatched = RemoveMatchesIfExist(VerticalMatchesForBubble(bubble));
+        int numberOfHorizontalyMatched = RemoveMatchesIfExist(HorizontalMatchesForBubble(bubble),  multiplier);
+        int numberOfVerticalyMatched = RemoveMatchesIfExist(VerticalMatchesForBubble(bubble), multiplier);
         if (numberOfHorizontalyMatched != 0 || numberOfVerticalyMatched != 0)
         {
-            GameManagerHacking.Instance.matrix.AddEmptyPositionToBuffer(bubble.column, bubble.row);
-            GameObject.Destroy(bubble.gameObject);
-            return numberOfHorizontalyMatched + numberOfVerticalyMatched + 1;
+            int numberOfAllMatched = numberOfHorizontalyMatched + numberOfVerticalyMatched + 1;
+            GameManagerHacking.Instance.AddCurrentScore(numberOfAllMatched * bubble.points, multiplier);
+            bubble.DestroyAndShowPoints(multiplier);
+            multiplier++;
+            return numberOfAllMatched;
         }
         return 0;
     }
