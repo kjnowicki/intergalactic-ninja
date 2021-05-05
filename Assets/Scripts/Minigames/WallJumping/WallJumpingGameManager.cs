@@ -1,0 +1,192 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+
+public class WallJumpingGameManager : MonoBehaviour
+{
+    [Header("Game attributes")]
+    public int wallHeightAdditional;
+    public float playerForceScale;
+    public float garbageCollectorYCoord;
+    public float slimeEffectDuration;
+    public int maximumNumberOfJumps;
+    public float playerInitialYPosition;
+
+    [Header("References")]
+    public GameObject gameReplayObject;
+    public CanvasScaler canvasScaler;
+
+    WallJumpingUiManager wallJumpingUiManager;
+    private SlimeGenerator slimeGenerator;
+    private GameArea gameArea;
+    private WallGenerator wallGenerator;
+    private BackgroundGenerator backgroundGenerator;
+    [SerializeField] private CameraRubberBand cameraMovement;
+    private float referenceScreenWidth;
+
+    #region singleton
+    private static WallJumpingGameManager instance;
+
+    public static WallJumpingGameManager Instance { get { return instance; } }
+
+    private void CheckForInstanceDuplicate()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+    #endregion
+    private void Awake()
+    {
+        CheckForInstanceDuplicate();
+    }
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        SetUp();
+    }
+
+    /// <summary>
+    /// Initializes the game.
+    /// </summary>
+    public void Initialize()
+    {
+        InitializePlayer();
+    }
+
+    public void Replay()
+    {
+        RestartUi();
+        DisableEnvironmentMovement();
+        gameArea.DestroyObjectsFromPreviousGame();
+        gameArea.Restart();
+        InitializePlayer();
+        gameReplayObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Initializes game parameters.
+    /// </summary>
+    private void SetUp()
+    {
+        DisableEnvironmentMovement();
+        gameReplayObject.SetActive(false);
+        wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
+        slimeGenerator = FindObjectOfType<SlimeGenerator>();
+        wallGenerator = FindObjectOfType<WallGenerator>();
+        backgroundGenerator = FindObjectOfType<BackgroundGenerator>();
+        this.referenceScreenWidth = canvasScaler.referenceResolution.x;
+        InitializeUi();
+        InitializeGameArea();
+    }
+
+    /// <summary>
+    /// Initializes UI.
+    /// </summary>
+    private void InitializeUi()
+    {
+        float currentScore = 0.0f;
+        float bestScore = PlayerPrefsWrapper.GetWallJumpingBestScore();
+        wallJumpingUiManager.Initialize(currentScore, bestScore);
+    }
+
+    /// <summary>
+    /// Initializes WallGenerator.
+    /// </summary>
+    private void InitializeGameArea()
+    {
+        gameArea = FindObjectOfType<GameArea>();
+        gameArea.Initialize(wallHeightAdditional, garbageCollectorYCoord, slimeEffectDuration);
+    }
+
+    /// <summary>
+    /// Initializes Player.
+    /// </summary>
+    private void InitializePlayer()
+    {
+        float forceRatio = referenceScreenWidth / Screen.width;
+        float scaledPlayerForceScale = playerForceScale * forceRatio; 
+        gameArea.InitializePlayer(scaledPlayerForceScale);
+    }
+
+    private void RestartUi()
+    {
+        float bestScore = wallJumpingUiManager.BestScore;
+        float currentScore = 0.0f;
+        wallJumpingUiManager.Restart(currentScore, bestScore);
+    }
+
+    /// <summary>
+    /// Generates slime effect.
+    /// </summary>
+    public void GenerateSlimeEffect()
+    {
+        slimeGenerator.EnableSlimeEffect();
+    }
+
+    /// <summary>
+    /// Adds score.
+    /// </summary>
+    /// <param name="score"></param>
+    public void AddScore(float score)
+    {
+        wallJumpingUiManager.CurrentScore += score;
+    }
+
+    /// <summary>
+    /// Invokes GameOver
+    /// </summary>
+    public void OnGameOver()
+    {
+        float currentScore = wallJumpingUiManager.CurrentScore; 
+        float bestScore = wallJumpingUiManager.BestScore;
+        Time.timeScale = 0;
+        slimeGenerator.DisableSlimeEffect();
+
+        if (currentScore > bestScore)
+        {
+            wallJumpingUiManager.BestScore = currentScore;
+            PlayerPrefsWrapper.SetWallJupmingBestScoreAndSave((int)currentScore);
+        }
+
+        gameReplayObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Generates new wall blocks form current scenario
+    /// </summary>
+    public void GenerateNewWallsOnTop()
+    {
+        wallGenerator.GenerateNextWallFromScenario();
+    }
+
+    /// <summary>
+    /// Adds single background block on top.
+    /// </summary>
+    public void GenerateNewBackgroundOnTop()
+    {
+        backgroundGenerator.AddBackgroundBlockOnTop();
+    }
+
+    /// <summary>
+    /// Enables camera movement game object
+    /// </summary>
+    public void EnableEnvironmentMovement()
+    {
+        cameraMovement.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Disables camera movement game object
+    /// </summary>
+    private void DisableEnvironmentMovement()
+    {
+        cameraMovement.gameObject.SetActive(false);
+    }
+}

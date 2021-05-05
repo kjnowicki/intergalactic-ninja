@@ -45,7 +45,7 @@ public class ReturnButtonObserver : MonoBehaviour
     IEnumerator ReturnPopup()
     {
         exitPopup.SetActive(true);
-        yield return new WaitForSeconds(exitTime);
+        yield return new WaitForSecondsRealtime(exitTime);
         exitPopup.SetActive(false);
         isExit = false;
         yield return null;

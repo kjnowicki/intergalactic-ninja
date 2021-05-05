@@ -1,8 +1,7 @@
-﻿using System;
+﻿using System.Collections;
 using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Localization.Components;
 
 public class GameManagerHacking : MonoBehaviour
 {
@@ -27,29 +26,51 @@ public class GameManagerHacking : MonoBehaviour
     }
     #endregion
 
-    private readonly HackingStringsModel stringsModel = StringsModelsModel.HackingStringsModel;
-    private string bestScoreTemplate;
-    private string currentScoreTemplate;
-    private string timeTemplate;
-
     [Header("UI")]
-    public TextMeshProUGUI currentScoreText;
-    public TextMeshProUGUI bestScoreText;
-    public TextMeshProUGUI timeText;
-    public TextMeshProUGUI resetMessageText;
-    public TextMeshProUGUI resetAcceptText;
-    public TextMeshProUGUI resetCancelText;
+    public LocalizeStringEvent currentScoreStringEvent;
+    public LocalizeStringEvent bestScoreStringEvent;
+    public LocalizeStringEvent timeLeftStringEvent;
     public GameObject gravityArrow;
     public GameObject resetWindow;
+    
 
     [Header("Game mechanics")]
     public float maxTime;
-    private float currentTime;
-    public float bubbleMultiplier;
+    private float timeLeft;
     public float comboMultiplier;
     public float timeMultiplier;
     private float currentScore;
     private float bestScore;
+
+    public float CurrentScore
+    {
+        get => currentScore;
+        set
+        {
+            currentScore = value;
+            currentScoreStringEvent.RefreshString();
+        }
+    }
+    
+    public float BestScore
+    {
+        get => bestScore;
+        set
+        {
+            bestScore = value;
+            bestScoreStringEvent.RefreshString();
+        }
+    }
+    
+    public float TimeLeft
+    {
+        get => timeLeft;
+        set
+        {
+            timeLeft = value;
+            timeLeftStringEvent.RefreshString();
+        }
+    }
 
     [Header("Prefabs")]
     public GameObject matrixPrefab;
@@ -58,13 +79,16 @@ public class GameManagerHacking : MonoBehaviour
 
     public BaseControlMethod controlMethod;
     public bool ControlEnabled { get; private set; }
-    private const float ARROW_ANIMATION_SPEED = 0.1f;
+
+    [Header("Gravity arrow")]
+    [SerializeField] private float arrowAnimationSpeed = 10f;
+    private Quaternion prevArrowRotation;
+    private Coroutine gravityArrowCoroutine;
 
     private void Awake()
     {
         InitializeData();
         controlMethod = ControlMethodFactory.GetControlMethod(matrix);
-        StartTimer();
         BubbleAnimation.RandomIdleAnimation(matrix);
         resetWindow.SetActive(false);
     }
@@ -74,33 +98,10 @@ public class GameManagerHacking : MonoBehaviour
     /// </summary>
     private void InitializeData()
     {
-        GetStrings();
-        bestScore = PlayerPrefsWrapper.GetHackingBestScore();
-        SetUI();
+        BestScore = PlayerPrefsWrapper.GetHackingBestScore();
         ResetCurrentScore();
         matrixGameObject = Instantiate(matrixPrefab);
         matrix = matrixGameObject.GetComponent<Matrix>();
-    }
-
-    /// <summary>
-    /// Get strings template.
-    /// </summary>
-    private void GetStrings()
-    {
-        bestScoreTemplate = stringsModel.BestScore;
-        currentScoreTemplate = stringsModel.CurrentScore;
-        timeTemplate = stringsModel.Time;
-    }
-
-    /// <summary>
-    /// Set User Interface
-    /// </summary>
-    private void SetUI()
-    {
-        bestScoreText.text = String.Format(bestScoreTemplate, bestScore);
-        resetMessageText.text = stringsModel.ResetMessage;
-        resetAcceptText.text = stringsModel.ResetAccept;
-        resetCancelText.text = stringsModel.ResetCancel;
     }
 
     /// <summary>
@@ -108,23 +109,23 @@ public class GameManagerHacking : MonoBehaviour
     /// </summary>
     public void StartTimer()
     {
-        currentTime = maxTime;
+        TimeLeft = maxTime;
         EnableControl();
-        Timer();
+        StartCoroutine(Timer());
     }
 
     /// <summary>
     /// Time is ticking!
     /// </summary>
-    public async void Timer()
+    public IEnumerator Timer()
     {
-        while (0f < currentTime)
+        while (TimeLeft > 0)
         {
-            currentTime = (float)Math.Round(currentTime - 0.01, 2);
-            timeText.text = currentTime.ToString(timeTemplate);
-            await Task.Delay(TimeSpan.FromMilliseconds(10f));
+            TimeLeft -= Time.deltaTime;
+            yield return null;
         }
-        GameOver();
+        Task gameOverTask = GameOver();
+        while (!gameOverTask.IsCompleted) yield return null;
     }
 
     /// <summary>
@@ -134,10 +135,9 @@ public class GameManagerHacking : MonoBehaviour
     /// <param name="combo"></param>
     public void AddCurrentScore(int points, int combo)
     {
-        float pointsValue = points * bubbleMultiplier * combo * comboMultiplier;
-        currentScore += pointsValue;
-        currentScoreText.text = String.Format(currentScoreTemplate, currentScore.ToString());
-        currentTime = currentTime > 0 ? currentTime + (pointsValue * timeMultiplier) : 0;
+        float pointsValue = points  * combo * comboMultiplier;
+        CurrentScore += pointsValue;
+        TimeLeft = TimeLeft > 0 ? TimeLeft + (pointsValue * timeMultiplier) : 0;
     }
 
     /// <summary>
@@ -145,22 +145,23 @@ public class GameManagerHacking : MonoBehaviour
     /// </summary>
     public void ResetCurrentScore()
     {
-        currentScore = 0;
-        currentScoreText.text = String.Format(currentScoreTemplate, currentScore.ToString());
+        CurrentScore = 0;
     }
 
     /// <summary>
     /// Game over
     /// </summary>
-    public void GameOver()
+    public async Task GameOver()
     {
+        while (!ControlEnabled)
+            await Task.Delay(1);
+        DisableControl();
+
         if (currentScore > bestScore)
         {
-            bestScore = currentScore;
-            PlayerPrefsWrapper.SetHackingBestScoreAndSave(bestScore);
-            bestScoreText.text = String.Format(bestScoreTemplate, bestScore);
+            BestScore = CurrentScore;
+            PlayerPrefsWrapper.SetHackingBestScoreAndSave(BestScore);
         }
-        ControlEnabled = false;
         resetWindow.SetActive(true);
     }
 
@@ -181,8 +182,7 @@ public class GameManagerHacking : MonoBehaviour
     /// </summary>
     public void EnableControl()
     {
-        if (currentTime > 0)
-            ControlEnabled = true;
+        ControlEnabled = true;
     }
     /// <summary>
     /// Forbid player to moves bubbles.
@@ -192,16 +192,32 @@ public class GameManagerHacking : MonoBehaviour
         ControlEnabled = false;
     }
 
-    public async void RotateGravityArrow(Vector2 direction)
+    /// <summary>
+    /// It stops previous rotation and start new one
+    /// </summary>
+    /// <param name="direction"></param>
+    public void RotateGravityArrow(Vector2 direction)
     {
-        var angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-        Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        while (Mathf.Abs(gravityArrow.transform.rotation.eulerAngles.z - targetRotation.eulerAngles.z) > ARROW_ANIMATION_SPEED)
-        {
-            gravityArrow.transform.rotation = Quaternion.Lerp(gravityArrow.transform.rotation, targetRotation, ARROW_ANIMATION_SPEED);
-            await Task.Delay(1);
-        }
-        gravityArrow.transform.rotation = targetRotation;
+        if (gravityArrowCoroutine != null)
+            StopCoroutine(gravityArrowCoroutine);
+        gravityArrow.transform.rotation = prevArrowRotation;
+        gravityArrowCoroutine = StartCoroutine(StartRotateGravityArrow(direction));
     }
 
+    /// <summary>
+    /// coroutine which rotate arrow
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    IEnumerator StartRotateGravityArrow(Vector2 direction)
+    {
+        var angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+        prevArrowRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        while (Mathf.Abs(gravityArrow.transform.rotation.eulerAngles.z - prevArrowRotation.eulerAngles.z) > arrowAnimationSpeed)
+        {
+            gravityArrow.transform.rotation = Quaternion.Lerp(gravityArrow.transform.rotation, prevArrowRotation, Time.deltaTime * arrowAnimationSpeed);
+            yield return null;
+        }
+        gravityArrow.transform.rotation = prevArrowRotation;
+    }
 }

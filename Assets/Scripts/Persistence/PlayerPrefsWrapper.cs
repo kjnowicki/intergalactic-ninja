@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.Localization;
+
 public class PlayerPrefsWrapper
 {
     private const string LANGUAGE_KEY = "lang";
+    private const string LOCALE_KEY = "localeCode";
     private const string KILLER_BEST_SCORE = "killerBestScore";
     private const string HACKING_BEST_SCORE = "hackingBestScore";
     private const string HACKING_CONTROL_METHOD = "hackingControlMethod";
+    private const string NINJA_HERO_BEST_SCORE_KEY = "ninjaHeroBestScore";
+    private const string WALL_JUMPING_BEST_SCORE = "wallJumpingBestScore";
 
     public static Language GetLanguage(Language defaultLanguage = Language.English)
     {
@@ -14,6 +19,25 @@ public class PlayerPrefsWrapper
         }
         int languageValue = PlayerPrefs.GetInt(LANGUAGE_KEY);
         return (Language)languageValue;
+    }
+
+    public static Locale GetLocale()
+    {
+        string defaultLanguageCode = LocaleCodesModel.ENGLISH;
+        LocalizationService localizationService = new LocalizationService();
+        Locale defaultValue = localizationService.GetLocaleByCode(defaultLanguageCode);
+        if (!PlayerPrefs.HasKey(LOCALE_KEY))
+        {
+            SetLocaleAndSave(defaultValue);
+        }
+        string localeName = PlayerPrefs.GetString(LOCALE_KEY);
+        return localizationService.GetLocaleByCode(localeName);
+    }
+    
+    public static void SetLocaleAndSave(Locale value)
+    {
+        PlayerPrefs.SetString(LOCALE_KEY, value.Identifier.Code);
+        PlayerPrefs.Save();
     }
 
     public static int GetKillerBestScore()
@@ -62,6 +86,38 @@ public class PlayerPrefsWrapper
     public static void SetHackingControlMethod(ControlMethod value)
     {
         PlayerPrefs.SetInt(HACKING_CONTROL_METHOD, (int)value);
+        PlayerPrefs.Save();
+    }
+
+    public static int GetNinjaHeroBestScore()
+    {
+        int defaultValue = 0;
+        if (!PlayerPrefs.HasKey(NINJA_HERO_BEST_SCORE_KEY))
+        {
+            SetNinjaHeroBestScore(defaultValue);
+        }
+        return PlayerPrefs.GetInt(NINJA_HERO_BEST_SCORE_KEY);
+    }
+
+    public static void SetNinjaHeroBestScore(int value)
+    {
+        PlayerPrefs.SetInt(NINJA_HERO_BEST_SCORE_KEY, value);
+        PlayerPrefs.Save();
+    }
+
+    public static int GetWallJumpingBestScore()
+    {
+        int defaultValue = 0;
+        if (!PlayerPrefs.HasKey(WALL_JUMPING_BEST_SCORE))
+        {
+            SetWallJupmingBestScoreAndSave(defaultValue);
+        }
+        return PlayerPrefs.GetInt(WALL_JUMPING_BEST_SCORE);
+    }
+
+    public static void SetWallJupmingBestScoreAndSave(int value)
+    {
+        PlayerPrefs.SetInt(WALL_JUMPING_BEST_SCORE, value);
         PlayerPrefs.Save();
     }
 }

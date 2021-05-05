@@ -10,6 +10,8 @@ public static class BubbleMover
 
     private const float FADING_MARGIN = MOVE_STEP * 2;
 
+    private const int MOVE_DELAY = 500;
+
     /// <summary>
     /// Changes bubble's position on screen and in MatrixBubbles list.
     /// </summary>
@@ -48,6 +50,9 @@ public static class BubbleMover
     {
         bubble.column = (int)targetPosition.x;
         bubble.row = (int)targetPosition.y;
+
+        await Task.Delay(MOVE_DELAY);
+
         await Task.WhenAll(ChangePosition(bubble, targetPosition, 0.03 / moveTimeMultiplier));
     }
 
