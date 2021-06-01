@@ -1,23 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class ClickableArea : Clickable
 {
-    public int elementLayerMask;
     private Collider2D clickableAreaCollider;
-    private bool tap;
-    public CancellationToken cancellationToken;
     private void Start()
     {
         clickableAreaCollider = GetComponent<Collider2D>();
     }
 
     /// <summary>
-    /// On click event instructions for patern tile
+    /// Score on first element in area
     /// </summary>
-    private async void TouchedClickableArea()
+    /// <param name="touchType">For scoring condition</param>
+    private void OnTouchedClickableArea(Touch touchType)
     {
         if (clickableAreaCollider.IsTouchingLayers())
         {
@@ -29,21 +28,41 @@ public class ClickableArea : Clickable
                 useTriggers = true
             };
             clickableAreaCollider.OverlapCollider(contactFilter, colliders);
-            foreach (Collider2D coll in colliders)
+            colliders.RemoveAll(collider => collider.tag.Contains(clickableAreaCollider.tag));
+            if(colliders.Count > 0)
             {
-                await coll.gameObject.GetComponent<Element>().HitElement(tap, cancellationToken);
+                var elements = colliders
+                    .OrderBy(collider => collider.transform.position.y)
+                    .Select(collider => collider.GetComponent<Element>())
+                    .Where(colliderElement => !colliderElement.scored);
+                if (elements.Count() > 0)
+                {
+                    var element = elements.FirstOrDefault();
+                    if(element) element.Score(touchType == Touch.Down);
+                }
             }
         }
     }
 
-    override public void OnTouchDown()
+    public override void OnTouchDown()
     {
-        tap = true;
+        OnTouchedClickableArea(Touch.Down);
     }
 
     public override void OnTouchDrag()
     {
-        TouchedClickableArea();
-        tap = false;
+        OnTouchedClickableArea(Touch.Drag);
+    }
+
+    public override void OnTouchUp()
+    {
+        OnTouchedClickableArea(Touch.Up);
+    }
+
+    public enum Touch
+    {
+        Drag,
+        Up,
+        Down
     }
 }

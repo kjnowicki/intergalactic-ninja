@@ -173,8 +173,8 @@ MonoBehaviour:
   bestScoreStringEvent: {fileID: 1268389015}
   bestScore: 0
   speedUpLimit: 7
-  speed: 100
-  speedUpValue: 1.25
+  speed: 80
+  speedUpValue: 1.05
   speedUpTime: 9
   paternTileCount: 4
   spawnMinInterval: 1000

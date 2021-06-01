@@ -94,7 +94,7 @@ public class PlayerPrefsWrapper
         int defaultValue = 0;
         if (!PlayerPrefs.HasKey(NINJA_HERO_BEST_SCORE_KEY))
         {
-            SetKillerBestScoreAndSave(defaultValue);
+            SetNinjaHeroBestScore(defaultValue);
         }
         return PlayerPrefs.GetInt(NINJA_HERO_BEST_SCORE_KEY);
     }
