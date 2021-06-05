@@ -15,7 +15,7 @@ public class StartGame : MonoBehaviour
     }
 
     /// <summary>
-    /// What happens Start button is clicked.
+    /// What happens, when Start button is clicked.
     /// This method should be overriden if anything else or something different should happen in a minigame. 
     /// </summary>
     public virtual void OnStartButtonClicked()
@@ -25,6 +25,10 @@ public class StartGame : MonoBehaviour
         onStartClickedAction?.Invoke();
     }
 
+    /// <summary>
+    /// What happens, when Back button is clicked.
+    /// This method should be overriden if anything else or something different should happen in a minigame. 
+    /// </summary>
     public virtual void OnBackButtonClicked()
     {
         SceneManager.LoadScene("CockPitActionHub", LoadSceneMode.Single);
