@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,14 +5,12 @@ public class StartGame : MonoBehaviour
 {
     private const float STARTING_TIMESCALE = 1f;
 
-    public UnityEvent onSceneLoadedAction;
     public UnityEvent onStartClickedAction;
 
     // Start is called before the first frame update
     void Start()
     {
         Time.timeScale = 0;
-        onSceneLoadedAction?.Invoke();
     }
 
     /// <summary>
