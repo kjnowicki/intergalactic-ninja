@@ -355,8 +355,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1012054909273412552}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnStartButtonClicked
+        m_TargetAssemblyTypeName: StartGame, Assembly-CSharp
+        m_MethodName: OnBackButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

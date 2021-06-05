@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class StartGame : MonoBehaviour
 {
@@ -22,5 +23,10 @@ public class StartGame : MonoBehaviour
         Time.timeScale = STARTING_TIMESCALE;
         Destroy(gameObject);
         onStartClickedAction?.Invoke();
+    }
+
+    public virtual void OnBackButtonClicked()
+    {
+        SceneManager.LoadScene("CockPitActionHub", LoadSceneMode.Single);
     }
 }
