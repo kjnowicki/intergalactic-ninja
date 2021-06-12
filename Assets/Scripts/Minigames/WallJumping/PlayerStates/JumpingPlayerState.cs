@@ -1,15 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class JumpingPlayerState : PlayerState
 {
     private int remainingNumberOfJumps;
-    private double lastVx;
-    private bool accelerating;
 
     public JumpingPlayerState(WallJumpingPlayer player, int maximumNumberOfJumps) : base(player)
     {
-        remainingNumberOfJumps = maximumNumberOfJumps - 1; // 1 jump is consumed in OnWallPlayerState
+        remainingNumberOfJumps = maximumNumberOfJumps - 1; // 1st jump is consumed in OnWallPlayerState
     }
 
     /// <summary>
@@ -35,25 +32,6 @@ public class JumpingPlayerState : PlayerState
         {
             player.Jump(swipeStartPosition, swipeEndPosition);
             remainingNumberOfJumps--;
-        }
-    }
-
-    public override void OnUpdate()
-    {
-        if (remainingNumberOfJumps == 0)
-        {
-            double currentVx = player.playerRigidbody.velocity.x;
-            double deltaVx = currentVx - lastVx;
-            if (deltaVx > 0)
-            {
-                accelerating = true;
-            }
-
-            if (accelerating && Math.Abs(deltaVx) < 0.0001)
-            {
-                player.Fall();
-            }
-            lastVx = currentVx;
         }
     }
 }
