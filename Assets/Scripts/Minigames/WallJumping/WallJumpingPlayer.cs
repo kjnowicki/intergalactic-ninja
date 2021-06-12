@@ -61,6 +61,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     public void Jump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
         Drag = 5;
+        playerRigidbody.gravityScale = 3;
         var xPositionDelta = swipeEndPosition.x - swipeStartPosition.x;
         if (xPositionDelta > 0)
         {
@@ -72,6 +73,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         }
 
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
+        // playerRigidbody.AddForce(Vector2.down * 1000);
         ninjaAnimator.TriggerJumpAnimation();
     }
 
@@ -83,6 +85,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     public void TouchTheWall(int direction, Vector2 wallBlockPosition)
     {
         Drag = 20;
+        playerRigidbody.gravityScale = 1;
         playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
         playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction,
             playerRigidbody.transform.localPosition.y);
@@ -91,10 +94,10 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
 
     public void Fall()
     {
-        Debug.Log("Falling");
-        playerRigidbody.mass = 20;
-        playerRigidbody.AddForce(10000 * Vector2.down);
-        Drag = 1;
+        // Debug.Log("Falling");
+        // playerRigidbody.mass = 20;
+        // playerRigidbody.AddForce(10000 * Vector2.down);
+        // Drag = 1;
     }
 
     /// <summary>
