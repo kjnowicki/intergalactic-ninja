@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WallJumpingPlayer : MonoBehaviour, ICollectable
 {
@@ -11,8 +10,6 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     private int direction;
 
     public Rigidbody2D playerRigidbody;
-    public double lastVx;
-    public double deltaVx;
 
     public PlayerState State { get; set; }
 
@@ -30,11 +27,6 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
             direction = value;
             spriteRenderer.flipX = direction == 1;
         }
-    }
-
-    private void Update()
-    {
-        State.OnUpdate();
     }
 
     /// <summary>
@@ -73,7 +65,6 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         }
 
         playerRigidbody.AddForce((swipeEndPosition - swipeStartPosition) * forceScale);
-        // playerRigidbody.AddForce(Vector2.down * 1000);
         ninjaAnimator.TriggerJumpAnimation();
     }
 
@@ -90,14 +81,6 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction,
             playerRigidbody.transform.localPosition.y);
         ninjaAnimator.TriggerTouchTheWallAnimation();
-    }
-
-    public void Fall()
-    {
-        // Debug.Log("Falling");
-        // playerRigidbody.mass = 20;
-        // playerRigidbody.AddForce(10000 * Vector2.down);
-        // Drag = 1;
     }
 
     /// <summary>
