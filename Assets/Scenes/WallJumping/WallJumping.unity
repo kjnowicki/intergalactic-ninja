@@ -383,11 +383,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallHeightAdditional: 3
-  playerForceScale: 500
   garbageCollectorYCoord: -3
   slimeEffectDuration: 5
   maximumNumberOfJumps: 2
   playerInitialYPosition: 1
+  playerForceScale: 500
+  dragInJump: 5
+  dragOnWall: 20
+  gravityInJump: 3
+  gravityOnWall: 1
   gameReplayObject: {fileID: 2092010818463751588}
   canvasScaler: {fileID: 981882028}
   cameraMovement: {fileID: 795810497}

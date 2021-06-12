@@ -36,6 +36,7 @@ public class GameArea : MonoBehaviour
     /// <summary>
     /// Initializes Player.
     /// </summary>
+    /// <param name="playerForceScale"></param>
     public void InitializePlayer(float playerForceScale)
     {
         movableObjectsContainer.InitializePlayer(playerForceScale);

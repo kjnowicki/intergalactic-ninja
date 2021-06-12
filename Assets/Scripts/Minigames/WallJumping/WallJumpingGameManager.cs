@@ -5,11 +5,17 @@ public class WallJumpingGameManager : MonoBehaviour
 {
     [Header("Game attributes")]
     public int wallHeightAdditional;
-    public float playerForceScale;
     public float garbageCollectorYCoord;
     public float slimeEffectDuration;
-    public int maximumNumberOfJumps;
+
+    [Header("Player attributes")]
     public float playerInitialYPosition;
+    public int maximumNumberOfJumps;
+    public float playerForceScale;
+    public float dragInJump;
+    public float dragOnWall;
+    public float gravityInJump;
+    public float gravityOnWall;
 
     [Header("References")]
     public GameObject gameReplayObject;
