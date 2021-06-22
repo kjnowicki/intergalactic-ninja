@@ -385,13 +385,15 @@ MonoBehaviour:
   wallHeightAdditional: 3
   garbageCollectorYCoord: -3
   slimeEffectDuration: 5
-  maximumNumberOfJumps: 2
+  vxFallingThreshold: 0.000001
   playerInitialYPosition: 1
+  maximumNumberOfJumps: 2
   playerForceScale: 500
   dragInJump: 5
   dragOnWall: 20
   gravityInJump: 3
   gravityOnWall: 1
+  gravityOnFall: 20
   gameReplayObject: {fileID: 2092010818463751588}
   canvasScaler: {fileID: 981882028}
   cameraMovement: {fileID: 795810497}

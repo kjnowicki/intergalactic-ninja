@@ -12,6 +12,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     private float dragOnWall;
     private float gravityInJump;
     private float gravityOnWall;
+    private float gravityOnFall;
 
 
     public Rigidbody2D playerRigidbody;
@@ -34,6 +35,11 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         }
     }
 
+    void Update()
+    {
+        State.OnUpdate();
+    }
+
     /// <summary>
     /// Initializes Player parameters
     /// </summary>
@@ -46,7 +52,8 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         dragOnWall = gameManager.dragOnWall;
         gravityInJump = gameManager.gravityInJump;
         gravityOnWall = gameManager.gravityOnWall;
-        
+        gravityOnFall = gameManager.gravityOnFall;
+
         playerRigidbody = GetComponent<Rigidbody2D>();
         CapsuleCollider2D capsuleCollider = GetComponent<CapsuleCollider2D>();
         playerToWallOffset = HALF_WALL_WIDTH + capsuleCollider.size.x / 2;
@@ -63,7 +70,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     /// </summary>
     public void Jump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
-        Drag = dragInJump; 
+        Drag = dragInJump;
         playerRigidbody.gravityScale = gravityInJump;
         var xPositionDelta = swipeEndPosition.x - swipeStartPosition.x;
         if (xPositionDelta > 0)
@@ -92,6 +99,14 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction,
             playerRigidbody.transform.localPosition.y);
         ninjaAnimator.TriggerTouchTheWallAnimation();
+    }
+
+    /// <summary>
+    /// Makes player fall very fast.
+    /// </summary>
+    public void Fall()
+    {
+        playerRigidbody.gravityScale = gravityOnFall;
     }
 
     /// <summary>
