@@ -7,6 +7,7 @@ public class WallJumpingGameManager : MonoBehaviour
     public int wallHeightAdditional;
     public float garbageCollectorYCoord;
     public float slimeEffectDuration;
+    public double vxFallingThreshold;
 
     [Header("Player attributes")]
     public float playerInitialYPosition;
@@ -16,6 +17,7 @@ public class WallJumpingGameManager : MonoBehaviour
     public float dragOnWall;
     public float gravityInJump;
     public float gravityOnWall;
+    public float gravityOnFall;
 
     [Header("References")]
     public GameObject gameReplayObject;
