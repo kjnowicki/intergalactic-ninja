@@ -1,0 +1,16 @@
+{
+    "name": "Killer",
+    "references": [
+        "GUID:84c5b668f7634e943b3b8a43a6560f31",
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
