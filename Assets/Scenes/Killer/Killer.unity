@@ -762,6 +762,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3582384895610788504, guid: 4eb5be3257db9fe419c61acfb1fb68b3,
         type: 3}
+      propertyPath: m_fontSize
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 3582384895610788504, guid: 4eb5be3257db9fe419c61acfb1fb68b3,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 3582384895610788504, guid: 4eb5be3257db9fe419c61acfb1fb68b3,
+        type: 3}
       propertyPath: m_textInfo.lineCount
       value: 0
       objectReference: {fileID: 0}
@@ -779,6 +789,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.characterCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294521579060038018, guid: 4eb5be3257db9fe419c61acfb1fb68b3,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294521579060038018, guid: 4eb5be3257db9fe419c61acfb1fb68b3,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4294521579060038018, guid: 4eb5be3257db9fe419c61acfb1fb68b3,
         type: 3}
@@ -1402,12 +1422,12 @@ PrefabInstance:
     - target: {fileID: 4702954613891531472, guid: 13c69202d33846bd8996d3ce4280b620,
         type: 3}
       propertyPath: m_fontSize
-      value: 150
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4702954613891531472, guid: 13c69202d33846bd8996d3ce4280b620,
         type: 3}
       propertyPath: m_fontSizeBase
-      value: 150
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4702954613891531472, guid: 13c69202d33846bd8996d3ce4280b620,
         type: 3}
@@ -1442,12 +1462,12 @@ PrefabInstance:
     - target: {fileID: 5538151046812479163, guid: 13c69202d33846bd8996d3ce4280b620,
         type: 3}
       propertyPath: m_fontSize
-      value: 150
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 5538151046812479163, guid: 13c69202d33846bd8996d3ce4280b620,
         type: 3}
       propertyPath: m_fontSizeBase
-      value: 150
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 6208566090784777197, guid: 13c69202d33846bd8996d3ce4280b620,
         type: 3}

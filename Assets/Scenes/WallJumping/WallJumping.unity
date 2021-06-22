@@ -1498,6 +1498,16 @@ PrefabInstance:
       propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7389277315573625338, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389277315573625338, guid: d7a80942b13d24c4082d83b2b9fc0edc,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 75
+      objectReference: {fileID: 0}
     - target: {fileID: 7546234507279958133, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
       propertyPath: m_IsActive
@@ -1511,12 +1521,12 @@ PrefabInstance:
     - target: {fileID: 7716016176071122321, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
       propertyPath: m_fontSize
-      value: 90
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 7716016176071122321, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
       propertyPath: m_fontSizeBase
-      value: 90
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 8442105178212799712, guid: d7a80942b13d24c4082d83b2b9fc0edc,
         type: 3}
