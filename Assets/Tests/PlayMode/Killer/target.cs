@@ -9,6 +9,7 @@ namespace Tests
 {
     public class target
     {
+        private GameObject container;
         private GameObject targetContainer;
         private Target targetPrefab;
 
@@ -16,15 +17,25 @@ namespace Tests
         public void SetUp()
         {
             // Arrange
+            container = new GameObject("Container");
             var mockGameOverObject = new GameObject("MockGameOverObject");
+            mockGameOverObject.transform.parent = container.transform;
             
             var gameManagerGameObject = new GameObject("GameManager");
+            gameManagerGameObject.transform.parent = container.transform;
             var gameManager = gameManagerGameObject.AddComponent<GameManagerKiller>();
             gameManager.targetTag = "Target";
             gameManager.gameOverObejct = mockGameOverObject;
             
             targetContainer = new GameObject("TargetContainer");
+            targetContainer.transform.parent = container.transform;
             targetPrefab = Resources.Load<Target>("Minigames/Killer/Prefabs/Target");
+        }
+        
+        [TearDown]
+        public void TeardDown()
+        {
+            GameObject.Destroy(container);
         }
         
         [UnityTest]
