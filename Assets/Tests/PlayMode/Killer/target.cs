@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
 namespace Tests
@@ -9,21 +10,39 @@ namespace Tests
     public class target
     {
         [UnityTest]
-        public IEnumerator a()
+        public IEnumerator disappearsAfterLifetimeEnds()
         {
-            GameObject container = new GameObject("Container");
-            var gameManager = container.AddComponent<GameManagerKiller>();
+            var mockGameOverObject = new GameObject("MockGameOverObject");
             
+            var gameManagerGameObject = new GameObject("GameManager");
+            var gameManager = gameManagerGameObject.AddComponent<GameManagerKiller>();
+            gameManager.targetTag = "Target";
+            gameManager.gameOverObejct = mockGameOverObject;
+            
+            var targetContainer = new GameObject("TargetContainer");
+            Target targetPrefab = Resources.Load<Target>("Minigames/Killer/Prefabs/Target");
+            var target = GameObject.Instantiate(targetPrefab, Vector2.zero, Quaternion.identity, targetContainer.transform);
+            target.LifeTime = 5;
+
+
+            // GameObject gameObject = new GameObject("Target");
+            // var target = gameObject.AddComponent<Target>();
+            // Assert.IsNotNull(target);
+            // GameObject.Instantiate(new Target(), Vector2.zero, Quaternion.identity, container.transform);
+            yield return new WaitForSeconds(10);
+            // var b = 5;
+            Assert.IsNull(target);
+            // Assert.IsNull(gameObject);
             // var gameManager = GameManagerKiller.Instance;
-            while (true)
-            {
-                GameObject.Instantiate()   
-                var a = 5;
-                yield return new WaitForSeconds(10);
-                var target = GameObject.FindObjectOfType<Target>();
-                if (target != null)
-                    break;
-            }
+            // while (true)
+            // {
+            //     // GameObject.Instantiate()   
+            //     var a = 5;
+            //     yield return new WaitForSeconds(10);
+            //     var target = GameObject.FindObjectOfType<Target>();
+            //     if (target != null)
+            //         break;
+            // }
             Assert.Pass();
             // var a = 5;
             yield return null;
