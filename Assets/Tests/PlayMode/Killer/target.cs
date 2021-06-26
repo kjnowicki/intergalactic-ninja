@@ -9,8 +9,11 @@ namespace Tests
 {
     public class target
     {
-        [UnityTest]
-        public IEnumerator DoesNotDisappearInstantly()
+        private GameObject targetContainer;
+        private Target targetPrefab;
+
+        [SetUp]
+        public void SetUp()
         {
             // Arrange
             var mockGameOverObject = new GameObject("MockGameOverObject");
@@ -20,10 +23,13 @@ namespace Tests
             gameManager.targetTag = "Target";
             gameManager.gameOverObejct = mockGameOverObject;
             
-            var targetContainer = new GameObject("TargetContainer");
-            Target targetPrefab = Resources.Load<Target>("Minigames/Killer/Prefabs/Target");
-            
-            
+            targetContainer = new GameObject("TargetContainer");
+            targetPrefab = Resources.Load<Target>("Minigames/Killer/Prefabs/Target");
+        }
+        
+        [UnityTest]
+        public IEnumerator DoesNotDisappearInstantly()
+        {
             // Act
             var target = GameObject.Instantiate(targetPrefab, Vector2.zero, Quaternion.identity, targetContainer.transform);
 
@@ -38,18 +44,7 @@ namespace Tests
             // Arrange
             const int TARGET_LIFE_TIME = 5;
             const float TOLERANCE = 0.5f;
-            
-            var mockGameOverObject = new GameObject("MockGameOverObject");
-            
-            var gameManagerGameObject = new GameObject("GameManager");
-            var gameManager = gameManagerGameObject.AddComponent<GameManagerKiller>();
-            gameManager.targetTag = "Target";
-            gameManager.gameOverObejct = mockGameOverObject;
-            
-            var targetContainer = new GameObject("TargetContainer");
-            Target targetPrefab = Resources.Load<Target>("Minigames/Killer/Prefabs/Target");
-            
-            
+
             // Act
             var target = GameObject.Instantiate(targetPrefab, Vector2.zero, Quaternion.identity, targetContainer.transform);
             target.LifeTime = TARGET_LIFE_TIME;
