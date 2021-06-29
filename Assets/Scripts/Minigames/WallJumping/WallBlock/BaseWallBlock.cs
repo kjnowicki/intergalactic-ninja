@@ -9,10 +9,8 @@ public abstract class BaseWallBlock : MonoBehaviour, ICollectable
         Direction = direction;
         if (Direction == 1)
         {
-            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.flipX = true;
+            FlipSprite();
         }
-            
     }
 
     /// <summary>
@@ -31,5 +29,11 @@ public abstract class BaseWallBlock : MonoBehaviour, ICollectable
             WallJumpingGameManager.Instance.GenerateNewWallsOnTop();
         }
         Destroy(gameObject);
+    }
+
+    protected virtual void FlipSprite()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.flipX = true;
     }
 }
