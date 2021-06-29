@@ -35,7 +35,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         State.OnUpdate();
     }

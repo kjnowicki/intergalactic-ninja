@@ -385,7 +385,7 @@ MonoBehaviour:
   wallHeightAdditional: 3
   garbageCollectorYCoord: -3
   slimeEffectDuration: 5
-  vxFallingThreshold: 0.000001
+  vxFallingThreshold: 0.01
   playerInitialYPosition: 1
   maximumNumberOfJumps: 2
   playerForceScale: 500
