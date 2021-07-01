@@ -7,7 +7,6 @@ public class ReplayGame : MonoBehaviour
     private const float STARTING_TIMESCALE = 1f;
     
     public UnityEvent onReplayClickedAction;
-    public UnityEvent onCancelClickedAction;
 
     /// <summary>
     /// What happens Replay button is clicked.
@@ -26,6 +25,5 @@ public class ReplayGame : MonoBehaviour
     public virtual void OnCancelButtonClicked()
     {
         SceneManager.LoadScene("CockPitActionHub", LoadSceneMode.Single);
-        onCancelClickedAction?.Invoke();
     }
 }

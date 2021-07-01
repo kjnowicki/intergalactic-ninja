@@ -1,23 +1,21 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class StartGame : MonoBehaviour
 {
     private const float STARTING_TIMESCALE = 1f;
 
-    public UnityEvent onSceneLoadedAction;
     public UnityEvent onStartClickedAction;
 
     // Start is called before the first frame update
     void Start()
     {
         Time.timeScale = 0;
-        onSceneLoadedAction?.Invoke();
     }
 
     /// <summary>
-    /// What happens Start button is clicked.
+    /// What happens, when Start button is clicked.
     /// This method should be overriden if anything else or something different should happen in a minigame. 
     /// </summary>
     public virtual void OnStartButtonClicked()
@@ -25,5 +23,14 @@ public class StartGame : MonoBehaviour
         Time.timeScale = STARTING_TIMESCALE;
         Destroy(gameObject);
         onStartClickedAction?.Invoke();
+    }
+
+    /// <summary>
+    /// What happens, when Back button is clicked.
+    /// This method should be overriden if anything else or something different should happen in a minigame. 
+    /// </summary>
+    public virtual void OnBackButtonClicked()
+    {
+        SceneManager.LoadScene("CockPitActionHub", LoadSceneMode.Single);
     }
 }
