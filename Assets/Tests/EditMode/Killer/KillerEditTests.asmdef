@@ -1,0 +1,9 @@
+﻿{
+    "name": "KillerEditTests",
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ]
+}
