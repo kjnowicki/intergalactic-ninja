@@ -1,12 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class JumpingPlayerState : PlayerState
 {
+    private readonly double vxFallingThreshold;
+    
     private int remainingNumberOfJumps;
+    private double lastVx;
+    private bool accelerating;
 
-    public JumpingPlayerState(WallJumpingPlayer player, int maximumNumberOfJumps) : base(player)
+    public JumpingPlayerState(WallJumpingPlayer player) : base(player)
     {
-        remainingNumberOfJumps = maximumNumberOfJumps;
+        WallJumpingGameManager gameManager = WallJumpingGameManager.Instance;
+
+        vxFallingThreshold = gameManager.vxFallingThreshold;
+        // 1st jump is consumed in OnWallPlayerState or InitialState
+        remainingNumberOfJumps = gameManager.maximumNumberOfJumps - 1;
     }
 
     /// <summary>
@@ -28,10 +37,30 @@ public class JumpingPlayerState : PlayerState
     /// <param name="swipeEndPosition"></param>
     public override void OnJump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
-        remainingNumberOfJumps--;
         if (remainingNumberOfJumps > 0)
         {
             player.Jump(swipeStartPosition, swipeEndPosition);
+            remainingNumberOfJumps--;
+        }
+    }
+
+    public override void OnUpdate()
+    {
+        if (remainingNumberOfJumps == 0)
+        {
+            double currentVx = player.playerRigidbody.velocity.x;
+            double deltaVx = currentVx - lastVx;
+            
+            if (deltaVx > 0)
+            {
+                accelerating = true;
+            }
+            
+            if (accelerating && Math.Abs(deltaVx) < vxFallingThreshold)
+            {
+                player.Fall();
+            }
+            lastVx = currentVx;
         }
     }
 }

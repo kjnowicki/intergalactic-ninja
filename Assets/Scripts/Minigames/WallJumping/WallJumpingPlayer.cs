@@ -8,6 +8,12 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     private NinjaAnimator ninjaAnimator;
     private SpriteRenderer spriteRenderer;
     private int direction;
+    private float dragInJump;
+    private float dragOnWall;
+    private float gravityInJump;
+    private float gravityOnWall;
+    private float gravityOnFall;
+
 
     public Rigidbody2D playerRigidbody;
 
@@ -29,6 +35,11 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
         }
     }
 
+    void FixedUpdate()
+    {
+        State.OnUpdate();
+    }
+
     /// <summary>
     /// Initializes Player parameters
     /// </summary>
@@ -36,6 +47,13 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     public void Initialize(float playerForceScale)
     {
         forceScale = playerForceScale;
+        WallJumpingGameManager gameManager = WallJumpingGameManager.Instance;
+        dragInJump = gameManager.dragInJump;
+        dragOnWall = gameManager.dragOnWall;
+        gravityInJump = gameManager.gravityInJump;
+        gravityOnWall = gameManager.gravityOnWall;
+        gravityOnFall = gameManager.gravityOnFall;
+
         playerRigidbody = GetComponent<Rigidbody2D>();
         CapsuleCollider2D capsuleCollider = GetComponent<CapsuleCollider2D>();
         playerToWallOffset = HALF_WALL_WIDTH + capsuleCollider.size.x / 2;
@@ -52,7 +70,8 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     /// </summary>
     public void Jump(Vector2 swipeStartPosition, Vector2 swipeEndPosition)
     {
-        Drag = 5;
+        Drag = dragInJump;
+        playerRigidbody.gravityScale = gravityInJump;
         var xPositionDelta = swipeEndPosition.x - swipeStartPosition.x;
         if (xPositionDelta > 0)
         {
@@ -74,11 +93,20 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     /// <param name="wallBlockPosition"></param>
     public void TouchTheWall(int direction, Vector2 wallBlockPosition)
     {
-        Drag = 20;
+        Drag = dragOnWall;
+        playerRigidbody.gravityScale = gravityOnWall;
         playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
         playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction,
             playerRigidbody.transform.localPosition.y);
         ninjaAnimator.TriggerTouchTheWallAnimation();
+    }
+
+    /// <summary>
+    /// Makes player fall very fast.
+    /// </summary>
+    public void Fall()
+    {
+        playerRigidbody.gravityScale = gravityOnFall;
     }
 
     /// <summary>
@@ -88,7 +116,6 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     {
         WallJumpingGameManager.Instance.GenerateSlimeEffect();
     }
-
 
     /// <summary>
     /// Obliterates the Player mercilessly.
