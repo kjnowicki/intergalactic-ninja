@@ -136,6 +136,8 @@ jobs:
         with:
           # Reads exact version from ProjectSettings/ProjectVersion.txt
           unityVersion: auto
+          # Unity 6.6+ images are published under GameCI's v4 Docker image series (e.g. ubuntu-6000.6.10f1-android-4)
+          containerRegistryImageVersion: "4"
           targetPlatform: Android
           buildsPath: build
           buildName: IntergalacticNinja
