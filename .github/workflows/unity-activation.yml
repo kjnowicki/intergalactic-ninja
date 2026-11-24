@@ -1,0 +1,45 @@
+name: Acquire Unity Activation File (.alf)
+
+on:
+  workflow_dispatch:
+    inputs:
+      unityVersion:
+        description: "Optional Unity version override (leave empty to read ProjectSettings/ProjectVersion.txt)"
+        type: string
+        required: false
+        default: ""
+
+jobs:
+  activation:
+    name: Request Manual Activation File
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve Unity version
+        id: version
+        shell: bash
+        env:
+          INPUT_VERSION: ${{ inputs.unityVersion }}
+        run: |
+          if [ -n "$INPUT_VERSION" ]; then
+            VERSION="$INPUT_VERSION"
+          else
+            VERSION=$(awk '/^m_EditorVersion:/ {print $2}' ProjectSettings/ProjectVersion.txt | tr -d '\r')
+          fi
+          echo "unity_version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Using Unity version: $VERSION"
+
+      - name: Request manual activation file
+        id: getManualLicenseFile
+        uses: game-ci/unity-request-activation-file@v2
+        with:
+          unityVersion: ${{ steps.version.outputs.unity_version }}
+
+      - name: Upload .alf artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unity-manual-activation-file
+          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          retention-days: 7

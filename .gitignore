@@ -59,6 +59,10 @@ sysinfo.txt
 *.keystore
 *.symbols.zip
 *.unitypackage
+*.alf
+*.ulf
+play-service-account.json
+fastlane/report.xml
 
 # Crashlytics generated file
 crashlytics-build.properties
