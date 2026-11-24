@@ -158,12 +158,12 @@ jobs:
         id: artifacts
         shell: bash
         run: |
-          AAB_PATH=$(find build/Android -maxdepth 2 -type f -name "*.aab" | head -n 1)
-          SYMBOLS_PATH=$(find build/Android -maxdepth 2 -type f -name "*.symbols.zip" | head -n 1 || true)
+          AAB_PATH=$(find "$GITHUB_WORKSPACE/build/Android" -maxdepth 2 -type f -name "*.aab" | head -n 1 || true)
+          SYMBOLS_PATH=$(find "$GITHUB_WORKSPACE/build/Android" -maxdepth 2 -type f -name "*.symbols.zip" | head -n 1 || true)
 
           if [ -z "$AAB_PATH" ]; then
-            echo "::error::No .aab file found under build/Android"
-            ls -la build/Android || true
+            echo "::error::No .aab file found under $GITHUB_WORKSPACE/build/Android"
+            ls -la "$GITHUB_WORKSPACE/build/Android" || true
             exit 1
           fi
 
