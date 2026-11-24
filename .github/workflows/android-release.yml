@@ -129,7 +129,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: Library
-          key: Library-Android-${{ hashFiles('ProjectSettings/ProjectVersion.txt', 'Packages/packages-lock.json') }}
+          key: Library-Android-${{ hashFiles('ProjectSettings/ProjectVersion.txt', 'Packages/packages-lock.json', 'ProjectSettings/ProjectSettings.asset') }}
           restore-keys: |
             Library-Android-
 
