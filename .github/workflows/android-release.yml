@@ -27,6 +27,11 @@ on:
         description: "Staged rollout fraction for production (e.g. 0.1 for 10%, 1.0 for 100%)"
         type: string
         default: "1.0"
+      version:
+        description: "Optional visible version override (leave empty to auto-increment: 0.2, 0.3, ...)"
+        type: string
+        required: false
+        default: ""
 
 concurrency:
   group: android-release-${{ github.ref }}
@@ -40,9 +45,10 @@ jobs:
       track: ${{ steps.resolve.outputs.track }}
       release_status: ${{ steps.resolve.outputs.release_status }}
       rollout: ${{ steps.resolve.outputs.rollout }}
+      app_version: ${{ steps.resolve.outputs.app_version }}
       version_code: ${{ steps.resolve.outputs.version_code }}
     steps:
-      - name: Resolve track and version code
+      - name: Resolve track, version, and version code
         id: resolve
         shell: bash
         env:
@@ -51,7 +57,9 @@ jobs:
           INPUT_TRACK: ${{ inputs.track }}
           INPUT_STATUS: ${{ inputs.release_status }}
           INPUT_ROLLOUT: ${{ inputs.rollout }}
+          INPUT_VERSION: ${{ inputs.version }}
           DEFAULT_STATUS: ${{ vars.PLAY_RELEASE_STATUS || 'draft' }}
+          MAJOR_VERSION: ${{ vars.APP_MAJOR_VERSION || '0' }}
           RUN_NUMBER: ${{ github.run_number }}
         run: |
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
@@ -75,12 +83,21 @@ jobs:
           # Offset by +10 so CI version codes stay strictly above the initial manual upload (versionCode 1)
           VERSION_CODE=$((10 + RUN_NUMBER))
 
+          # Visible versionName: auto-increments minor version (0.2, 0.3, 0.4, ...)
+          # Set repository variable APP_MAJOR_VERSION=1 when ready for 1.x releases.
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -n "$INPUT_VERSION" ]; then
+            APP_VERSION="$INPUT_VERSION"
+          else
+            APP_VERSION="${MAJOR_VERSION}.$((1 + RUN_NUMBER))"
+          fi
+
           echo "track=$TRACK" >> "$GITHUB_OUTPUT"
           echo "release_status=$STATUS" >> "$GITHUB_OUTPUT"
           echo "rollout=$ROLLOUT" >> "$GITHUB_OUTPUT"
+          echo "app_version=$APP_VERSION" >> "$GITHUB_OUTPUT"
           echo "version_code=$VERSION_CODE" >> "$GITHUB_OUTPUT"
 
-          echo "Resolved target: track=$TRACK, release_status=$STATUS, rollout=$ROLLOUT, versionCode=$VERSION_CODE"
+          echo "Resolved target: track=$TRACK, release_status=$STATUS, rollout=$ROLLOUT, version=$APP_VERSION, versionCode=$VERSION_CODE"
 
   build-and-deploy:
     name: Build AAB & Deploy (${{ needs.prepare.outputs.track }})
@@ -124,6 +141,8 @@ jobs:
           buildName: IntergalacticNinja
           androidExportType: androidAppBundle
           androidSymbolType: public
+          versioning: Custom
+          version: ${{ needs.prepare.outputs.app_version }}
           androidVersionCode: ${{ needs.prepare.outputs.version_code }}
           androidKeystoreName: user.keystore
           androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -152,7 +171,7 @@ jobs:
       - name: Upload build artifacts to GitHub
         uses: actions/upload-artifact@v4
         with:
-          name: android-${{ needs.prepare.outputs.track }}-vc${{ needs.prepare.outputs.version_code }}
+          name: android-${{ needs.prepare.outputs.track }}-v${{ needs.prepare.outputs.app_version }}-vc${{ needs.prepare.outputs.version_code }}
           path: |
             ${{ steps.artifacts.outputs.aab }}
             ${{ steps.artifacts.outputs.symbols }}
