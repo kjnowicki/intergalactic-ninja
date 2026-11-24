@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +22,7 @@ public class CameraRubberBand : MonoBehaviour
 
     private void Awake()
     {
-        movableObjectsColection = FindObjectOfType<MovableObjectsContainer>().gameObject;
+        movableObjectsColection = FindAnyObjectByType<MovableObjectsContainer>().gameObject;
     }
 
     private void Update()

@@ -1,4 +1,4 @@
-﻿using static UnityEngine.Mathf;
+using static UnityEngine.Mathf;
 using UnityEngine;
 using System;
 using TMPro;
@@ -33,7 +33,7 @@ public class Bubble : MonoBehaviour
 
     void Awake()
     {
-        BubbleMatrix = FindObjectOfType<Matrix>();
+        BubbleMatrix = FindAnyObjectByType<Matrix>();
         column = (int)transform.position.x;
         row = (int)transform.position.y;
         SpriteRenderer sr = this.gameObject.FindFirstComponentInChildWithTag<SpriteRenderer>("Symbol");

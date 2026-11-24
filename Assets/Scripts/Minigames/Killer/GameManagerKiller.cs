@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
@@ -13,7 +13,7 @@ public class GameManagerKiller : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = GameObject.FindObjectOfType<GameManagerKiller>();
+                instance = FindAnyObjectByType<GameManagerKiller>();
 
                 if (instance == null)
                 {

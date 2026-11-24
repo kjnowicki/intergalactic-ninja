@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class WallJumpingGameManager : MonoBehaviour
@@ -77,10 +77,10 @@ public class WallJumpingGameManager : MonoBehaviour
     {
         DisableEnvironmentMovement();
         gameReplayObject.SetActive(false);
-        wallJumpingUiManager = FindObjectOfType<WallJumpingUiManager>();
-        slimeGenerator = FindObjectOfType<SlimeGenerator>();
-        wallGenerator = FindObjectOfType<WallGenerator>();
-        backgroundGenerator = FindObjectOfType<BackgroundGenerator>();
+        wallJumpingUiManager = FindAnyObjectByType<WallJumpingUiManager>();
+        slimeGenerator = FindAnyObjectByType<SlimeGenerator>();
+        wallGenerator = FindAnyObjectByType<WallGenerator>();
+        backgroundGenerator = FindAnyObjectByType<BackgroundGenerator>();
         this.referenceScreenWidth = canvasScaler.referenceResolution.x;
         InitializeUi();
         InitializeGameArea();
@@ -101,7 +101,7 @@ public class WallJumpingGameManager : MonoBehaviour
     /// </summary>
     private void InitializeGameArea()
     {
-        gameArea = FindObjectOfType<GameArea>();
+        gameArea = FindAnyObjectByType<GameArea>();
         gameArea.Initialize(wallHeightAdditional, garbageCollectorYCoord, slimeEffectDuration);
     }
 

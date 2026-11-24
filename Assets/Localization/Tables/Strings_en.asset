@@ -17,7 +17,7 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: e883b3dedee7e3a4c96af2b2b07a0f81, type: 2}
   m_Metadata:
     m_Items:
-    - id: 0
+    - rid: 0
   m_TableData:
   - m_Id: 8835002368
     m_Localized: Start
@@ -36,24 +36,24 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 273264898048
-    m_Localized: 'Best Score: {BestScore}'
+    m_Localized: 'Best Score: {0.BestScore}'
     m_Metadata:
       m_Items:
-      - id: 0
+      - rid: 0
   - m_Id: 293804404736
-    m_Localized: 'Score: {CurrentScore}'
+    m_Localized: 'Score: {0.CurrentScore}'
     m_Metadata:
       m_Items:
-      - id: 1
+      - rid: 1
   - m_Id: 807996715008
     m_Localized: Settings
     m_Metadata:
       m_Items: []
   - m_Id: 975945035776
-    m_Localized: 'Time left: {TimeLeft:#0.00}'
+    m_Localized: 'Time left: {0.TimeLeft:#0.00}'
     m_Metadata:
       m_Items:
-      - id: 0
+      - rid: 0
   - m_Id: 1341151473664
     m_Localized: Press back again to surrender
     m_Metadata:
@@ -83,28 +83,38 @@ MonoBehaviour:
   - m_Id: 23552634126893056
     m_Localized: 'Score:
 
-      {CurrentScore:#00000}'
+      {0.CurrentScore:#00000}'
     m_Metadata:
       m_Items:
-      - id: 0
+      - rid: 0
   - m_Id: 23552959370002432
     m_Localized: 'Best Score:
 
-      {BestScore:#00000}'
+      {0.BestScore:#00000}'
     m_Metadata:
       m_Items:
-      - id: 0
+      - rid: 0
   - m_Id: 38018515828699136
     m_Localized: Back
     m_Metadata:
       m_Items: []
   references:
-    version: 1
-    00000000:
+    version: 2
+    RefIds:
+    - rid: 0
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0070db9f3f00000000701b68440000000070db3ae30000000080a8f6feac53000080a8b04aad5300
-    00000001:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 273264898048
+        - id: 293804404736
+        - id: 975945035776
+        - id: 23552634126893056
+        - id: 23552959370002432
+    - rid: 1
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0070db9f3f00000000701b6844000000
+        m_Entries: 
+        m_SharedEntries:
+        - id: 273264898048
+        - id: 293804404736
