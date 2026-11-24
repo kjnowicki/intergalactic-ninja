@@ -1,0 +1,73 @@
+name: Promote Google Play Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      from_track:
+        description: "Source track"
+        type: choice
+        options:
+          - internal
+          - alpha
+          - beta
+        default: internal
+      to_track:
+        description: "Destination track"
+        type: choice
+        options:
+          - beta
+          - production
+        default: production
+      release_status:
+        description: "Release status on destination track"
+        type: choice
+        options:
+          - completed
+          - draft
+        default: completed
+      rollout:
+        description: "Staged rollout fraction (e.g. 0.1 for 10%, 1.0 for 100%)"
+        type: string
+        default: "1.0"
+
+jobs:
+  promote:
+    name: Promote ${{ inputs.from_track }} -> ${{ inputs.to_track }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.to_track }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby & Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Write Play Console service account key
+        shell: bash
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -z "$PLAY_SERVICE_ACCOUNT_JSON" ]; then
+            echo "::error::Missing PLAY_SERVICE_ACCOUNT_JSON secret"
+            exit 1
+          fi
+          printf '%s' "$PLAY_SERVICE_ACCOUNT_JSON" > "$RUNNER_TEMP/play-service-account.json"
+
+      - name: Promote track in Google Play Console
+        shell: bash
+        env:
+          SUPPLY_JSON_KEY: ${{ runner.temp }}/play-service-account.json
+        run: |
+          bundle exec fastlane android promote \
+            from:"${{ inputs.from_track }}" \
+            to:"${{ inputs.to_track }}" \
+            release_status:"${{ inputs.release_status }}" \
+            rollout:"${{ inputs.rollout }}"
+
+      - name: Clean up service account key
+        if: always()
+        shell: bash
+        run: rm -f "$RUNNER_TEMP/play-service-account.json"

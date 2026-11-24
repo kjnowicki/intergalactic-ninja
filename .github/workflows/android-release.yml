@@ -1,0 +1,193 @@
+name: Android Release (Google Play)
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+  workflow_dispatch:
+    inputs:
+      track:
+        description: "Google Play track"
+        type: choice
+        options:
+          - internal
+          - beta
+          - production
+        default: internal
+      release_status:
+        description: "Release status (use 'draft' until your app has been published to production once)"
+        type: choice
+        options:
+          - auto
+          - draft
+          - completed
+        default: auto
+      rollout:
+        description: "Staged rollout fraction for production (e.g. 0.1 for 10%, 1.0 for 100%)"
+        type: string
+        default: "1.0"
+
+concurrency:
+  group: android-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Resolve Release Target
+    runs-on: ubuntu-latest
+    outputs:
+      track: ${{ steps.resolve.outputs.track }}
+      release_status: ${{ steps.resolve.outputs.release_status }}
+      rollout: ${{ steps.resolve.outputs.rollout }}
+      version_code: ${{ steps.resolve.outputs.version_code }}
+    steps:
+      - name: Resolve track and version code
+        id: resolve
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          INPUT_TRACK: ${{ inputs.track }}
+          INPUT_STATUS: ${{ inputs.release_status }}
+          INPUT_ROLLOUT: ${{ inputs.rollout }}
+          DEFAULT_STATUS: ${{ vars.PLAY_RELEASE_STATUS || 'draft' }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            TRACK="$INPUT_TRACK"
+            ROLLOUT="$INPUT_ROLLOUT"
+            if [ "$INPUT_STATUS" = "auto" ]; then
+              STATUS="$DEFAULT_STATUS"
+            else
+              STATUS="$INPUT_STATUS"
+            fi
+          elif [ "$REF_NAME" = "master" ]; then
+            TRACK="production"
+            STATUS="$DEFAULT_STATUS"
+            ROLLOUT="1.0"
+          else
+            TRACK="internal"
+            STATUS="$DEFAULT_STATUS"
+            ROLLOUT="1.0"
+          fi
+
+          # Offset by +10 so CI version codes stay strictly above the initial manual upload (versionCode 1)
+          VERSION_CODE=$((10 + RUN_NUMBER))
+
+          echo "track=$TRACK" >> "$GITHUB_OUTPUT"
+          echo "release_status=$STATUS" >> "$GITHUB_OUTPUT"
+          echo "rollout=$ROLLOUT" >> "$GITHUB_OUTPUT"
+          echo "version_code=$VERSION_CODE" >> "$GITHUB_OUTPUT"
+
+          echo "Resolved target: track=$TRACK, release_status=$STATUS, rollout=$ROLLOUT, versionCode=$VERSION_CODE"
+
+  build-and-deploy:
+    name: Build AAB & Deploy (${{ needs.prepare.outputs.track }})
+    needs: prepare
+    runs-on: ubuntu-latest
+    # Configure optional GitHub Environment protection rules (e.g. required reviewers for 'production')
+    environment: ${{ needs.prepare.outputs.track }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Free disk space on runner
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: false
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-Android-${{ hashFiles('ProjectSettings/ProjectVersion.txt', 'Packages/packages-lock.json') }}
+          restore-keys: |
+            Library-Android-
+
+      - name: Build Android App Bundle (.aab)
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          # Reads exact version from ProjectSettings/ProjectVersion.txt
+          unityVersion: auto
+          targetPlatform: Android
+          buildsPath: build
+          buildName: IntergalacticNinja
+          androidExportType: androidAppBundle
+          androidSymbolType: public
+          androidVersionCode: ${{ needs.prepare.outputs.version_code }}
+          androidKeystoreName: user.keystore
+          androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          androidKeyaliasName: ${{ secrets.ANDROID_KEYALIAS_NAME }}
+          androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
+
+      - name: Locate build artifacts
+        id: artifacts
+        shell: bash
+        run: |
+          AAB_PATH=$(find build/Android -maxdepth 2 -type f -name "*.aab" | head -n 1)
+          SYMBOLS_PATH=$(find build/Android -maxdepth 2 -type f -name "*.symbols.zip" | head -n 1 || true)
+
+          if [ -z "$AAB_PATH" ]; then
+            echo "::error::No .aab file found under build/Android"
+            ls -la build/Android || true
+            exit 1
+          fi
+
+          echo "aab=$AAB_PATH" >> "$GITHUB_OUTPUT"
+          echo "symbols=$SYMBOLS_PATH" >> "$GITHUB_OUTPUT"
+          echo "Found AAB: $AAB_PATH"
+          echo "Found Symbols: ${SYMBOLS_PATH:-none}"
+
+      - name: Upload build artifacts to GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ needs.prepare.outputs.track }}-vc${{ needs.prepare.outputs.version_code }}
+          path: |
+            ${{ steps.artifacts.outputs.aab }}
+            ${{ steps.artifacts.outputs.symbols }}
+          retention-days: 14
+
+      - name: Set up Ruby & Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Write Play Console service account key
+        shell: bash
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -z "$PLAY_SERVICE_ACCOUNT_JSON" ]; then
+            echo "::error::Missing PLAY_SERVICE_ACCOUNT_JSON secret"
+            exit 1
+          fi
+          printf '%s' "$PLAY_SERVICE_ACCOUNT_JSON" > "$RUNNER_TEMP/play-service-account.json"
+
+      - name: Deploy to Google Play Console (${{ needs.prepare.outputs.track }})
+        shell: bash
+        env:
+          SUPPLY_JSON_KEY: ${{ runner.temp }}/play-service-account.json
+        run: |
+          bundle exec fastlane android deploy \
+            track:"${{ needs.prepare.outputs.track }}" \
+            aab:"${{ steps.artifacts.outputs.aab }}" \
+            symbols:"${{ steps.artifacts.outputs.symbols }}" \
+            release_status:"${{ needs.prepare.outputs.release_status }}" \
+            rollout:"${{ needs.prepare.outputs.rollout }}"
+
+      - name: Clean up service account key
+        if: always()
+        shell: bash
+        run: rm -f "$RUNNER_TEMP/play-service-account.json"
