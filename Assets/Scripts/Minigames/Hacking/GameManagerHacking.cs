@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Localization.Components;
@@ -14,7 +14,7 @@ public class GameManagerHacking : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = GameObject.FindObjectOfType<GameManagerHacking>();
+                instance = FindAnyObjectByType<GameManagerHacking>();
 
                 if (instance == null)
                 {
@@ -77,7 +77,7 @@ public class GameManagerHacking : MonoBehaviour
     private GameObject matrixGameObject;
     public Matrix matrix;
 
-    public BaseControlMethod controlMethod;
+    [System.NonSerialized] public BaseControlMethod controlMethod;
     public bool ControlEnabled { get; private set; }
 
     [Header("Gravity arrow")]

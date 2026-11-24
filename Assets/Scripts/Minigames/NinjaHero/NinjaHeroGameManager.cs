@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -16,7 +16,7 @@ public class NinjaHeroGameManager : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = GameObject.FindObjectOfType<NinjaHeroGameManager>();
+                instance = FindAnyObjectByType<NinjaHeroGameManager>();
 
                 if (instance == null)
                 {
@@ -99,7 +99,7 @@ public class NinjaHeroGameManager : MonoBehaviour
     {
 
         paternTilesContainerManager.StartSpawn(cancellationToken.Token);
-        garbageCollector = FindObjectOfType<NinjaHeroGarbageCollector>();
+        garbageCollector = FindAnyObjectByType<NinjaHeroGarbageCollector>();
         garbageCollector.cancellationToken = cancellationToken.Token;
     }
 

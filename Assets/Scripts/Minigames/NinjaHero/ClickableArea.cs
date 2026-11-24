@@ -27,7 +27,7 @@ public class ClickableArea : Clickable
                 layerMask = Physics2D.AllLayers,
                 useTriggers = true
             };
-            clickableAreaCollider.OverlapCollider(contactFilter, colliders);
+            clickableAreaCollider.Overlap(contactFilter, colliders);
             colliders.RemoveAll(collider => collider.tag.Contains(clickableAreaCollider.tag));
             if(colliders.Count > 0)
             {

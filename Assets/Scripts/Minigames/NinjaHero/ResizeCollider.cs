@@ -1,10 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ResizeCollider : MonoBehaviour
 {
-    private new BoxCollider2D collider;
+    private BoxCollider2D collider;
     void Start()
     {
         collider = GetComponent<BoxCollider2D>();

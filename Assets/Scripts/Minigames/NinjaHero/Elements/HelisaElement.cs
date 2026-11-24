@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +11,10 @@ public class HelisaElement : Element
     public float spinPartDistance = 0.04f;
     public int fullSwapDelay = 10; //ms
     public int swapFrames = 25;
-    public override async Task SpawnElement(float speed, Spawner spawner, CancellationToken cancellationToken)
+    public override Task SpawnElement(float speed, Spawner spawner, CancellationToken cancellationToken)
     {
         elementRigidbody.AddForce(Vector2.down * speed);
+        return Task.CompletedTask;
     }
 
     /// <summary>

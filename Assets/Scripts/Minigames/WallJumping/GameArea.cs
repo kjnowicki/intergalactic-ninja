@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameArea : MonoBehaviour
@@ -100,7 +100,7 @@ public class GameArea : MonoBehaviour
     /// <param name="slimeEffectDuration"></param>
     private void InitializeSlimeGenerator(float slimeEffectDuration)
     {
-        SlimeGenerator slimeGenerator = FindObjectOfType<SlimeGenerator>();
+        SlimeGenerator slimeGenerator = FindAnyObjectByType<SlimeGenerator>();
         slimeGenerator.Initialize(gameAreaRectTransform, slimeEffectDuration);
     }
 

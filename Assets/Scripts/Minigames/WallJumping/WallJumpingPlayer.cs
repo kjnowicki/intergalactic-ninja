@@ -15,8 +15,8 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
 
     public float Drag
     {
-        get => playerRigidbody.drag;
-        set => playerRigidbody.drag = value;
+        get => playerRigidbody.linearDamping;
+        set => playerRigidbody.linearDamping = value;
     }
 
     public int Direction
@@ -75,7 +75,7 @@ public class WallJumpingPlayer : MonoBehaviour, ICollectable
     public void TouchTheWall(int direction, Vector2 wallBlockPosition)
     {
         Drag = 20;
-        playerRigidbody.velocity = new Vector2(0f, playerRigidbody.velocity.y);
+        playerRigidbody.linearVelocity = new Vector2(0f, playerRigidbody.linearVelocity.y);
         playerRigidbody.transform.localPosition = new Vector2(wallBlockPosition.x + playerToWallOffset * direction,
             playerRigidbody.transform.localPosition.y);
         ninjaAnimator.TriggerTouchTheWallAnimation();

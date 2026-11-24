@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -15,7 +15,7 @@ public class LocaleDropdown : MonoBehaviour
 
     IEnumerator Start()
     {
-        hackingControlDropdown = FindObjectOfType<HackingControlDropdown>();
+        hackingControlDropdown = FindAnyObjectByType<HackingControlDropdown>();
         // Wait for the localization system to initialize, loading Locales, preloading etc.
         yield return LocalizationSettings.InitializationOperation;
         SetState();

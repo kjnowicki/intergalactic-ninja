@@ -13,27 +13,23 @@ MonoBehaviour:
   m_Name: Localization-Locales
   m_EditorClassIdentifier: 
   m_GroupName: Localization-Locales
-  m_Data:
-    m_SerializedData: []
   m_GUID: b4b34adb9b3f31c4baa22c3756f8383f
   m_SerializeEntries:
   - m_GUID: 6bc97231d98a495459cf34c912778eb5
-    m_Address: Polish (pl)
+    m_Address: Polish
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6f428d5e7a255264b89991229c4bbaf1
-    m_Address: English (en)
+    m_Address: English
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: c5b147ba5b069b749b6e1623539441d5, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 3dad2df1a441ad549a547e08425368f6, type: 2}
     - {fileID: 11400000, guid: 329b517cc083c9b429a77ded2f2f80de, type: 2}
+    - {fileID: 11400000, guid: 3dad2df1a441ad549a547e08425368f6, type: 2}
