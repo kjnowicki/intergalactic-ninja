@@ -37,6 +37,8 @@ concurrency:
   group: android-release-${{ github.ref }}
   cancel-in-progress: false
 
+permissions: {}
+
 jobs:
   prepare:
     name: Resolve Release Target
@@ -103,6 +105,8 @@ jobs:
     name: Build AAB & Deploy (${{ needs.prepare.outputs.track }})
     needs: prepare
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     # Configure optional GitHub Environment protection rules (e.g. required reviewers for 'production')
     environment: ${{ needs.prepare.outputs.track }}
     steps:
@@ -125,7 +129,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: Library
-          key: Library-Android-${{ hashFiles('ProjectSettings/ProjectVersion.txt', 'Packages/packages-lock.json') }}
+          key: Library-Android-${{ hashFiles('ProjectSettings/ProjectVersion.txt', 'Packages/packages-lock.json', 'ProjectSettings/ProjectSettings.asset') }}
           restore-keys: |
             Library-Android-
 
@@ -158,12 +162,12 @@ jobs:
         id: artifacts
         shell: bash
         run: |
-          AAB_PATH=$(find build/Android -maxdepth 2 -type f -name "*.aab" | head -n 1)
-          SYMBOLS_PATH=$(find build/Android -maxdepth 2 -type f -name "*.symbols.zip" | head -n 1 || true)
+          AAB_PATH=$(find "$GITHUB_WORKSPACE/build/Android" -maxdepth 2 -type f -name "*.aab" | head -n 1 || true)
+          SYMBOLS_PATH=$(find "$GITHUB_WORKSPACE/build/Android" -maxdepth 2 -type f -name "*.symbols.zip" | head -n 1 || true)
 
           if [ -z "$AAB_PATH" ]; then
-            echo "::error::No .aab file found under build/Android"
-            ls -la build/Android || true
+            echo "::error::No .aab file found under $GITHUB_WORKSPACE/build/Android"
+            ls -la "$GITHUB_WORKSPACE/build/Android" || true
             exit 1
           fi
 

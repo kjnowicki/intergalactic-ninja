@@ -30,10 +30,14 @@ on:
         type: string
         default: "1.0"
 
+permissions: {}
+
 jobs:
   promote:
     name: Promote ${{ inputs.from_track }} -> ${{ inputs.to_track }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     environment: ${{ inputs.to_track }}
     steps:
       - name: Checkout repository

@@ -3,9 +3,17 @@ default_platform(:android)
 platform :android do
   desc "Upload a signed AAB (and IL2CPP debug symbols if present) to Google Play Console"
   lane :deploy do |options|
+    repo_root = File.expand_path("..", __dir__)
+    resolve_path = lambda do |path|
+      raw = path.to_s.strip
+      next nil if raw.empty?
+
+      File.exist?(raw) ? File.expand_path(raw) : File.expand_path(raw, repo_root)
+    end
+
     track = options[:track] || UI.user_error!("Missing required option :track (e.g. internal, beta, production)")
-    aab_path = options[:aab] || UI.user_error!("Missing required option :aab")
-    UI.user_error!("AAB file not found at: #{aab_path}") unless File.exist?(aab_path)
+    aab_path = resolve_path.call(options[:aab]) || UI.user_error!("Missing required option :aab")
+    UI.user_error!("AAB file not found at: #{aab_path}") unless File.file?(aab_path)
 
     release_status = (options[:release_status] || ENV.fetch("PLAY_RELEASE_STATUS", "draft")).to_s.strip
     release_status = "draft" if release_status.empty?
@@ -24,13 +32,13 @@ platform :android do
       rollout = nil
     end
 
-    symbols_path = options[:symbols]
-    if symbols_path.nil? || symbols_path.empty?
+    symbols_path = resolve_path.call(options[:symbols])
+    if symbols_path.nil?
       symbols_path = Dir.glob(File.join(File.dirname(aab_path), "*.symbols.zip")).first
     end
 
     mapping_paths = []
-    if symbols_path && File.exist?(symbols_path)
+    if symbols_path && File.file?(symbols_path)
       UI.message("Including native debug symbols: #{symbols_path}")
       mapping_paths << symbols_path
     else
