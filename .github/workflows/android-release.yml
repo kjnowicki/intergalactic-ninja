@@ -37,6 +37,8 @@ concurrency:
   group: android-release-${{ github.ref }}
   cancel-in-progress: false
 
+permissions: {}
+
 jobs:
   prepare:
     name: Resolve Release Target
@@ -103,6 +105,8 @@ jobs:
     name: Build AAB & Deploy (${{ needs.prepare.outputs.track }})
     needs: prepare
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     # Configure optional GitHub Environment protection rules (e.g. required reviewers for 'production')
     environment: ${{ needs.prepare.outputs.track }}
     steps:
