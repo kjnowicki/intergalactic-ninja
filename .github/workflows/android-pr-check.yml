@@ -1,0 +1,258 @@
+name: Android PR Build Check
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - master
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Validation mode (auto: fast compile check on develop, full AAB on master)"
+        type: choice
+        options:
+          - auto
+          - compile-check
+          - full-aab
+        default: auto
+
+concurrency:
+  group: android-pr-check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  # Keep the job name static so it can be configured as a Required Status Check
+  # in GitHub Branch Protection / Repository Rulesets for both develop and master.
+  android-build-check:
+    name: Android Build Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Determine validation mode and check changed files
+        id: plan
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          REF_NAME: ${{ github.ref_name }}
+          INPUT_MODE: ${{ inputs.mode }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            if [ "$INPUT_MODE" = "auto" ] || [ -z "$INPUT_MODE" ]; then
+              if [ "$REF_NAME" = "master" ]; then
+                MODE="full-aab"
+              else
+                MODE="compile-check"
+              fi
+            else
+              MODE="$INPUT_MODE"
+            fi
+
+            echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "Manual dispatch triggered: running '$MODE'."
+            exit 0
+          fi
+
+          # Tiered PR validation:
+          # - PRs targeting master run a full IL2CPP Android App Bundle (.aab) build.
+          # - PRs targeting develop run a fast Android player script compilation check.
+          if [ "$BASE_REF" = "master" ]; then
+            MODE="full-aab"
+          else
+            MODE="compile-check"
+          fi
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+
+          # List changed files via GitHub API into a file (avoiding pipe SIGPIPE under pipefail
+          # on large PRs) so non-Unity PRs skip checkout/LFS/Unity while still passing the gate.
+          CHANGED_FILES_PATH="$RUNNER_TEMP/pr-changed-files.txt"
+          if ! gh api "repos/${REPOSITORY}/pulls/${PR_NUMBER}/files" --paginate --jq '.[].filename' > "$CHANGED_FILES_PATH"; then
+            echo "::warning::Could not list changed files via GitHub API; defaulting to running '$MODE'."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          FILE_COUNT=$(wc -l < "$CHANGED_FILES_PATH" | tr -d ' ')
+          if [ "$FILE_COUNT" -ge 3000 ]; then
+            echo "PR has ${FILE_COUNT}+ changed files (API limit); running '$MODE'."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if grep -Eq '^(Assets/|Packages/|ProjectSettings/|\.gitattributes$|\.github/workflows/android-pr-check\.yml$)' "$CHANGED_FILES_PATH"; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "Detected Unity project or PR workflow changes across ${FILE_COUNT} file(s); running '$MODE' for target branch '$BASE_REF'."
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "No Unity build-relevant files changed (${FILE_COUNT} file(s)); skipping Unity validation."
+            {
+              echo "### Android PR Build Check — Skipped"
+              echo ""
+              echo "No Unity project files (\`Assets/\`, \`Packages/\`, \`ProjectSettings/\`, \`.gitattributes\`, or \`.github/workflows/android-pr-check.yml\`) were modified in this PR."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Verify Unity license secrets
+        if: steps.plan.outputs.should_run == 'true'
+        shell: bash
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        run: |
+          MISSING=()
+          [ -z "$UNITY_LICENSE" ] && MISSING+=("UNITY_LICENSE")
+          [ -z "$UNITY_EMAIL" ] && MISSING+=("UNITY_EMAIL")
+          [ -z "$UNITY_PASSWORD" ] && MISSING+=("UNITY_PASSWORD")
+
+          if [ "${#MISSING[@]}" -gt 0 ]; then
+            echo "::error::Missing required repository secret(s): ${MISSING[*]}. Ensure they are configured as Repository secrets (not only Environment secrets) and note that fork PRs do not receive repository secrets."
+            exit 1
+          fi
+
+      - name: Checkout repository
+        if: steps.plan.outputs.should_run == 'true'
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Free disk space on runner
+        if: steps.plan.outputs.should_run == 'true'
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: false
+
+      - name: Cache Unity Library
+        if: steps.plan.outputs.should_run == 'true'
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-Android-${{ hashFiles('ProjectSettings/ProjectVersion.txt', 'Packages/packages-lock.json', 'ProjectSettings/ProjectSettings.asset') }}
+          restore-keys: |
+            Library-Android-
+
+      # -----------------------------------------------------------------------
+      # Mode 1 (develop PRs): Fast Android player script compilation check
+      # -----------------------------------------------------------------------
+      - name: Validate Android script compilation (fast check)
+        if: steps.plan.outputs.should_run == 'true' && steps.plan.outputs.mode == 'compile-check'
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          unityVersion: auto
+          containerRegistryImageVersion: "4"
+          targetPlatform: Android
+          buildsPath: build
+          buildMethod: IntergalacticNinja.Editor.AndroidCiBuildValidator.ValidateAndroidScriptCompilation
+
+      - name: Verify Android script compilation report
+        if: steps.plan.outputs.should_run == 'true' && steps.plan.outputs.mode == 'compile-check'
+        shell: bash
+        run: |
+          REPORT_PATH="$GITHUB_WORKSPACE/build/Android/compile-validation.txt"
+          if [ ! -f "$REPORT_PATH" ] || ! grep -q '^status=passed$' "$REPORT_PATH"; then
+            echo "::error::Android script compilation validation report missing or failed: $REPORT_PATH"
+            cat "$REPORT_PATH" 2>/dev/null || true
+            exit 1
+          fi
+
+          ASSEMBLIES=$(grep '^compiled_assemblies=' "$REPORT_PATH" | cut -d= -f2)
+          SCENES=$(grep '^enabled_scenes=' "$REPORT_PATH" | cut -d= -f2)
+          WARNINGS=$(grep '^warnings=' "$REPORT_PATH" | cut -d= -f2)
+
+          echo "Android script compilation check passed: ${ASSEMBLIES} assemblies, ${SCENES} scenes, ${WARNINGS} warning(s)."
+
+          {
+            echo "### Android PR Build Check — Passed (Fast Script Compile)"
+            echo ""
+            echo "| Metric | Value |"
+            echo "| --- | --- |"
+            echo "| Mode | \`compile-check\` (Android player C# compilation + scene verification) |"
+            echo "| Compiled Assemblies | **${ASSEMBLIES}** |"
+            echo "| Enabled Scenes Verified | **${SCENES}** |"
+            echo "| Compiler Warnings | ${WARNINGS} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # -----------------------------------------------------------------------
+      # Mode 2 (master PRs): Full Android IL2CPP App Bundle (.aab) build
+      # -----------------------------------------------------------------------
+      - name: Build Android App Bundle (.aab) with debug signing
+        if: steps.plan.outputs.should_run == 'true' && steps.plan.outputs.mode == 'full-aab'
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          # Reads exact version from ProjectSettings/ProjectVersion.txt
+          unityVersion: auto
+          # Unity 6.6+ images are published under GameCI's v4 Docker image series (e.g. ubuntu-6000.6.10f1-android-4)
+          containerRegistryImageVersion: "4"
+          targetPlatform: Android
+          buildsPath: build
+          buildName: IntergalacticNinja
+          androidExportType: androidAppBundle
+          androidSymbolType: none
+          versioning: None
+          # Forces debug keystore via AndroidCiBuildPreprocessor so PR checks never need release signing secrets
+          customParameters: -useDebugKeystore true
+
+      - name: Verify build output and report size
+        id: artifacts
+        if: steps.plan.outputs.should_run == 'true' && steps.plan.outputs.mode == 'full-aab'
+        shell: bash
+        run: |
+          AAB_PATH=$(find "$GITHUB_WORKSPACE/build/Android" -maxdepth 2 -type f -name "*.aab" | head -n 1 || true)
+
+          if [ -z "$AAB_PATH" ] || [ ! -s "$AAB_PATH" ]; then
+            echo "::error::No non-empty .aab file found under $GITHUB_WORKSPACE/build/Android"
+            ls -la "$GITHUB_WORKSPACE/build/Android" || true
+            exit 1
+          fi
+
+          SIZE_BYTES=$(stat -c%s "$AAB_PATH")
+          SIZE_MB=$(awk -v bytes="$SIZE_BYTES" 'BEGIN { printf "%.2f", bytes / 1048576 }')
+
+          echo "aab=$AAB_PATH" >> "$GITHUB_OUTPUT"
+          echo "Found AAB: $AAB_PATH (${SIZE_MB} MB)"
+
+          {
+            echo "### Android PR Build Check — Passed (Full AAB Build)"
+            echo ""
+            echo "| Metric | Value |"
+            echo "| --- | --- |"
+            echo "| Mode | \`full-aab\` (IL2CPP ARM64) |"
+            echo "| Artifact | \`$(basename "$AAB_PATH")\` |"
+            echo "| Size | **${SIZE_MB} MB** (${SIZE_BYTES} bytes) |"
+            echo "| Signing | Debug keystore (PR validation) |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # Google Play base module download limit is 200 MB
+          if [ "$SIZE_BYTES" -gt 209715200 ]; then
+            echo "::warning::AAB size (${SIZE_MB} MB) exceeds 200 MB. Check Google Play base module size limits."
+          fi
+
+      - name: Upload validation build artifact
+        if: steps.plan.outputs.should_run == 'true' && steps.plan.outputs.mode == 'full-aab'
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-pr-${{ github.event.pull_request.number || github.run_number }}
+          path: ${{ steps.artifacts.outputs.aab }}
+          retention-days: 7
